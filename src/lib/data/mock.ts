@@ -87,7 +87,7 @@ export const mockDataSource = {
     this.practiceResponses.set(key, response);
   },
 
-  async getPracticeResponses(parentId: string, questionId?: string): Promise<PracticeResponse[]> {
+  getPracticeResponses(parentId: string, questionId?: string): PracticeResponse[] {
     if (questionId) {
       const key = `${parentId}-${questionId}`;
       const single = this.practiceResponses.get(key);

@@ -1,16 +1,17 @@
+"use client";
+
 import { usePathname, useSearchParams } from "next/navigation";
-import { useOnboardingDraft } from "../../lib/onboarding/draft";
-import { getNextAction } from "../../lib/scoring/nextAction";
-import { mockDataSource } from "../../lib/data/mock";
-import ResultsSummary from "../../components/session/ResultsSummary";
-import NextActionCard from "../../components/session/NextActionCard";
+import { useOnboardingDraft } from "@/lib/onboarding/draft";
+import { getNextAction } from "@/lib/scoring/nextAction";
+import { mockDataSource } from "@/lib/data/mock";
+import ResultsSummary from "@/components/session/ResultsSummary";
+import NextActionCard from "@/components/session/NextActionCard";
 
 const ResultsPage: React.FC = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("id") || "default";
   const parentSession = mockDataSource.getParentSession(sessionId);
-  const { step, values } = useOnboardingDraft();
 
   if (!parentSession) {
     return <p>Session not found</p>;
@@ -21,9 +22,9 @@ const ResultsPage: React.FC = () => {
   const total = responses.length;
 
   // Determine correct vs incorrect (simplified: each response has a correct flag)
-  const correct = responses.filter((r: { correct: boolean }) => r.correct).length;
+  const correct = responses.filter((r) => r.correct).length;
 
-  const nextAction = getNextAction(total, correct, values.goals);
+  const nextAction = getNextAction(total, correct, useOnboardingDraft().goals);
 
   return (
     <section className="results-page" aria-label="Results page">
