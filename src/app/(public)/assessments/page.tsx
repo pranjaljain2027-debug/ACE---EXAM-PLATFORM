@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
+import { AssessmentCoverageList } from "@/components/marketing/AssessmentCoverage";
+import { assessmentsPageCopy } from "@/content/marketing/copy";
+import { MARKETING_STYLES } from "../page";
 
 /**
- * U4 replaces this copy with the approved assessment-coverage content (R9). The
- * placeholder says what the page is for and claims nothing about what the
- * practice covers, because a coverage claim is only ever as good as the
- * questions behind it.
+ * `/assessments` — the coverage page (R9, R3).
+ *
+ * The landing page carries a compact version of this list; this page is where
+ * the sub-areas sit in full. Both render the same data, so the two cannot
+ * disagree about what the practice holds questions for.
+ *
+ * Naming the assessments is the point of the page. Nothing here says who
+ * publishes them, or that the practice has any connection to them.
  */
 export const metadata: Metadata = {
   title: "Assessments",
@@ -20,13 +27,17 @@ export const metadata: Metadata = {
 export default function AssessmentsPage() {
   return (
     <>
+      <style href="marketing" precedence="default">
+        {MARKETING_STYLES}
+      </style>
+
       <h1>Assessments</h1>
-      <p>
-        This page is a placeholder. What belongs here — the assessment families
-        the practice is built around, and the reasoning areas each one exercises
-        — is still being written, and it will say only what the practice
-        actually holds.
-      </p>
+      <p className="marketing-lede">{assessmentsPageCopy.lede}</p>
+
+      <section className="marketing-section" aria-labelledby="coverage-heading">
+        <h2 id="coverage-heading">What the practice holds questions for</h2>
+        <AssessmentCoverageList />
+      </section>
     </>
   );
 }

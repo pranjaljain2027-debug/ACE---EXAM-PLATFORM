@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { FaqQuestions } from "@/components/marketing/Faq";
+import { faqPageCopy } from "@/content/marketing/copy";
+import { MARKETING_STYLES } from "../page";
 
 /**
- * U4 replaces this copy with the real questions and answers. The placeholder
- * promises nothing about the product, because a question answered in marketing
- * copy is a claim nobody has checked (R2).
+ * `/faq` — the same questions as the landing page's FAQ section, in full.
+ *
+ * A question answered in marketing copy is a claim nobody has checked (R2), so
+ * the answers stay short and say what the practice actually does. The question
+ * about how a child's information is handled is answered by linking to the
+ * privacy page, not by summarising it here.
  */
 export const metadata: Metadata = {
   title: "Frequently asked questions",
@@ -19,11 +26,18 @@ export const metadata: Metadata = {
 export default function FaqPage() {
   return (
     <>
+      <style href="marketing" precedence="default">
+        {MARKETING_STYLES}
+      </style>
+
       <h1>Frequently asked questions</h1>
-      <p>
-        This page is a placeholder. The questions that belong here — what the
-        practice does, how an explanation works, and what it makes no claim
-        about — are still being written.
+      <p className="marketing-lede">{faqPageCopy.lede}</p>
+
+      <FaqQuestions />
+
+      <p className="marketing-note">
+        {faqPageCopy.closing}{" "}
+        <Link href={faqPageCopy.closingLink.href}>{faqPageCopy.closingLink.label}</Link>.
       </p>
     </>
   );
