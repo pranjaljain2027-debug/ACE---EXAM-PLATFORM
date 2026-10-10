@@ -1,0 +1,15 @@
+/* Scaffold global stylesheet. U2 owns the token layer and the shared element
+   defaults and extends this file; it must not be imported by feature code. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
