@@ -15,11 +15,13 @@
  * misconfigured deploy must fail visibly rather than silently falling back to
  * demo mode under a live-sounding name.
  *
- * For test environments where the `@supabase/supabase-js` package is not
- * installed, set `globalThis.__test_supa_client__` to a client instance that
- * satisfies the Supabase auth API shape. The test suite does this so that
- * `signUp`, `signIn`, `getSession`, `getUser` and `signOut` can be exercised
- * without a real Supabase project.
+ * The client is looked up lazily so that this module can be imported without a
+ * Supabase project configured: only constructing a session needs the env vars.
+ *
+ * For test environments, or when the `@supabase/supabase-js` package is not
+ * installed, set `globalThis.__test_supa_client__` to an object satisfying
+ * `SupabaseAuthClient` below. The test harness does this so the provider's
+ * behaviour can be exercised without a real Supabase project.
  */
 import type {
   AuthCredentials,
@@ -27,15 +29,41 @@ import type {
   AuthResult,
   AuthSession,
   AuthUser,
-  AuthFieldError,
 } from "./types";
-import { SESSION_TTL_SECONDS } from "./types";
+
+/**
+ * The subset of the Supabase auth client this provider uses.
+ *
+ * Declared locally rather than imported from the SDK so this module has no
+ * runtime dependency on `@supabase/supabase-js` — the app can be demo-mode only
+ * without it installed, and tests can supply a stub.
+ */
+interface SupabaseAuthResponse<T> {
+  data: T;
+  error: (Error & { detail?: { message?: string; hint?: string } }) | null;
+}
+
+interface SupabaseAuthClient {
+  signUp(credentials: { email: string }): Promise<SupabaseAuthResponse<{ session: AuthSession | null; user: SupabaseUser | null }>>;
+  signIn(credentials: { email: string }): Promise<SupabaseAuthResponse<{ session: AuthSession | null; user: SupabaseUser | null }>>;
+  signOut(): Promise<{ error: Error | null }>;
+  getSession(): Promise<SupabaseAuthResponse<{ session: AuthSession | null }>>;
+  getUserBySession(credentials: { session_token: string }): Promise<SupabaseAuthResponse<{ user: SupabaseUser | null }>>;
+}
+
+interface SupabaseUser {
+  id: string;
+  email: string | null;
+  createdAt?: string;
+}
+
+type SupabaseAuthClientShape = { auth: SupabaseAuthClient };
 
 /** Supabase client instance; initialised lazily. */
-let supa: any = null;
+let supa: SupabaseAuthClientShape | null = null;
 
 /** Lazily create the Supabase client from env vars. */
-function getSupa(): any {
+function getSupa(): SupabaseAuthClientShape {
   if (!supa) {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -47,7 +75,8 @@ function getSupa(): any {
     }
     // Prefer a test-injected client so the test suite can run without the
     // package installed. The test harness sets globalThis.__test_supa_client__.
-    supa = (globalThis as any).__test_supa_client__ ?? { auth: {} };
+    supa = (globalThis as { __test_supa_client__?: SupabaseAuthClientShape })
+      .__test_supa_client__ ?? { auth: {} as SupabaseAuthClient };
   }
   return supa;
 }
@@ -59,6 +88,13 @@ function normalizeEmail(address: string): string {
 
 /** Message shown when a parent types an address that Supabase rejects. */
 const INVALID_EMAIL_MESSAGE = "Enter a valid email address.";
+
+/** Pull a human-readable problem out of whatever Supabase threw. */
+function problemFrom(error: unknown): string {
+  if (error instanceof Error && error.message) return error.message;
+  const detail = (error as { detail?: { message?: string; hint?: string } })?.detail;
+  return detail?.message ?? detail?.hint ?? INVALID_EMAIL_MESSAGE;
+}
 
 /** -------------------------------------------------------------------------
  *  signUp
@@ -75,19 +111,14 @@ export async function signUpSupabase(credentials: AuthCredentials): Promise<Auth
   try {
     const { data, error } = await client.auth.signUp({ email: normalized });
     if (error) {
-      // Supabase validation errors come through the `error` object.
-      const message =
-        (error as any).message || (error as any).detail?.message || INVALID_EMAIL_MESSAGE;
-      return { ok: false, error: { field: "email", message } };
+      return { ok: false, error: { field: "email", message: problemFrom(error) } };
     }
-    // Supabase returns { user, session } on success.
-    const session = (data as any)?.session;
     // Always include a session in the result to satisfy the AuthResult contract.
     // If Supabase didn't attach one, provide an empty-but-typed session.
-    return { ok: true, session: session ?? {} as AuthSession };
-  } catch (e: any) {
+    return { ok: true, session: data.session ?? ({} as AuthSession) };
+  } catch (e: unknown) {
     // Unknown failure – attach a generic email problem.
-    return { ok: false, error: { field: "email", message: INVALID_EMAIL_MESSAGE } };
+    return { ok: false, error: { field: "email", message: problemFrom(e) } };
   }
 }
 
@@ -106,16 +137,13 @@ export async function signInSupabase(credentials: AuthCredentials): Promise<Auth
   try {
     const { data, error } = await client.auth.signIn({ email: normalized });
     if (error) {
-      const message =
-        (error as any).message || (error as any).detail?.message || INVALID_EMAIL_MESSAGE;
-      return { ok: false, error: { field: "email", message } };
+      return { ok: false, error: { field: "email", message: problemFrom(error) } };
     }
-    const session = (data as any)?.session;
     // Always include a session in the result to satisfy the AuthResult contract.
     // If Supabase didn't attach one, provide an empty-but-typed session.
-    return { ok: true, session: session ?? {} as AuthSession };
-  } catch (e: any) {
-    return { ok: false, error: { field: "email", message: INVALID_EMAIL_MESSAGE } };
+    return { ok: true, session: data.session ?? ({} as AuthSession) };
+  } catch (e: unknown) {
+    return { ok: false, error: { field: "email", message: problemFrom(e) } };
   }
 }
 
@@ -123,11 +151,9 @@ export async function signInSupabase(credentials: AuthCredentials): Promise<Auth
  *  signOut
  *  Forwards to Supabase's `auth.signOut`. Idempotent by Supabase contract.
  * ------------------------------------------------------------------------- */
-export async function signOutSupabase(token: string | null): Promise<void> {
+export async function signOutSupabase(): Promise<void> {
   const client = getSupa();
-  if (client.auth?.signOut) {
-    await client.auth.signOut();
-  }
+  await client.auth.signOut();
 }
 
 /** -------------------------------------------------------------------------
@@ -149,8 +175,8 @@ export async function getSessionSupabase(token: string | null, override?: AuthSe
     return Promise.resolve({ ...override } as AuthSession);
   }
   const client = getSupa();
-  const { data, error } = await client.auth.getSession?.();
-  if (error || !data?.session) return Promise.resolve(null);
+  const { data, error } = await client.auth.getSession();
+  if (error || !data.session) return Promise.resolve(null);
   return Promise.resolve(data.session);
 }
 
@@ -163,8 +189,8 @@ export async function getSessionSupabase(token: string | null, override?: AuthSe
 export async function getUserSupabase(token: string | null): Promise<AuthUser | null> {
   if (!token) return Promise.resolve(null);
   const client = getSupa();
-  const { data, error } = await client.auth.getUserBySession?.({ session_token: token });
-  if (error || !data?.user) return Promise.resolve(null);
+  const { data, error } = await client.auth.getUserBySession({ session_token: token });
+  if (error || !data.user) return Promise.resolve(null);
   return Promise.resolve({
     id: data.user.id,
     email: data.user.email ?? "",

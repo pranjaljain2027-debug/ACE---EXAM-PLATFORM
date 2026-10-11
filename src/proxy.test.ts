@@ -15,7 +15,7 @@
  */
 import { NextRequest } from "next/server";
 import { unstable_doesMiddlewareMatch } from "next/experimental/testing/server";
-import middleware, { config, PROTECTED_APP_PATHS, isProtectedPath } from "./middleware";
+import proxy, { config, PROTECTED_APP_PATHS, isProtectedPath } from "./proxy";
 
 const ORIGIN = "https://heir-of-wisdom.test";
 
@@ -62,6 +62,10 @@ describe("protected app paths", () => {
     // `unstable_doesMiddlewareMatch` is the matcher Next itself uses to decide
     // whether to run this function at all, so a path the matcher skips is a path
     // that is never guarded no matter what the function below would decide.
+    //
+    // Note: the file convention is now `proxy.ts`, but this testing helper still
+    // carries its original `Middleware` name — the runtime export has not been
+    // renamed even though the docs describe `unstable_doesProxyMatch`.
     for (const path of PROTECTED_APP_PATHS) {
       expect(unstable_doesMiddlewareMatch({ config, url: path })).toBe(true);
       expect(unstable_doesMiddlewareMatch({ config, url: `${path}/child/42` })).toBe(true);
@@ -85,7 +89,7 @@ describe("public paths", () => {
   });
 
   it("sends a request for a public path straight through", () => {
-    const response = middleware(request("/privacy"));
+    const response = proxy(request("/privacy"));
 
     expect(response.status).toBe(200);
     expect(response.headers.get("location")).toBeNull();
@@ -102,27 +106,27 @@ describe("public paths", () => {
 
 describe("the guard", () => {
   it("redirects an unauthenticated request for an app route to sign-in", () => {
-    const response = middleware(request("/parent"));
+    const response = proxy(request("/parent"));
 
     expect(response.status).toBe(307);
     expect(response.headers.get("location")).toBe(`${ORIGIN}/sign-in`);
   });
 
   it("lets a request carrying a session through", () => {
-    const response = middleware(request("/parent", "a-token"));
+    const response = proxy(request("/parent", "a-token"));
 
     expect(response.status).toBe(200);
     expect(response.headers.get("location")).toBeNull();
   });
 
   it("keeps the query string the parent was heading for", () => {
-    const response = middleware(request("/practice/week-3"));
+    const response = proxy(request("/practice/week-3"));
 
     expect(response.status).toBe(307);
     expect(response.headers.get("location")).toBe(`${ORIGIN}/sign-in`);
   });
 
   it("does not send a signed-in visitor away from a public page", () => {
-    expect(middleware(request("/terms", "a-token")).status).toBe(200);
+    expect(proxy(request("/terms", "a-token")).status).toBe(200);
   });
 });

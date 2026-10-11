@@ -45,9 +45,14 @@ export type SessionWithResponses = SessionRecord;
  * Overridable through `DEMO_DATA_FILE` so a test can point at a temporary file
  * rather than writing to the repository, and so the path is one place to change
  * for deployment.
+ *
+ * `turbopackIgnore` is on the path construction rather than on each read and
+ * write: Turbopack statically traces `path.resolve` arguments and a value it
+ * cannot see pulls the whole project into the server bundle, which is both slow
+ * to deploy and liable to exceed platform size limits.
  */
 export const STORE_PATH = resolve(
-  process.env.DEMO_DATA_FILE ?? ".data/demo-store.json",
+  /* turbopackIgnore: true */ process.env.DEMO_DATA_FILE ?? ".data/demo-store.json",
 );
 
 interface StoreShape {
@@ -134,14 +139,14 @@ function seedStore(): StoreShape {
 }
 
 function loadStore(): StoreShape {
-  if (!existsSync(STORE_PATH)) {
+  if (!existsSync(/* turbopackIgnore: true */ STORE_PATH)) {
     const seeded = seedStore();
     persistNow(seeded);
     return seeded;
   }
 
   try {
-    const parsed: unknown = JSON.parse(readFileSync(STORE_PATH, "utf8"));
+    const parsed: unknown = JSON.parse(readFileSync(/* turbopackIgnore: true */ STORE_PATH, "utf8"));
     if (
       typeof parsed === "object" &&
       parsed !== null &&
@@ -165,12 +170,12 @@ function loadStore(): StoreShape {
 }
 
 function persistNow(store: StoreShape): void {
-  mkdirSync(dirname(STORE_PATH), { recursive: true });
+  mkdirSync(/* turbopackIgnore: true */ dirname(STORE_PATH), { recursive: true });
   // Written to a sibling file and renamed, so a crash mid-write cannot leave a
   // half-written store behind. Rename is atomic within a filesystem.
   const temporary = `${STORE_PATH}.tmp`;
-  writeFileSync(temporary, JSON.stringify(store, null, 2), "utf8");
-  renameSync(temporary, STORE_PATH);
+  writeFileSync(/* turbopackIgnore: true */ temporary, JSON.stringify(store, null, 2), "utf8");
+  renameSync(/* turbopackIgnore: true */ temporary, STORE_PATH);
 }
 
 /**

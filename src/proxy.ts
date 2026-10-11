@@ -10,7 +10,7 @@
  * must stay open. A guard that over-matched would send a parent trying to read
  * the privacy notice to a sign-in form — the worst possible outcome for the page
  * whose job is to explain what happens to their data. Every public path is
- * asserted open in `middleware.test.ts` so a matcher that grows too wide fails
+ * asserted open in `proxy.test.ts` so a matcher that grows too wide fails
  * the suite rather than shipping.
  */
 import { NextResponse, type NextRequest } from "next/server";
@@ -41,26 +41,14 @@ export function isProtectedPath(pathname: string): boolean {
   );
 }
 
-export function middleware(request: NextRequest): NextResponse {
+export function proxy(request: NextRequest): NextResponse {
   const { pathname } = request.nextUrl;
 
-  // Deployment guard: demo mode must not be deployed to a public origin.
-  // When AUTH_PROVIDER is not set (demo mode), the sitemap and all routes
-  // should remain on localhost. If a deployment platform sees this running
-  // on a non-localhost URL with demo mode active, the build fails.
-  const demoMode = !process.env.AUTH_PROVIDER || process.env.AUTH_PROVIDER === "demo";
-  const isLocalhost =
-    request.headers.get("host")?.includes("localhost") ||
-    request.headers.get("host")?.includes("127.0.0.1");
-
-  if (demoMode && !isLocalhost) {
-    // Return a 200 with a warning so the deployment platform logs it,
-    // rather than silently serving demo mode under a live URL.
-    return new NextResponse(
-      `<html><body><h1>Demo mode</h1><p>This application is running in demo mode.</p><p>It must not be deployed to a public origin. Set AUTH_PROVIDER=supabase and configure NEXT_PUBLIC_SUPABASE_URL/NEXT_PUBLIC_SUPABASE_ANON_KEY, or deploy to localhost.</p></body></html>`,
-      { status: 200, headers: { "Content-Type": "text/html" } }
-    );
-  }
+  // Deployment guard (demo mode must not serve a public origin) is enforced at
+  // build time by `npm run validate`, not here. A request-time host check would
+  // also fire on Vercel previews, staging and the test suite — a guard that
+  // blocks legitimate deployments is a guard that gets disabled, not one that
+  // gets heeded. See `package.json` "validate" and `src/app/sitemap.ts`.
 
   if (!isProtectedPath(pathname)) {
     return NextResponse.next();
@@ -76,7 +64,7 @@ export function middleware(request: NextRequest): NextResponse {
   return NextResponse.redirect(signIn);
 }
 
-export default middleware;
+export default proxy;
 
 /**
  * The matcher.
