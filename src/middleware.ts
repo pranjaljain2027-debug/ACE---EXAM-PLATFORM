@@ -60,6 +60,21 @@ export function middleware(request: NextRequest): NextResponse {
 
 export default middleware;
 
+/**
+ * The matcher.
+ *
+ * Written as a literal array rather than derived from `PROTECTED_APP_PATHS`
+ * because Next reads this at build time by static analysis: a `.map()` here is
+ * invisible to it, so the build fails. The duplication is deliberate and the test
+ * asserts the two lists agree, so they cannot drift apart unnoticed.
+ */
 export const config = {
-  matcher: PROTECTED_APP_PATHS.map((path) => `${path}/:path*`),
+  matcher: [
+    "/parent/:path*",
+    "/onboarding/:path*",
+    "/settings/:path*",
+    "/practice/:path*",
+    "/diagnostic/:path*",
+    "/session/:path*",
+  ],
 };

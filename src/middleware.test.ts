@@ -67,6 +67,15 @@ describe("protected app paths", () => {
       expect(unstable_doesMiddlewareMatch({ config, url: `${path}/child/42` })).toBe(true);
     }
   });
+
+  it("keeps the static matcher in step with the path list it must match", () => {
+    // Next reads `config.matcher` by static analysis, so the array cannot be
+    // derived from `PROTECTED_APP_PATHS` — it has to be written out. That leaves
+    // two lists that could drift, so they are compared here rather than trusted.
+    const matched = PROTECTED_APP_PATHS.map((path) => `${path}/:path*`);
+
+    expect([...config.matcher]).toEqual(matched);
+  });
 });
 
 describe("public paths", () => {
