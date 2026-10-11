@@ -1,0 +1,3 @@
+{
+  "plugins": ["compound-engineering@git+https://github.com/EveryInc/compound-engineering-plugin.git"]
+}

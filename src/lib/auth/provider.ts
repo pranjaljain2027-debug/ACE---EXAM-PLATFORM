@@ -8,12 +8,24 @@
  */
 import type { AuthProvider } from "./types";
 import { createDemoAuthProvider } from "./demoProvider";
+import { createSupabaseAuthProvider } from "./supabaseProvider";
+
+/**
+ * Provider selection and the one email rule (U6).
+ *
+ * `isDemoMode()` is the switch the whole app reads. `isValidEmail()` lives here
+ * rather than in the form so the client and the server cannot disagree about
+ * what a valid address is — a form that accepts what the server rejects shows a
+ * parent an error they cannot act on.
+ */
+let cached: AuthProvider | null = null;
 
 /**
  * Whether the app is running in demo mode.
  *
- * Demo mode is the default and the only mode this build contains. An
- * `AUTH_PROVIDER` naming an unimplemented vendor is *not* demo mode: it is a
+ * Demo mode is the default and the only mode this build contains unless
+ * `AUTH_PROVIDER` is set to a vendor this build implements (currently `"supabase"`).
+ * An `AUTH_PROVIDER` naming an unimplemented vendor is *not* demo mode: it is a
  * misconfiguration, and reporting it as "live" makes the deployment fail
  * visibly instead of appearing to work.
  */
@@ -22,8 +34,6 @@ export function isDemoMode(): boolean {
   if (configured === undefined || configured === "") return true;
   return configured === "demo";
 }
-
-let cached: AuthProvider | null = null;
 
 /**
  * The configured provider.
@@ -35,9 +45,12 @@ let cached: AuthProvider | null = null;
  */
 export function getAuthProvider(): AuthProvider {
   if (!isDemoMode()) {
+    if (process.env.AUTH_PROVIDER === "supabase") {
+      return createSupabaseAuthProvider();
+    }
     throw new Error(
       `AUTH_PROVIDER is set to "${process.env.AUTH_PROVIDER}", which this build does not implement. ` +
-        "Only the demo provider ships in this plan. Unset AUTH_PROVIDER to run in demo mode.",
+        "Only the demo and supabase providers ship in this plan. Unset AUTH_PROVIDER to run in demo mode.",
     );
   }
   cached ??= createDemoAuthProvider();
