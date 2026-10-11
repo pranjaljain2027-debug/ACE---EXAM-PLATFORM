@@ -61,18 +61,40 @@ should not require touching anything else.
 
 ## BLOCKING — data
 
-### Demo records live in process memory, not a file-backed store
+### Demo records are held in a file on the server
 
-The demo-mode decision specifies a file-backed store so records survive a
-restart. The implementation uses in-memory `Map`s. The banner text is accurate
-about what actually happens — it says records are held in memory and erased on
-restart — so the UI does not mislead anyone, but it is a deviation from the
-decision.
+The demo store is file-backed, as the demo-mode decision specified, and the
+banner says so accurately: records stay in the file until it is deleted.
 
-**Needs:** either implement the file-backed store, or amend the decision and
-confirm the banner wording stays as written.
+Two things follow that need a decision before launch. The file is inside the
+application's working directory, so a deployment platform with an ephemeral
+filesystem will lose it on every restart — which is fine for a demo and wrong for
+anything real. And nothing yet deletes the file, so a parent's demo data persists
+indefinitely.
+
+**Needs:** decide where demo data lives on the target platform, and add a
+deletion path that actually deletes the file.
 **Owner:** engineering.
-**Status:** open, recorded as a deviation in `docs/final-report.md`.
+**Status:** open, and now a question about deployment rather than about the code.
+
+### Onboarding does not persist its answers
+
+The flow is complete and tested: six steps, with every rule — what counts as an
+answer, whether Continue is allowed, what Back does — enforced by a pure reducer
+and covered by 32 tests.
+
+What it does not do is save. The answers live in component state for the visit,
+and the summary step routes to the dashboard without creating a profile.
+
+This is a deliberate omission rather than an oversight. Writing a child's age
+band, goals, and interests to browser storage before there is an authenticated
+parent account to own them would create a record with no owner and no way to
+delete it, which is the opposite of what the privacy requirements are for.
+
+**Needs:** a real auth provider first, then persistence attached to the parent
+account rather than to the device.
+**Owner:** engineering, blocked on the auth decision.
+**Status:** open.
 
 ### Retention window for child records is undecided
 
@@ -158,13 +180,19 @@ lint fails outright on it. Re-pin when the ecosystem catches up.
 These were checked and do not need sign-off:
 
 - Lint, type-check, tests and production build all pass.
-- 355 tests across 43 files, including the accessibility contracts (U15), every
+- 390 tests across 45 files, including the accessibility contracts (U15), every
   designed state (U16), and the fabricated-claims scan (R2, R4).
+- Onboarding is complete and tested: six steps, a pure reducer holding every
+  rule, 32 tests across the logic and the rendered flow.
+- The demo store is file-backed, writes are serialised so concurrent requests
+  cannot interleave, and a corrupt file falls back to a reseed rather than
+  throwing on every later read.
 - The fabricated-claims scan runs on every test run and fails the build if a
   prohibited claim is introduced.
 - The demo banner makes no security or data-protection claim; this is asserted
   against the rendered text and the assertion itself is exercised against strings
-  that would breach R14.
+  that would breach R14. Its promise about where data lives is asserted too, so it
+  cannot drift from what the store actually does.
 - Cross-account isolation is tested, not inspected: another parent's child id
   resolves to null, and the child page turns that into a 404 rather than an
   empty page.

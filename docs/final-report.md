@@ -21,8 +21,8 @@ npm run build
 |---|---|
 | Lint | pass, 0 errors, 0 warnings |
 | Type-check | pass, 0 errors |
-| Tests | pass — 355 tests across 43 files |
-| Production build | pass |
+| Tests | pass — 390 tests across 45 files |
+| Production build | pass, 14 routes |
 
 Two of the four gates were failing on first run and were fixed rather than
 adjusted around:
@@ -63,37 +63,38 @@ adjusted around:
 ### Not configured
 
 - **Auth provider.** No vendor chosen. `src/lib/auth/types.ts` is the seam.
-- **Database.** No backend. The demo store stands in.
+- **Database.** No production backend. The demo store is file-backed, as decided.
 - **Deployment.** No remote, no hosting, no canonical origin. The sitemap uses `localhost`.
 - **Mail transport.** The contact form has a typed adapter that reports delivery as `none`.
 - **AI provider.** Not used, deliberately. Every recommendation is deterministic rules.
 
 ## Requirements coverage
 
-Complete: R1–R14, R16–R17, R19–R20, R23–R26, R27, R33–R35.
+Complete: R1–R30, R32–R36.
 
 Partial, with the gap named:
 
-- **R15, R18, R21, R22, R31** — onboarding was built then removed during this run
-  because it could not be made to type-check within the session. The commit is
-  preserved in history; the routes do not exist in the tree.
-- **R28** — implemented for the dashboard and results. Not applied to the
-  onboarding surfaces, which do not exist.
-- **R29, R30, R32** — implemented and tested. Cross-account isolation is asserted
-  by test, not by inspection.
+- **R31 — child profile creation and deletion.** The deletion control is rendered
+  and disabled with its reason shown rather than appearing to work. Creation is
+  not wired: onboarding collects the answers and the dashboard has no way to turn
+  them into a profile, because there is no authenticated parent account to attach
+  one to. The data layer's create and delete operations exist and are tested;
+  nothing calls them from a route yet.
 
 ## Known deviations
 
-1. **Demo store is in memory, not file-backed.** The decision specified a
-   file-backed store. The banner text is accurate about what actually happens, so
-   no user is misled, but the decision and the implementation differ.
-2. **Onboarding removed.** See R15/R18 above.
-3. **Accessibility testing is structural, not an audit.** The suite catches
+1. **Onboarding does not persist its answers.** The flow is complete and tested —
+   six steps, every rule enforced by a pure reducer — but the answers live in
+   component state for the visit. This is deliberate: writing a child's details to
+   browser storage before there is an account to own them would create a record
+   with no owner and no way to delete it. It is listed as outstanding in the
+   launch checklist rather than quietly left as a gap.
+2. **Accessibility testing is structural, not an audit.** The suite catches
    regressions when a component is edited. It does not certify WCAG conformance
    and cannot: conformance requires manual testing with assistive technology,
    expert review, and testing on real platforms. The green suite means the
    checked properties hold, not that the product conforms.
-4. **No visual regression testing.** Layout is verified in a browser by hand, not
+3. **No visual regression testing.** Layout is verified in a browser by hand, not
    by automated screenshots.
 
 ## Findings worth keeping
@@ -114,16 +115,22 @@ negation. The scan was narrowed to shipped copy, comments, and negations — and
 the narrowing is itself tested, because a content scan that exempts everything it
 does not understand is not a scan.
 
+**The claims scan later caught a false positive in itself**, matching "1, parents"
+in a doc comment. The pattern now requires a number large enough to only appear in
+a real claim. A check that fires on the project's own comments gets switched off
+rather than fixed, so tightening it was the only durable option.
+
 ## Next actions
 
 In the order they block a launch:
 
 1. Choose an auth provider and write the second `AuthProvider` implementation.
+   Onboarding persistence and child profile creation both wait on this.
 2. Confirm or remove the "free diagnostic" entitlement.
 3. Put the legal copy in front of a qualified reviewer.
 4. Decide the retention window for child records.
-5. Implement the file-backed store, or amend the decision and the banner wording
-   to match.
+5. Decide where demo data lives on the target platform, and add a path that
+   actually deletes the file.
 6. Add a guard so the demo build cannot be deployed to a public origin.
 7. Point the sitemap at the real origin.
 8. Manual accessibility testing with assistive technology.
