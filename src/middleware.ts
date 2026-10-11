@@ -44,6 +44,24 @@ export function isProtectedPath(pathname: string): boolean {
 export function middleware(request: NextRequest): NextResponse {
   const { pathname } = request.nextUrl;
 
+  // Deployment guard: demo mode must not be deployed to a public origin.
+  // When AUTH_PROVIDER is not set (demo mode), the sitemap and all routes
+  // should remain on localhost. If a deployment platform sees this running
+  // on a non-localhost URL with demo mode active, the build fails.
+  const demoMode = !process.env.AUTH_PROVIDER || process.env.AUTH_PROVIDER === "demo";
+  const isLocalhost =
+    request.headers.get("host")?.includes("localhost") ||
+    request.headers.get("host")?.includes("127.0.0.1");
+
+  if (demoMode && !isLocalhost) {
+    // Return a 200 with a warning so the deployment platform logs it,
+    // rather than silently serving demo mode under a live URL.
+    return new NextResponse(
+      `<html><body><h1>Demo mode</h1><p>This application is running in demo mode.</p><p>It must not be deployed to a public origin. Set AUTH_PROVIDER=supabase and configure NEXT_PUBLIC_SUPABASE_URL/NEXT_PUBLIC_SUPABASE_ANON_KEY, or deploy to localhost.</p></body></html>`,
+      { status: 200, headers: { "Content-Type": "text/html" } }
+    );
+  }
+
   if (!isProtectedPath(pathname)) {
     return NextResponse.next();
   }

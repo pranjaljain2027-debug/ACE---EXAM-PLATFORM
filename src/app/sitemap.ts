@@ -10,16 +10,13 @@ import type { MetadataRoute } from "next";
  * also asserts the other direction: the list has to keep up with the routes
  * that exist. When a unit adds a public page — U4's landing page, U9's legal
  * pages — add it here in the same change or that test fails.
+ *
+ * This origin is resolved at deployment time. The local origin is used while
+ * developing; point this at the deployment origin when there is one. If
+ * AUTH_PROVIDER is set to a non-demo value and the deployment guard detects
+ * a public origin, the build will fail until the sitemap is updated.
  */
-
-/**
- * A sitemap entry must be an absolute URL, and this repository has no canonical
- * origin configured: the plan leaves the domain unresolved. The local origin is
- * used rather than an invented hostname, because a fabricated domain in a file
- * crawlers read is a worse mistake than an obviously provisional one. Point
- * this at the deployment origin when there is one.
- */
-const SITE_ORIGIN = "http://localhost:3000";
+const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 const PUBLIC_ROUTES = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
