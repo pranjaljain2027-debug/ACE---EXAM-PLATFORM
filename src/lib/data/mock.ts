@@ -1,180 +1,315 @@
 /**
- * The demo data source (KTD6).
+ * The demo data store (KTD6).
  *
- * Stands in for a real backend so the app runs end to end without one. Every
- * child read goes through `requireParentAccess` before any child data is
- * returned, so the parent/child data boundary is enforced in the data layer
- * rather than being left to each caller to remember (R30, AE4).
+ * File-backed, as the demo-mode decision specifies, so demo records survive a
+ * restart. In-memory `Map`s were a deviation: the banner said records were erased
+ * on restart, which meant the implementation and the decision disagreed about
+ * what a parent would see if they reloaded.
  *
- * This is process memory, not a file-backed store. The demo-mode decision
- * specifies a file-backed store so records survive a restart; that is recorded
- * as a deviation in the final report (U16) rather than being silently different
- * from what was decided.
+ * Writes go through a single serialising queue rather than straight to disk. Two
+ * concurrent requests interleaving `readFile`/`writeFile` produce a truncated or
+ * interleaved file, and a corrupted store that throws on every later read is
+ * worse than a lost write. The queue makes each write atomic with respect to the
+ * others.
+ *
+ * Ownership is settled in this module, not by its callers: `requireParentAccess`
+ * runs before any child data is returned, so a guessed child id in a URL is
+ * refused rather than resolved (R30, AE4).
+ *
+ * The demo banner's wording is updated by U16's report to match this file: the
+ * records now persist until the file is deleted.
  */
+import { mkdirSync, readFileSync, renameSync, writeFileSync, existsSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import type {
   ChildRecord,
-  PracticeResponse,
   ParentSession,
+  PracticeResponse,
   ReasoningCategory,
 } from "./types";
 import type { SessionRecord } from "../scoring/progress";
 
 export type {
   ChildRecord,
-  PracticeResponse,
   ParentSession,
+  PracticeResponse,
   ReasoningCategory,
 };
 
 /** A child's recorded answers, grouped by the session they belong to. */
 export type SessionWithResponses = SessionRecord;
 
-const DEMO_PARENT_ID = "parent-demo-1";
+/**
+ * Where the store lives.
+ *
+ * Overridable through `DEMO_DATA_FILE` so a test can point at a temporary file
+ * rather than writing to the repository, and so the path is one place to change
+ * for deployment.
+ */
+export const STORE_PATH = resolve(
+  process.env.DEMO_DATA_FILE ?? ".data/demo-store.json",
+);
 
-const demoParent: ParentSession = {
-  id: DEMO_PARENT_ID,
-  email: "parent@example.com",
-  demoMode: true,
-  createdAt: new Date("2026-01-01T00:00:00.000Z"),
-  lastActiveAt: new Date("2026-01-01T00:00:00.000Z"),
-  childIds: ["child-demo-1"],
-};
+interface StoreShape {
+  readonly version: 1;
+  readonly parents: readonly ParentSession[];
+  readonly children: readonly ChildRecord[];
+  readonly sessions: Readonly<Record<string, readonly SessionRecord[]>>;
+}
 
-const demoChild: ChildRecord = {
-  id: "child-demo-1",
-  parentId: DEMO_PARENT_ID,
-  ageBand: "developing",
-  experienceLevel: "some_experience",
-  goals: ["improve_problem_solving"],
-  schedulePreference: "any_time",
-  interests: ["patterns_shapes"],
-  createdAt: new Date("2026-01-01T00:00:00.000Z"),
-  lastActiveAt: new Date("2026-01-01T00:00:00.000Z"),
-};
+/** Dates do not survive `JSON.stringify`, so they are revived on read. */
+function reviveParent(entry: ParentSession): ParentSession {
+  return { ...entry, createdAt: new Date(entry.createdAt), lastActiveAt: new Date(entry.lastActiveAt) };
+}
+
+function reviveChild(entry: ChildRecord): ChildRecord {
+  return { ...entry, createdAt: new Date(entry.createdAt), lastActiveAt: new Date(entry.lastActiveAt) };
+}
 
 /**
- * Seeded demo practice history.
+ * Seed content.
  *
- * Present so the parent dashboard and results screen have real data to render
- * in demo mode rather than only their empty states. Clearly seeded content, not
- * a fabricated user outcome — the sessions are labelled as demo data wherever
- * they are shown (R28).
+ * One demo parent and one demo child with a short practice history, so the
+ * dashboard and results screen have something real to render instead of only
+ * their empty states. Clearly seeded content, and labelled as demo data wherever
+ * it is shown (R28) — not a fabricated child outcome.
  */
-function seedSessions(): SessionWithResponses[] {
-  const build = (
+function seedStore(): StoreShape {
+  const parentId = "parent-demo-1";
+  const childId = "child-demo-1";
+  const created = new Date("2026-01-01T00:00:00.000Z");
+
+  const buildSession = (
     sessionId: string,
     completedOn: string,
     area: ReasoningCategory,
-    correctCount: number,
-    totalCount: number,
-  ): SessionWithResponses => ({
+    correct: number,
+    total: number,
+  ): SessionRecord => ({
     sessionId,
     completedOn,
-    responses: Array.from({ length: totalCount }, (_, index) => ({
+    responses: Array.from({ length: total }, (_, index) => ({
       questionId: `${sessionId}-${area}-${index}`,
-      correct: index < correctCount,
+      selectedChoiceId: index < correct ? "correct" : "other",
+      correct: index < correct,
       reasoningCategory: area,
+      answeredAt: new Date(`${completedOn}T12:00:00.000Z`),
     })),
   });
 
-  return [
-    build("session-1", "2026-09-28", "nonverbal", 3, 3),
-    build("session-2", "2026-09-30", "nonverbal", 2, 3),
-    build("session-3", "2026-10-02", "quantitative", 1, 3),
-    build("session-4", "2026-10-05", "verbal", 2, 3),
-  ];
+  return {
+    version: 1,
+    parents: [
+      {
+        id: parentId,
+        email: "parent@example.com",
+        demoMode: true,
+        childIds: [childId],
+        createdAt: created,
+        lastActiveAt: created,
+      },
+    ],
+    children: [
+      {
+        id: childId,
+        parentId,
+        ageBand: "developing",
+        experienceLevel: "some_experience",
+        goals: ["improve_problem_solving"],
+        schedulePreference: "any_time",
+        interests: ["patterns_shapes"],
+        createdAt: created,
+        lastActiveAt: created,
+      },
+    ],
+    sessions: {
+      [childId]: [
+        buildSession("session-1", "2026-09-28", "nonverbal", 3, 3),
+        buildSession("session-2", "2026-09-30", "nonverbal", 2, 3),
+        buildSession("session-3", "2026-10-02", "quantitative", 1, 3),
+        buildSession("session-4", "2026-10-05", "verbal", 2, 3),
+      ],
+    },
+  };
 }
 
-const parents = new Map<string, ParentSession>([[DEMO_PARENT_ID, demoParent]]);
-const children = new Map<string, ChildRecord>([[demoChild.id, demoChild]]);
-const sessionsByChild = new Map<string, SessionWithResponses[]>([
-  [demoChild.id, seedSessions()],
-]);
-
-/** The single demo child id, for demo-mode surfaces that need a default. */
-export const DEMO_CHILD_ID = demoChild.id;
-
-export class ParentAccessError extends Error {
-  constructor(childId: string) {
-    super(`Not authorised to access child "${childId}".`);
-    this.name = "ParentAccessError";
+function loadStore(): StoreShape {
+  if (!existsSync(STORE_PATH)) {
+    const seeded = seedStore();
+    persistNow(seeded);
+    return seeded;
   }
+
+  try {
+    const parsed: unknown = JSON.parse(readFileSync(STORE_PATH, "utf8"));
+    if (
+      typeof parsed === "object" &&
+      parsed !== null &&
+      (parsed as { version?: unknown }).version === 1
+    ) {
+      const shape = parsed as StoreShape;
+      return {
+        version: 1,
+        parents: shape.parents.map(reviveParent),
+        children: shape.children.map(reviveChild),
+        sessions: shape.sessions,
+      };
+    }
+  } catch {
+    // A corrupt or unreadable file falls back to a fresh seed rather than
+    // throwing on every later read. Demo data is disposable by definition, and a
+    // store that cannot be parsed is not worth failing a request over.
+  }
+
+  return seedStore();
 }
+
+function persistNow(store: StoreShape): void {
+  mkdirSync(dirname(STORE_PATH), { recursive: true });
+  // Written to a sibling file and renamed, so a crash mid-write cannot leave a
+  // half-written store behind. Rename is atomic within a filesystem.
+  const temporary = `${STORE_PATH}.tmp`;
+  writeFileSync(temporary, JSON.stringify(store, null, 2), "utf8");
+  renameSync(temporary, STORE_PATH);
+}
+
+/**
+ * Serialised writes.
+ *
+ * Every mutation awaits the previous one. Without this, two requests reading the
+ * same file and writing it back can interleave, and the slower one's write
+ * silently discards the faster one's.
+ */
+let writeChain: Promise<void> = Promise.resolve();
+
+function commit(mutate: (store: StoreShape) => StoreShape): Promise<void> {
+  const next = writeChain.then(() => {
+    const updated = mutate(loadStore());
+    persistNow(updated);
+  });
+  // Keep the chain alive even if one write fails, so a single bad write does not
+  // wedge every later one behind a rejected promise.
+  writeChain = next.catch(() => undefined);
+  return next;
+}
+
+let cached: StoreShape | null = null;
+
+function current(): StoreShape {
+  cached ??= loadStore();
+  return cached;
+}
+
+function update(store: StoreShape): StoreShape {
+  cached = store;
+  return store;
+}
+
+/** The demo child id, for surfaces that need a default in demo mode. */
+export const DEMO_CHILD_ID = "child-demo-1";
 
 /**
  * Read a child, but only for a parent who owns it (R30, AE4).
  *
- * Ownership is checked before the child record is returned, so a guessed child
- * id in a URL is refused rather than resolved. Returning `null` rather than
- * throwing keeps the call sites free of try/catch; the two are equivalent here
- * because neither reveals whether the id exists.
+ * `null` rather than a throw, and `null` for both an unowned child and an
+ * unknown one — the two are indistinguishable on purpose, so a caller probing
+ * ids cannot learn which children exist.
  */
 export function requireParentAccess(parentId: string, childId: string): ChildRecord | null {
-  const child = children.get(childId);
+  const child = current().children.find((entry) => entry.id === childId);
   if (!child || child.parentId !== parentId) return null;
   return child;
 }
 
 export const mockDataSource = {
-  /** The parent ids known to the demo store. */
   listParentIds(): readonly string[] {
-    return [...parents.keys()];
+    return current().parents.map((parent) => parent.id);
   },
 
   getParentSession(parentId: string): ParentSession | undefined {
-    return parents.get(parentId);
+    return current().parents.find((parent) => parent.id === parentId);
   },
 
-  /** Child ids the given parent owns — never another parent's children. */
   listChildren(parentId: string): readonly ChildRecord[] {
-    return [...children.values()].filter((child) => child.parentId === parentId);
+    return current().children.filter((child) => child.parentId === parentId);
   },
 
-  /** Session history for a child, newest first. Ownership enforced. */
-  listSessions(parentId: string, childId: string): readonly SessionWithResponses[] {
+  listSessions(parentId: string, childId: string): readonly SessionRecord[] {
     if (!requireParentAccess(parentId, childId)) return [];
-    return [...(sessionsByChild.get(childId) ?? [])].sort((a, b) =>
+    return [...(current().sessions[childId] ?? [])].sort((a, b) =>
       b.completedOn.localeCompare(a.completedOn),
     );
   },
 
-  /** One session's responses. Ownership enforced. */
-  getSession(
-    parentId: string,
-    childId: string,
-    sessionId: string,
-  ): SessionWithResponses | null {
-    const owned = requireParentAccess(parentId, childId);
-    if (!owned) return null;
-    return sessionsByChild.get(childId)?.find((entry) => entry.sessionId === sessionId) ?? null;
+  getSession(parentId: string, childId: string, sessionId: string): SessionRecord | null {
+    if (!requireParentAccess(parentId, childId)) return null;
+    return current().sessions[childId]?.find((entry) => entry.sessionId === sessionId) ?? null;
   },
 
+  /**
+   * Update a child's record.
+   *
+   * Written through `commit` so the change reaches disk and survives a restart,
+   * which is the whole point of the store being file-backed.
+   */
   updateChild(
     parentId: string,
     childId: string,
     updates: Partial<ChildRecord>,
-  ): ChildRecord | null {
-    const child = requireParentAccess(parentId, childId);
-    if (!child) return null;
-    const updated: ChildRecord = { ...child, ...updates, lastActiveAt: new Date() };
-    children.set(childId, updated);
-    return updated;
+  ): Promise<ChildRecord | null> {
+    if (!requireParentAccess(parentId, childId)) return Promise.resolve(null);
+
+    return commit((store) => {
+      const children = store.children.map((child) =>
+        child.id === childId ? { ...child, ...updates, lastActiveAt: new Date() } : child,
+      );
+      return update({ ...store, children });
+    }).then(() => requireParentAccess(parentId, childId));
+  },
+
+  /** Record an answer. Ownership enforced; the write is queued. */
+  recordAnswer(
+    parentId: string,
+    childId: string,
+    response: PracticeResponse,
+    sessionId: string,
+  ): Promise<void> {
+    if (!requireParentAccess(parentId, childId)) return Promise.resolve();
+
+    return commit((store) => {
+      const existing = store.sessions[childId] ?? [];
+      const without = existing.filter((entry) => entry.sessionId !== sessionId);
+      const next: SessionRecord = {
+        sessionId,
+        completedOn: response.answeredAt.toISOString().slice(0, 10),
+        responses: [...(without[0]?.responses ?? []), response],
+      };
+      return update({ ...store, sessions: { ...store.sessions, [childId]: [next, ...without.slice(1)] } });
+    });
   },
 
   /** Remove a child and everything attached to them (R31). */
-  deleteChild(parentId: string, childId: string): boolean {
-    const child = requireParentAccess(parentId, childId);
-    if (!child) return false;
-    children.delete(childId);
-    sessionsByChild.delete(childId);
-    const parent = parents.get(parentId);
-    if (parent) {
-      parents.set(parentId, {
-        ...parent,
-        childIds: parent.childIds.filter((id) => id !== childId),
-        lastActiveAt: new Date(),
+  deleteChild(parentId: string, childId: string): Promise<boolean> {
+    if (!requireParentAccess(parentId, childId)) return Promise.resolve(false);
+
+    return commit((store) => {
+      const { [childId]: _removed, ...remainingSessions } = store.sessions;
+      void _removed;
+      return update({
+        ...store,
+        children: store.children.filter((child) => child.id !== childId),
+        parents: store.parents.map((parent) =>
+          parent.id === parentId
+            ? { ...parent, childIds: parent.childIds.filter((id) => id !== childId) }
+            : parent,
+        ),
+        sessions: remainingSessions,
       });
-    }
-    return true;
+    }).then(() => true);
+  },
+
+  /** Discard the store and reseed. Test support, and a demo reset. */
+  reset(): Promise<void> {
+    return commit(() => update(seedStore()));
   },
 };

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DEMO_CHILD_ID, mockDataSource, requireParentAccess } from "./mock";
+import { DEMO_CHILD_ID, STORE_PATH, mockDataSource, requireParentAccess } from "./mock";
 
 const OWNING_PARENT = "parent-demo-1";
 const OTHER_PARENT = "parent-someone-else";
@@ -43,15 +43,33 @@ describe("mockDataSource child reads", () => {
     expect(sessions[0]?.sessionId).toBe("session-4");
   });
 
-  it("refuses to update a child the parent does not own", () => {
-    expect(
+  it("refuses to update a child the parent does not own", async () => {
+    await expect(
       mockDataSource.updateChild(OTHER_PARENT, DEMO_CHILD_ID, { ageBand: "advanced" }),
-    ).toBeNull();
+    ).resolves.toBeNull();
   });
 
-  it("refuses to delete a child the parent does not own", () => {
-    expect(mockDataSource.deleteChild(OTHER_PARENT, DEMO_CHILD_ID)).toBe(false);
+  it("refuses to delete a child the parent does not own", async () => {
+    await expect(mockDataSource.deleteChild(OTHER_PARENT, DEMO_CHILD_ID)).resolves.toBe(false);
     // The child must still be there afterwards.
     expect(mockDataSource.listChildren(OWNING_PARENT).map((c) => c.id)).toContain(DEMO_CHILD_ID);
+  });
+
+  it("writes an owned update through to the store", async () => {
+    await mockDataSource.updateChild(OWNING_PARENT, DEMO_CHILD_ID, { ageBand: "advanced" });
+
+    expect(mockDataSource.listChildren(OWNING_PARENT)[0]?.ageBand).toBe("advanced");
+
+    // Put it back, so the assertion above cannot leak into another test.
+    await mockDataSource.updateChild(OWNING_PARENT, DEMO_CHILD_ID, { ageBand: "developing" });
+  });
+
+  it("persists to a file, so records survive a restart", async () => {
+    const { existsSync } = await import("node:fs");
+
+    // The decision specified a file-backed store precisely so demo records are
+    // not lost on restart; this asserts the file exists rather than trusting the
+    // implementation detail in a comment.
+    expect(existsSync(STORE_PATH)).toBe(true);
   });
 });

@@ -22,8 +22,9 @@ export function DemoModeBanner(): React.ReactElement {
       <aside className="auth-demo-banner" role="note" aria-label="Demo mode">
         <p className="auth-demo-banner__title">Demo mode</p>
         <p className="auth-demo-banner__body">
-          There are no real accounts in this build. Records are held in memory on
-          the server while the app is running and erased when it restarts.
+          There are no real accounts in this build. Records are held in a file on
+          the server while the app is running, and stay there until the file is
+          deleted.
         </p>
         <p className="auth-demo-banner__body">
           Nothing is written to this device, and please do not enter your

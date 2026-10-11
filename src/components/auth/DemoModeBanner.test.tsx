@@ -93,14 +93,17 @@ describe("DemoModeBanner", () => {
     expect(text).toMatch(/nothing is written to this device/i);
   });
 
-  it("says the records are held server-side in memory and erased on restart", () => {
+  it("says where records are held and how long they last", () => {
     const { container } = render(<DemoModeBanner />);
     const text = (container.textContent ?? "").toLowerCase();
 
-    expect(text).toMatch(/memory/i);
+    // The store became file-backed, so the banner's promise changed with it.
+    // This assertion is what keeps the two from drifting: if the store changes
+    // again and the banner does not, the parent is told something untrue about
+    // where their data is.
     expect(text).toMatch(/on the server/i);
-    expect(text).toMatch(/erased/i);
-    expect(text).toMatch(/restarts?/i);
+    expect(text).toMatch(/file/i);
+    expect(text).toMatch(/until the file is deleted/i);
   });
 
   it("makes no claim of security or data protection anywhere in its text", () => {

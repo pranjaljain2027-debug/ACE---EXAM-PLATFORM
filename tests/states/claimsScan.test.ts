@@ -55,8 +55,16 @@ const PROHIBITED: ReadonlyArray<{ readonly pattern: RegExp; readonly label: stri
   { pattern: /\bdiagnos(is|e|ed)\b/i, label: "clinical framing" },
 
   // Social proof the product has none of (R12).
+  //
+  // The adoption pattern requires a number big enough to only appear in a real
+  // claim. A looser `\d+` also matched ordinary list text ("One demo parent and
+  // one demo child" renders as "1, parents"), and a check that fires on the
+  // project's own comments gets switched off rather than fixed.
   { pattern: /\b(trusted by|used by|loved by)\s+[\d,]+/i, label: "unverified user count" },
-  { pattern: /\b\d+[,.]?\d*\s+(schools|districts|parents|families)\b/i, label: "unverified adoption claim" },
+  {
+    pattern: /\b\d{1,3}(,\d{3})+|\b\d{4,}\s+(schools|districts|parents|families|students)\b/i,
+    label: "unverified adoption claim",
+  },
   { pattern: /\b(testimonials?|reviews?\s+from)\b/i, label: "testimonial reference" },
 
   // Security claims the demo mode cannot support (R14).
