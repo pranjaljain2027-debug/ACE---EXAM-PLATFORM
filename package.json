@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run validate && next build",
+    "validate": "node scripts/validate-deploy.mjs",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "validate": "node -e \"const demoMode = !process.env.AUTH_PROVIDER || process.env.AUTH_PROVIDER === 'demo';const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';if (demoMode && !siteUrl.includes('localhost')) {console.error('DEPLOYMENT BLOCKED: Demo mode is active but NEXT_PUBLIC_SITE_URL is not a localhost URL.');console.error('Set AUTH_PROVIDER=supabase and configure Supabase env vars, or deploy to localhost.');process.exit(1);}console.log('Validation passed.');\""
+    "test:watch": "vitest"
   },
   "dependencies": {
     "next": "16.4.0",
