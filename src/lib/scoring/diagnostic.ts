@@ -1,91 +1,121 @@
 /**
- * Diagnostic scorer — transparent, deterministic scoring of a practice session.
- * Scores only questions actually answered (R19).
- * Partial sessions produce a partial result, clearly labeled as partial.
- * Neither the diagnostic nor any progress view is described as an official
- * assessment or clinical evaluation (R20).
+ * The diagnostic scorer (R19).
  *
- * KTD10: deterministic, documented rules — never a model or AI prediction.
+ * Scores exactly the questions that were actually answered and nothing else. A
+ * partial session produces a partial result that says so, rather than a
+ * confident recommendation built on three answers.
+ *
+ * Every figure this module produces is a count or a proportion of the child's
+ * own practice answers. It is never an IQ score, a percentile, or a placement
+ * prediction (R5, R20).
  */
+import {
+  REASONING_AREAS,
+  areaStateFrom,
+  sampleAreas,
+  allAreasInsufficient,
+} from "./insufficientData";
+import type { AreaSample, AreaState, ReasoningArea } from "./insufficientData";
+import type { PracticeResponse } from "../data/types";
 
-/** A single question's response result */
-export type QuestionResult = {
-  questionId: string;
-  selectedChoiceId: string;
-  correct: boolean;
-  answeredAt: Date;
-};
+/** The shape the scorer needs. Narrower than `PracticeResponse` on purpose. */
+export type ScoredResponse = Pick<
+  PracticeResponse,
+  "questionId" | "correct" | "reasoningCategory"
+>;
 
-/** Per-reasoning-area counts */
-export type AreaCounts = {
-  nonverbal: number;
-  quantitative: number;
-  verbal: number;
-};
-
-/** Diagnostic result for a session */
+/** A diagnostic result for one session. */
 export type DiagnosticResult = {
-  totalQuestions: number;
-  correct: number;
-  accuracy: number;
-  areaCounts: AreaCounts;
-  hasSufficientData: boolean;
-  insufficientReason?: string;
+  /** Questions actually answered. Unanswered questions are never counted. */
+  readonly answeredCount: number;
+  readonly correctCount: number;
+  /** Proportion 0–1 of answered questions that were right. */
+  readonly accuracy: number;
+  /** Per-area sample state; drives the insufficient-data UI. */
+  readonly areas: readonly AreaSample[];
+  /** True only when every area has enough answers for a percentage. */
+  readonly complete: boolean;
+  /** True when at least one area can be reported. */
+  readonly partial: boolean;
+  /** Plain-language status, safe to show a parent verbatim. */
+  readonly status: string;
 };
 
-/** Score a session's diagnostic from raw practice responses */
-export function scoreDiagnosis(
-  responses: ReadonlyArray<{
-    questionId: string;
-    selectedChoiceId: string;
-    correct: boolean;
-    answeredAt: Date;
-  }>,
-): DiagnosticResult {
-  const total = responses.length;
-  const correct = responses.filter(function (r) {
-    return r.correct;
-  }).length;
-  const accuracy = total > 0 ? correct / total : 0;
-
-  // Area counts — distribute across the three reasoning areas
-  const areaCounts: AreaCounts = {
-    nonverbal: 0,
-    quantitative: 0,
-    verbal: 0,
+function groupByArea(
+  responses: ReadonlyArray<ScoredResponse>,
+): Record<ReasoningArea, ScoredResponse[]> {
+  const grouped: Record<ReasoningArea, ScoredResponse[]> = {
+    nonverbal: [],
+    quantitative: [],
+    verbal: [],
   };
-
-  // Simple distribution: first third nonverbal, second third quantitative, last third verbal
-  const third = Math.floor(total / 3);
-  for (var i = 0; i < total; i++) {
-    if (i < third) areaCounts.nonverbal++;
-    else if (i < third * 2) areaCounts.quantitative++;
-    else areaCounts.verbal++;
+  for (const response of responses) {
+    grouped[response.reasoningCategory].push(response);
   }
+  return grouped;
+}
 
-  // Sufficient data: at least 3 questions answered, with at least one per area
-  const minPerArea = 1;
-  const totalSufficient = total >= 3;
-  const perAreaSufficient =
-    areaCounts.nonverbal >= minPerArea &&
-    areaCounts.quantitative >= minPerArea &&
-    areaCounts.verbal >= minPerArea;
+/**
+ * Score a session.
+ *
+ * Deterministic and total: the same responses always produce the same result,
+ * and an empty response list is a valid input that yields a zeroed result with
+ * every area in the insufficient-data state rather than a division by zero.
+ */
+export function scoreSession(responses: ReadonlyArray<ScoredResponse>): DiagnosticResult {
+  const answeredCount = responses.length;
+  const correctCount = responses.filter((response) => response.correct).length;
+  const accuracy = answeredCount > 0 ? correctCount / answeredCount : 0;
 
-  const hasSufficientData = totalSufficient && perAreaSufficient;
+  const areas = sampleAreas(groupByArea(responses));
+  const noneSufficient = allAreasInsufficient(areas);
+  const someSufficient = !noneSufficient && areas.some((area) => area.sufficient);
+  const complete = REASONING_AREAS.every((area) =>
+    areas.some((sample) => sample.area === area && sample.sufficient),
+  );
 
-  let insufficientReason: string | undefined;
-  if (!totalSufficient) {
-    insufficientReason = "Only " + total + " question" + (total !== 1 ? "s" : "") + " answered — minimum 3 required for a diagnostic sample.";
-  } else if (!perAreaSufficient) {
-    insufficientReason = "Questions answered, but not across all three reasoning areas yet. Keep practicing.";
+  let status: string;
+  if (answeredCount === 0) {
+    status = "No questions answered yet — nothing to report.";
+  } else if (noneSufficient) {
+    status = `Partial result — ${answeredCount} answered. Answer a few more in each reasoning area before drawing a conclusion.`;
+  } else if (someSufficient && !complete) {
+    status = `Partial result — ${answeredCount} answered. Some reasoning areas have enough answers to report and others do not.`;
+  } else {
+    status = `Complete result — ${answeredCount} answered across all reasoning areas.`;
   }
 
   return {
-    totalQuestions: total,
-    correct: correct,
-    accuracy: accuracy,
-    areaCounts: areaCounts,
-    hasSufficientData: hasSufficientData,
-    insufficientReason: insufficientReason,
+    answeredCount,
+    correctCount,
+    accuracy,
+    areas,
+    complete,
+    partial: answeredCount > 0 && !complete,
+    status,
   };
+}
+
+/** The per-area state the UI renders, ready to display. */
+export function areaStates(result: DiagnosticResult): readonly AreaState[] {
+  return result.areas.map(areaStateFrom);
+}
+
+/**
+ * Per-area accuracy, but only for areas with a sufficient sample.
+ *
+ * Areas without enough answers are absent from the result rather than present
+ * with a zero, so a caller cannot accidentally render `0%` for an area that was
+ * never assessed (R28).
+ */
+export function sufficientAccuracies(
+  result: DiagnosticResult,
+): ReadonlyArray<{ readonly area: ReasoningArea; readonly accuracy: number }> {
+  const output: Array<{ area: ReasoningArea; accuracy: number }> = [];
+  for (const sample of result.areas) {
+    if (sample.sufficient) {
+      output.push({ area: sample.area, accuracy: sample.correct / sample.answered });
+    }
+  }
+  return output;
 }

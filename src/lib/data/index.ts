@@ -1,12 +1,11 @@
-export type { 
-  AgeBand, 
-  ExperienceLevel, 
-  GoalOption, 
-  SchedulePreference, 
-  InterestArea, 
-  ParentSession, 
-  ChildRecord, 
-  PracticeResponse 
+export type {
+  AgeBand,
+  ChildRecord,
+  ExperienceLevel,
+  GoalOption,
+  InterestArea,
+  ParentSession,
+  PracticeResponse,
+  ReasoningCategory,
+  SchedulePreference,
 } from "./types";
-
-export { mockDataSource } from "./mock";

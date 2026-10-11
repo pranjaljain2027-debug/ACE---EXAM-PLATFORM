@@ -78,7 +78,10 @@ describe("SignInForm", () => {
     // it happened rather than being told about it somewhere else.
     expect(email).toHaveAttribute("aria-invalid", "true");
     expect(email.getAttribute("aria-describedby") ?? "").toContain(message.id);
-    expect(within(email.closest(".ui-field") as HTMLElement).getByText(message.textContent ?? "")).toBeInTheDocument();
+
+    // And it sits inside the field's own wrapper, not somewhere above the form.
+    const field = email.closest(".ui-field") as HTMLElement;
+    expect(within(field).getByText(/enter an email address like/i)).toBe(message);
   });
 
   it("does not show a generic failure message alongside the field error", async () => {
@@ -110,15 +113,19 @@ describe("SignInForm", () => {
     expect(signUpAction.mock.calls[0]?.[0]).toMatchObject({ email: "parent@example.com" });
   });
 
-  it("keeps the submit button disabled until there is something to submit", async () => {
+  it("accepts an empty submit and explains the problem on the field", async () => {
+    // The button stays enabled when the field is empty on purpose. A disabled
+    // submit gives a parent nothing to act on and no explanation of why it
+    // cannot be pressed; submitting an empty field returns the same problem,
+    // attached to the field, which is answerable.
     const user = userEvent.setup();
     render(<SignInForm action={signUpAction} />);
 
     const submit = screen.getByRole("button", { name: /continue/i });
-    expect(submit).toBeDisabled();
+    expect(submit).toBeEnabled();
 
-    await user.type(screen.getByLabelText("Parent email"), "p");
+    await user.click(submit);
 
-    await vi.waitFor(() => expect(submit).toBeEnabled());
+    expect(signUpAction).toHaveBeenCalledWith({ email: "" });
   });
 });

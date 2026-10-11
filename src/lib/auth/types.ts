@@ -91,8 +91,15 @@ export interface AuthProvider {
   /** Ends the session a token belongs to. Idempotent. */
   signOut(token: string | null): Promise<void>;
 
-  /** Resolves a token to a live session, or null if there is not one. */
-  getSession(token: string | null): Promise<AuthSession | null>;
+  /**
+   * Resolves a token to a live session, or null if there is not one.
+   *
+   * `override` asserts against a session shape the provider no longer holds —
+   * used to check the expiry boundary without waiting a week to reach it. The
+   * interface carries it so the contract is the same shape every implementation
+   * has to satisfy.
+   */
+  getSession(token: string | null, override?: AuthSession): Promise<AuthSession | null>;
 
   /** Resolves a token to its parent, or null if there is no session. */
   getUser(token: string | null): Promise<AuthUser | null>;

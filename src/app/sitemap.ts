@@ -26,6 +26,10 @@ const PUBLIC_ROUTES = [
   { path: "/assessments", changeFrequency: "monthly", priority: 0.8 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.6 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.5 },
+  // Legal pages (U9). Indexed deliberately: a privacy notice and terms a
+  // crawler cannot find are not much use to the people they are written for.
+  { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
+  { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {

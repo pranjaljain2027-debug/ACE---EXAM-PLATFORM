@@ -1,71 +1,68 @@
-"use client";
-
-import { usePathname, useSearchParams } from "next/navigation";
-import { useOnboardingDraft } from "@/lib/onboarding/draft";
+/**
+ * The session results screen (U12, R26, R5, R28, R33).
+ *
+ * A server component. It reads the session through the data layer, which
+ * enforces parent/child ownership before returning anything (R30), and hands the
+ * result to presentational components. The disclaimer is rendered here rather
+ * than in a component so it cannot be dropped from one variant of the page
+ * without the other losing it.
+ */
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { scoreSession } from "@/lib/scoring/diagnostic";
 import { getNextAction } from "@/lib/scoring/nextAction";
 import { mockDataSource } from "@/lib/data/mock";
-import ResultsSummary from "@/components/session/ResultsSummary";
-import NextActionCard from "@/components/session/NextActionCard";
+import { ResultsSummary } from "@/components/session/ResultsSummary";
+import { NextActionCard } from "@/components/session/NextActionCard";
 
-const ResultsPage: React.FC = () => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const sessionId = searchParams.get("id") || "default";
-  const parentSession = mockDataSource.getParentSession(sessionId);
-
-  if (!parentSession) {
-    return <p>Session not found</p>;
-  }
-
-  // Calculate results from practice responses
-  const responses = mockDataSource.getPracticeResponses(sessionId || "");
-  const total = responses.length;
-
-  // Determine correct vs incorrect (simplified: each response has a correct flag)
-  const correct = responses.filter((r) => r.correct).length;
-
-  const nextAction = getNextAction(total, correct, useOnboardingDraft().goals);
-
-  return (
-    <section className="results-page" aria-label="Results page">
-      <h1>Results</h1>
-      {parentSession.email && <p>Thank you for practicing, {parentSession.email}.</p>}
-
-      <ResultsSummary summary={{ totalQuestions: total, correct, areaCounts: { nonverbal: 0, quantitative: 0, verbal: 0 }, hasSufficientData: total >= 3 }} />
-
-      {correct > 0 && (
-        <p>
-          {"Great work! " + (correct === total ? "All your answers were correct!" : "You got some answers right.")}
-        </p>
-      )}
-
-      {total > 0 ? (
-        <p className="insight">
-          {"Based on your results, " + nextAction.insight}
-        </p>
-      ) : (
-        <p className="insight">
-          {"Keep practicing! Each session helps build reasoning skills."}
-        </p>
-      )}
-
-      {total >= 3 ? (
-        <NextActionCard nextAction={nextAction} />
-      ) : (
-        <p>
-          {"Complete more practice sessions to see personalized next steps."}
-        </p>
-      )}
-
-      <p className="disclaimer">
-        {"These results reflect your performance on Heir of Wisdom's practice questions. They are not an IQ score, official assessment result, or predictor of placement."}
-      </p>
-
-      <nav>
-        <a href="/">Back home</a>
-      </nav>
-    </section>
-  );
+export const metadata = {
+  title: "Session results · Heir of Wisdom",
+  description: "What your child practised in this session, and what to do next.",
 };
 
-export default ResultsPage;
+interface ResultsPageProps {
+  params: Promise<{ sessionId: string }>;
+}
+
+export default async function ResultsPage({ params }: ResultsPageProps) {
+  const { sessionId } = await params;
+
+  const parentId = mockDataSource.listParentIds()[0];
+  if (!parentId) notFound();
+
+  const children = mockDataSource.listChildren(parentId);
+  const child = children[0];
+  if (!child) notFound();
+
+  // Ownership is enforced inside the data layer; an unowned session resolves to
+  // null here rather than rendering someone else's practice history.
+  const session = mockDataSource.getSession(parentId, child.id, sessionId);
+  if (!session) notFound();
+
+  const diagnostic = scoreSession(session.responses);
+  const nextAction = getNextAction(session.responses);
+
+  return (
+    <main className="session-results" aria-labelledby="results-heading">
+      <h1 id="results-heading">Session results</h1>
+
+      <ResultsSummary diagnostic={diagnostic} />
+      <NextActionCard nextAction={nextAction} />
+
+      <aside className="session-results__disclaimer">
+        <h2>What these results mean</h2>
+        <p>
+          These results describe how your child answered Heir of Wisdom&rsquo;s own
+          practice questions. They are not an IQ score, an official assessment
+          result, or a predictor of placement.
+        </p>
+      </aside>
+
+      <nav aria-label="After this session">
+        <Link className="button button--primary" href="/parent">
+          Back to dashboard
+        </Link>
+      </nav>
+    </main>
+  );
+}

@@ -69,7 +69,8 @@ describe("DemoAuthProvider", () => {
     expect(result.ok).toBe(true);
     if (!result.ok) return;
 
-    const { session, token } = result;
+    const { session } = result;
+    const token = session.token;
     const expired: AuthSession = {
       ...session,
       expiresAt: new Date(Date.now() - 1000).toISOString(),
