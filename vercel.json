@@ -1,8 +1,11 @@
 {
-  "framework": "html",
-  "buildCommand": "echo 'no build step'",
-  "outputDirectory": ".",
-  "cleanUrls": true,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "github": {
+    "silent": true
+  },
   "headers": [
     {
       "source": "/(.*)",
