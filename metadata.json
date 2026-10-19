@@ -1,0 +1,6 @@
+{
+  "name": "Heir of Wisdom - Visual Reasoning Studio",
+  "description": "A premium visual reasoning studio for children aged 8–12, fostering deep pattern discovery, cognitive exploration, and assessment-style spatial thinking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
