@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Compass, Eye, Lightbulb, Target, Sparkles, CheckCircle2, Shield, Brain } from 'lucide-react';
+import { ArrowRight, Cube, Compass, Eye, Lightbulb, Target, Sparkles, CheckCircle2, Shield, Brain } from 'lucide-react';
 import { ReasoningCanvas } from '../components/canvas/ReasoningCanvas';
 import { VisualObject } from '../types/reasoning';
 
@@ -43,8 +43,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <span className="italic font-normal text-[#C99543]">Thinking is discovered.</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-700 leading-relaxed max-w-xl">
-              Help your child discover how patterns work through physical manipulation and conceptual transfer, rather than memorizing practice drill answers for gifted assessments.
+            <p className="text-base sm:text-lg text-slate-600 font-medium mt-2 max-w-xl">
+              Teach your child to see what others miss.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -53,7 +53,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 className="px-6 py-3.5 text-sm font-semibold text-white bg-[#0E2235] rounded-xl hover:bg-[#1a3852] transition-colors shadow-sm flex items-center gap-2"
               >
                 <span>Begin Learning Assessment</span>
-                <ArrowRight className="w-4 h-4" />
+                <Cube className="w-4 h-4" />
               </button>
               <button
                 onClick={onStartLearning}
