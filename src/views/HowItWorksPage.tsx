@@ -29,34 +29,34 @@ export const HowItWorksPage: React.FC<HowItWorksPageProps> = ({
       <div className="space-y-8">
         {/* Stage 1 */}
         <div className="bg-white border border-[#E8E6E1] rounded-2xl p-6 sm:p-8 shadow-xs flex flex-col md:flex-row gap-6 items-start">
-          <div className="w-12 h-12 rounded-xl bg-[#FAF7F0] border border-[#E8E6E1] flex items-center justify-center text-[#0E2235] shrink-0">
-            <Eye className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-xl bg-[#FAF7F0] border border-[#E8E6E1] flex items-center justify-center text-[#C99543] shrink-0">
+            <Compass className="w-6 h-6" />
           </div>
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono uppercase tracking-wider text-slate-500">Stage 01 · 2 Minutes</span>
-              <span className="text-xs text-[#718C7B] font-semibold">· Attention Priming</span>
+              <span className="text-xs font-mono uppercase tracking-wider text-slate-500">Stage 01 · 4 Minutes</span>
+              <span className="text-xs text-[#C99543] font-semibold">· Tactile Manipulation</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#0E2235]">Observe</h2>
+            <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#0E2235]">Experiment</h2>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Before guessing, the child inspects the pattern strip. We ask: "What do you notice changing?" This trains children to systematically isolate visual attributes—cardinal direction, color shift, count, or size—rather than becoming overwhelmed by the whole graphic.
+              Children physically rotate, reflect, scale, and translate shapes on an interactive canvas. By testing their hands-on intuition without penalty, abstract spatial transformations become tangible, physical concepts in their minds.
             </p>
           </div>
         </div>
 
         {/* Stage 2 */}
         <div className="bg-white border border-[#E8E6E1] rounded-2xl p-6 sm:p-8 shadow-xs flex flex-col md:flex-row gap-6 items-start">
-          <div className="w-12 h-12 rounded-xl bg-[#FAF7F0] border border-[#E8E6E1] flex items-center justify-center text-[#C99543] shrink-0">
-            <Compass className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-xl bg-[#FAF7F0] border border-[#E8E6E1] flex items-center justify-center text-[#0E2235] shrink-0">
+            <Eye className="w-6 h-6" />
           </div>
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono uppercase tracking-wider text-slate-500">Stage 02 · 4 Minutes</span>
-              <span className="text-xs text-[#C99543] font-semibold">· Tactile Manipulation</span>
+              <span className="text-xs font-mono uppercase tracking-wider text-slate-500">Stage 02 · 2 Minutes</span>
+              <span className="text-xs text-[#718C7B] font-semibold">· Attention Priming</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#0E2235]">Experiment</h2>
+            <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#0E2235]">Observe</h2>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Children physically rotate, reflect, scale, and translate shapes on an interactive canvas. By testing their hands-on intuition without penalty, abstract spatial transformations become tangible, physical concepts in their minds.
+              Before guessing, the child inspects the pattern strip. We ask: "What do you notice changing?" This trains children to systematically isolate visual attributes—cardinal direction, color shift, count, or size—rather than becoming overwhelmed by the whole graphic.
             </p>
           </div>
         </div>
