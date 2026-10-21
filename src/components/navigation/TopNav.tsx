@@ -38,20 +38,20 @@ export const TopNav: React.FC<TopNavProps> = ({ currentPath, onNavigate, onOpenC
             Curriculum
           </button>
           <button
-            onClick={() => onNavigate('/pricing')}
-            className={`whitespace-nowrap shrink-0 transition-colors hover:text-[#0E2235] ${
-              currentPath === '/pricing' ? 'text-[#0E2235] font-semibold border-b-2 border-[#0E2235] pb-0.5' : ''
-            }`}
-          >
-            Pricing
-          </button>
-          <button
             onClick={() => onNavigate('/parent/dashboard')}
             className={`whitespace-nowrap shrink-0 transition-colors hover:text-[#0E2235] ${
               currentPath.startsWith('/parent') ? 'text-[#0E2235] font-semibold border-b-2 border-[#0E2235] pb-0.5' : ''
             }`}
           >
             Parent Dashboard
+          </button>
+          <button
+            onClick={() => onNavigate('/pricing')}
+            className={`whitespace-nowrap shrink-0 transition-colors hover:text-[#0E2235] ${
+              currentPath === '/pricing' ? 'text-[#0E2235] font-semibold border-b-2 border-[#0E2235] pb-0.5' : ''
+            }`}
+          >
+            Pricing
           </button>
         </nav>
 
