@@ -82,6 +82,7 @@ export default function App() {
             else if (tab === 'labs') navigate('/studio/labs');
             else if (tab === 'progress') navigate('/studio/progress');
           }}
+          onGoToHome={() => navigate('/')}
           onExitToParent={() => navigate('/parent/dashboard')}
         />
       ) : (
