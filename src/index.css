@@ -16,6 +16,19 @@
     color: #0E2235;
   }
 
+  /* Global pointer cursor on all clickable elements */
+  button,
+  a,
+  [role="button"],
+  [onclick],
+  label,
+  summary,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    cursor: pointer;
+  }
+
   h1, h2, h3, .font-editorial {
     font-family: 'Fraunces', Georgia, serif;
   }
