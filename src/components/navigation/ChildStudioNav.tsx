@@ -7,6 +7,7 @@ interface ChildStudioNavProps {
   currentTab: 'home' | 'learn' | 'labs' | 'progress';
   onSelectTab: (tab: 'home' | 'learn' | 'labs' | 'progress') => void;
   onExitToParent: () => void;
+  onGoToHome: () => void;
   onProfileChanged?: () => void;
 }
 
@@ -32,7 +33,7 @@ export const ChildStudioNav: React.FC<ChildStudioNavProps> = ({
         {/* Brand Zone */}
         <div className="flex items-center gap-3">
           <button
-            onClick={() => onSelectTab('home')}
+            onClick={onGoToHome}
             className="text-lg font-serif font-bold text-[#0E2235] whitespace-nowrap hover:opacity-90 transition-opacity"
           >
             Heir of Wisdom
