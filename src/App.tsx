@@ -11,6 +11,7 @@ import { ChildStudioHome } from './views/ChildStudioHome';
 import { ChildLearnMap } from './views/ChildLearnMap';
 import { ChildRuleLab } from './views/ChildRuleLab';
 import { ChildProgressView } from './views/ChildProgressView';
+import { BlogPage } from './views/BlogPage';
 import { SessionRunner } from './components/session/SessionRunner';
 import { OfflineIndicator } from './components/pwa/OfflineIndicator';
 
@@ -152,6 +153,7 @@ export default function App() {
               <HowItWorksPage
                 onStartSession={() => handleStartActivity('rot-101')}
                 onGoToOnboarding={() => navigate('/parent/onboarding')}
+                onReadBlog={() => navigate('/blog/how-long-visual-reasoning-improvement')}
               />
             )}
 
@@ -167,6 +169,7 @@ export default function App() {
                 onGoToOnboarding={() => navigate('/parent/onboarding')}
               />
             )}
+            {currentPath === '/blog/how-long-visual-reasoning-improvement' && <BlogPage />}
 
             {currentPath === '/parent/onboarding' && (
               <ParentOnboarding

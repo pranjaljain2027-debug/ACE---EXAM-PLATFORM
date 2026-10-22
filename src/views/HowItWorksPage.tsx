@@ -4,11 +4,13 @@ import { Eye, Compass, Lightbulb, Target, Sparkles, CheckCircle2, ArrowRight } f
 interface HowItWorksPageProps {
   onStartSession: () => void;
   onGoToOnboarding: () => void;
+  onReadBlog: () => void;
 }
 
 export const HowItWorksPage: React.FC<HowItWorksPageProps> = ({
   onStartSession,
   onGoToOnboarding,
+  onReadBlog,
 }) => {
   return (
     <div className="bg-[#FAF7F0] text-[#0E2235] py-12 px-6 max-w-5xl mx-auto space-y-16">
@@ -111,6 +113,24 @@ export const HowItWorksPage: React.FC<HowItWorksPageProps> = ({
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Learn More: Blog Post on Visual Reasoning Timeline */}
+      <div className="bg-[#FAF7F0] border border-[#E8E6E1] rounded-2xl p-6 sm:p-8 shadow-xs space-y-4">
+        <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#0E2235]">
+          Read More: How Long Before I See Improvement?
+        </h2>
+        <p className="text-sm text-slate-600 leading-relaxed max-w-2xl">
+          Wondering when you'll see real progress in your child's visual reasoning? Our stage-by-stage guide walks
+          through what to expect at each level of the Five Stages of Spatial Discovery — from Observe to Reflect —
+          and what evidence looks like on the parent dashboard.
+        </p>
+        <button
+          onClick={() => navigate('/blog/how-long-visual-reasoning-improvement')}
+          className="px-8 py-3 text-sm font-semibold text-white bg-[#0E2235] rounded-xl hover:bg-[#1a3852] transition-colors inline-flex items-center gap-2"
+        >
+          <span>Read the full guide →</span>
+        </button>
       </div>
 
       {/* Comparison Table: Traditional Drill vs Heir of Wisdom */}
