@@ -39,8 +39,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#0E2235] tracking-tight leading-[1.15] text-balance">
-              Wisdom is inherited. <br />
-              <span className="italic font-normal text-[#C99543]">Thinking is discovered.</span>
+              Teach your child to see what others miss.
             </h1>
 
             <p className="text-base sm:text-lg text-slate-600 font-medium mt-2 max-w-xl">
