@@ -6,7 +6,7 @@
 import { gridKey, isAchiral, rotate, reflect, rotationInvariant, sameShape, shapeKey, validateGrid, validateShape, view, type Cell } from '../../engine/voxel';
 import { visualSignature } from '../../engine/voxelRender';
 import { sceneSignature } from '../../engine/geometry';
-import { RULES } from '../items';
+import { RULES } from '../figureRules';
 import { ALL_TOPICS, QUESTION_TYPES, TOPIC_IDS } from './taxonomy';
 import type { BankQuestion, GridOption, NumberPuzzlePayload, SeriesRule, TextOption, ValidationIssue, ValidationReport, VoxelOption } from './schema';
 
