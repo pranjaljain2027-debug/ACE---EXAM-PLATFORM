@@ -1,4 +1,5 @@
 import { ACTIVITIES } from '../data/activities';
+import { TRANSFER_REVISIONS } from '../data/transferRevisions';
 import { CURRICULUM_MODULES } from '../data/modules';
 import type { ReasoningActivity } from '../types/reasoning';
 import type { AssessmentTag, Domain, LessonActivity, PublicLesson, Skill } from './types';
@@ -6,11 +7,22 @@ import type { AssessmentTag, Domain, LessonActivity, PublicLesson, Skill } from 
 export const CONTENT_VERSION = 1;
 /** Lessons revised after first publish. Published content is immutable, so a fix ships as a new version. */
 export const LESSON_VERSIONS: Record<string, number> = {
-  'ref-101': 2, // crescent replaced by a chiral flag: a mirrored crescent equals a half turn
-  'ref-102': 2, // transfer uses the chiral flag
+  'ref-101': 3, // v2: crescent replaced by a chiral flag. v3: final question uses an L-shape (a flipped arrow equals a half turn)
+  'ref-102': 3, // v2: transfer uses the chiral flag. v3: marked answer was the left-right mirror, not the water reflection
   'ref-103': 2, // chiral test rebuilt with flag and L-shape; transfer puzzle had the answer already shown
+  // v2 (content audit 2026-10-24): every final question has four choices. See src/data/transferRevisions.ts.
+  'rot-102': 2,
+  'rot-103': 2, // also: prompt named the wrong shapes
+  'rot-104': 2, // also: hexagon replaced by a flag so 45° steps are visible
+  'prog-101': 2,
+  'prog-102': 2,
+  'prog-103': 2,
+  'attr-101': 2,
+  'attr-102': 2,
+  'attr-103': 2,
 };
-export const REVIEWER = 'heir-content-review:2026-10-24';
+/** Honest label: content is machine-validated. Human review is recorded separately (activities.human_reviewed). */
+export const REVIEWER = 'machine-validated (validate_activity, 2026-10-24); awaiting human review';
 
 export const DOMAIN_TAGS: Record<Domain, AssessmentTag[]> = {
   rotation: ['cogat_nonverbal', 'nnat', 'general'],
@@ -60,7 +72,23 @@ function misconceptionFor(label: string, explanation: string): string {
   return 'partial_rule';
 }
 
-export function toLessonActivity(a: ReasoningActivity): LessonActivity {
+function applyRevision(a: ReasoningActivity): ReasoningActivity {
+  const r = TRANSFER_REVISIONS[a.id];
+  if (!r) return a;
+  return {
+    ...a,
+    transferChallenge: {
+      ...a.transferChallenge,
+      prompt: r.prompt ?? a.transferChallenge.prompt,
+      ruleContext: r.ruleContext ?? a.transferChallenge.ruleContext,
+      frames: (r.frames ?? a.transferChallenge.frames) as typeof a.transferChallenge.frames,
+      options: r.options as typeof a.transferChallenge.options,
+    },
+  };
+}
+
+export function toLessonActivity(original: ReasoningActivity): LessonActivity {
+  const a = applyRevision(original);
   const payload: PublicLesson = {
     id: a.id,
     title: a.title,

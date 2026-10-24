@@ -324,11 +324,11 @@ function balanceItem(n: number, scales: { left: Record<string, number>; right: R
 // Verbal (AI-assisted drafts, need semantic review)
 // ---------------------------------------------------------------------------
 
-function verbalAnalogy(n: number, a: string, b: string, c: string, answer: string, relation: string, wrong: Cand<string>[], age: string, diff: 1 | 2 | 3): BankQuestion {
+function verbalAnalogy(n: number, a: string, b: string, c: string, answer: string, relation: string, wrong: Cand<string>[], age: string, diff: 1 | 2 | 3, version = 1): BankQuestion {
   const id = `vb-ana-${String(n).padStart(3, '0')}`;
   const L = letterOptions(id, answer, `Yes. ${relation}`, wrong, (s) => s.toLowerCase());
   return {
-    id, version: 1, question_type: 'verbal_analogy', title: `Word pair ${n}`,
+    id, version, question_type: 'verbal_analogy', title: `Word pair ${n}`,
     primary_topic: 'gen-word-analogies', secondary_topics: ['cogat-verbal-analogies', 'olsat-verbal-analogies'],
     exam_alignment: [
       { exam: 'cogat', topic: 'cogat-verbal-analogies', rationale: 'Original word analogy. Not affiliated with the test publisher.' },
@@ -431,10 +431,10 @@ export function buildSeedBatch(): BankQuestion[] {
       off(8, 'wrong_combination', 'Check again: 2 squares, each worth 3 circles.'),
     ], 'A star balances 2 squares. Each square balances 3 circles. So a star balances 3 + 3 = 6 circles.', ['The first scale says 1 star = 2 squares.', 'The second scale says 1 square = 3 circles.', 'Swap each square for 3 circles: 1 star = 6 circles.'], '10-12', 3),
     verbalAnalogy(1, 'Bird', 'nest', 'Bee', 'hive', 'A bird lives in a nest. A bee lives in a hive.', [
-      { value: 'honey', kind: 'related_not_parallel', why: 'Bees make honey, but a nest is a home, not something a bird makes to eat.' },
+      { value: 'honey', kind: 'related_not_parallel', why: 'Bees make honey, but honey is food. A nest is a home, so look for the bee’s home.' },
       { value: 'flower', kind: 'related_not_parallel', why: 'Bees visit flowers, but they do not live in them.' },
       { value: 'wing', kind: 'part_not_home', why: 'A wing is part of a bee, not where it lives.' },
-    ], '8-10', 1),
+    ], '8-10', 1, 2), // v2: clearer explanation for "honey"
     verbalAnalogy(2, 'Glove', 'hand', 'Sock', 'foot', 'A glove is worn on a hand. A sock is worn on a foot.', [
       { value: 'shoe', kind: 'related_not_parallel', why: 'A shoe goes over a sock, but the sock is worn on the foot.' },
       { value: 'warm', kind: 'property_not_relation', why: 'Socks can be warm, but that does not match "worn on".' },

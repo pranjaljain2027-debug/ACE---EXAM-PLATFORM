@@ -4018,7 +4018,7 @@
     },
     {
       "id": "vb-ana-001",
-      "version": 1,
+      "version": 2,
       "question_type": "verbal_analogy",
       "title": "Word pair 1",
       "primary_topic": "gen-word-analogies",
@@ -4093,7 +4093,7 @@
         "rationales": {
           "a": "Bees visit flowers, but they do not live in them.",
           "b": "Yes. A bird lives in a nest. A bee lives in a hive.",
-          "c": "Bees make honey, but a nest is a home, not something a bird makes to eat.",
+          "c": "Bees make honey, but honey is food. A nest is a home, so look for the bee’s home.",
           "d": "A wing is part of a bee, not where it lives."
         },
         "distractor_kinds": {
@@ -4763,7 +4763,7 @@
     {
       "validator_version": "bank-validator/1.0.0",
       "question": "vb-ana-001",
-      "version": 1,
+      "version": 2,
       "passed": true,
       "checks": [
         "metadata",
