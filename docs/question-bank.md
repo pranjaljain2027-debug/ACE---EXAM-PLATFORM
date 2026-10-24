@@ -18,7 +18,7 @@ Rules the database enforces (migration `20261024000005_question_bank.sql`):
 
 - A version is immutable once imported. Payload, answer key, type, topic and validation report cannot change. Fixes ship as `version + 1`.
 - Only `service_role` can call the importer. Browsers go through the `bank-import` edge function, which checks the caller has a staff role and runs the TypeScript validator itself.
-- Approval needs a named reviewer (a row in `staff_roles`), a passed validation report, and the checklist: learner view checked, single answer confirmed, age appropriate. Verbal items also need "semantic review done".
+- Approval needs a named reviewer (or, via the operator-only `owner_publish` function, the owner's name, recorded as `approval_basis = 'owner_instruction'`) (a row in `staff_roles`), a passed validation report, and the checklist: learner view checked, single answer confirmed, age appropriate. Verbal items also need "semantic review done".
 - Publishing needs `approved`. Publishing a new version retires the old one.
 - Learners only ever see `published` rows, through RPCs. The answer key never leaves the server before the child answers. The hint is held back until it is requested and counted.
 - Spatial items are predict-first: `qa_explore`, `qa_hint` and `qa_answer` refuse until `qa_predict` has recorded the first guess. The first guess cannot be changed.
@@ -96,7 +96,7 @@ After changing `validate.ts`, run `content:bundle` and redeploy `bank-import`, o
 
 Target: 200 published per leaf question type, 24 types, 4,800 in total. One question counts once, toward its own type, however many paths it appears in. `/staff/coverage` shows planned, draft, in review and published per type, plus the older 2D items ("legacy live") until a person reviews them.
 
-Status on 2026-10-24: 24 questions imported (seed batch 001), none published. Types marked "not built" (paper folding, nets, face counting, assembly, pattern completion, number analogies, word problems, deduction, sentence types, aural, directions) have no renderer or validator yet and the importer rejects them.
+Status on 2026-10-24: 24 questions (seed batch 001) published on the owner's instruction, before any staff review. They show in /staff as "owner published, not reviewed" until a reviewer confirms each one with the checklist or retires it. Types marked "not built" (paper folding, nets, face counting, assembly, pattern completion, number analogies, word problems, deduction, sentence types, aural, directions) have no renderer or validator yet and the importer rejects them.
 
 ## Live 2D content
 

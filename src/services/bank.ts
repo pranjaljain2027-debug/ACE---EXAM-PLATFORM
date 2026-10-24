@@ -49,7 +49,7 @@ export interface EvidenceRow {
 // ---------------------------------------------------------------------------
 // Staff
 // ---------------------------------------------------------------------------
-export interface QueueBank { kind: 'bank'; id: string; version: number; title: string; question_type: string; status: string; needs_semantic_review: boolean; batch_id: string; authoring_source: string; imported_at: string; validation_passed: boolean }
+export interface QueueBank { kind: 'bank'; id: string; version: number; title: string; question_type: string; status: string; needs_semantic_review: boolean; batch_id: string; authoring_source: string; imported_at: string; validation_passed: boolean; approval_basis: 'reviewer' | 'owner_instruction'; approved_by_label: string | null }
 export interface QueueLegacy { kind: 'activity'; id: string; version: number; title: string; mode: string; activity_type: string; status: string; human_reviewed: boolean; machine_validation: string }
 export interface ReviewHistory { decision: string; notes: string; checklist: Record<string, boolean>; at: string; reviewer: string | null }
 export interface CoverageRow { id: string; title: string; domain: string; engine: string; target: number; draft: number; in_review: number; published: number; legacy_live: number; legacy_human_reviewed: number }
@@ -68,6 +68,8 @@ export const staffApi = {
     rpc('staff_decide', { p_id: id, p_version: version, p_decision: decision, p_notes: notes, p_checklist: checklist }),
   decideActivity: (id: string, version: number, decision: string, notes: string, checklist: Record<string, boolean>) =>
     rpc('staff_decide_activity', { p_id: id, p_version: version, p_decision: decision, p_notes: notes, p_checklist: checklist }),
+  confirmOwnerPublished: (id: string, version: number, notes: string, checklist: Record<string, boolean>) =>
+    rpc('staff_confirm_owner_published', { p_id: id, p_version: version, p_notes: notes, p_checklist: checklist }),
   publish: (id: string, version: number) => rpc('staff_publish', { p_id: id, p_version: version }),
   retire: (id: string, version: number, notes: string) => rpc('staff_retire', { p_id: id, p_version: version, p_notes: notes }),
   rollback: (id: string, toVersion: number, notes: string) => rpc('staff_rollback', { p_id: id, p_to_version: toVersion, p_notes: notes }),

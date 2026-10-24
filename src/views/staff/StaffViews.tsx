@@ -56,18 +56,18 @@ export const StaffArea: React.FC<{ path: string }> = ({ path }) => {
 // ---------------------------------------------------------------------------
 const Queue: React.FC = () => {
   const q = useAsync(() => staffApi.queue(), []);
-  const [filter, setFilter] = useState<string>('review_required');
+  const [filter, setFilter] = useState<string>('owner_published');
   if (q.error) return <ErrorState message={friendlyError(new Error(q.error))} onRetry={q.reload} />;
   if (!q.data) return <Spinner label="Loading queue" />;
-  const counts = q.data.bank.reduce<Record<string, number>>((m, b) => ({ ...m, [b.status]: (m[b.status] ?? 0) + 1 }), {});
-  const rows = q.data.bank.filter((b) => filter === 'all' || b.status === filter);
+  const counts = q.data.bank.reduce<Record<string, number>>((m, b) => ({ ...m, [b.status]: (m[b.status] ?? 0) + 1, ...(b.approval_basis === 'owner_instruction' ? { owner_published: (m.owner_published ?? 0) + 1 } : {}) }), {});
+  const rows = q.data.bank.filter((b) => filter === 'all' || b.status === filter || (filter === 'owner_published' && b.approval_basis === 'owner_instruction'));
   const legacyPending = q.data.legacy.filter((l) => !l.human_reviewed);
   return (
     <div className="space-y-8">
       <section className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
           <h2 className="text-xl font-bold mr-2">Question bank</h2>
-          {['review_required', 'changes_requested', 'approved', 'published', 'validation_failed', 'rejected', 'retired', 'all'].map((s) => (
+          {['review_required', 'owner_published', 'changes_requested', 'approved', 'published', 'validation_failed', 'rejected', 'retired', 'all'].map((s) => (
             <button key={s} type="button" onClick={() => setFilter(s)} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${filter === s ? 'bg-navy text-white border-navy' : 'border-line text-navy'}`}>
               {s.replace('_', ' ')} {s === 'all' ? q.data!.bank.length : counts[s] ?? 0}
             </button>
@@ -82,7 +82,7 @@ const Queue: React.FC = () => {
                   <tr key={`${b.id}@${b.version}`} className="border-b border-line last:border-0 hover:bg-navy/5 cursor-pointer" onClick={() => navigate(`/staff/item/bank/${b.id}/${b.version}`)}>
                     <td className="p-3"><Link to={`/staff/item/bank/${b.id}/${b.version}`} className="font-semibold text-navy">{b.title}</Link><span className="block text-xs text-muted">{b.id} v{b.version}</span></td>
                     <td className="p-3">{typeTitle(b.question_type)}{b.needs_semantic_review && <span className="block text-[11px] font-semibold text-brick">needs semantic review</span>}</td>
-                    <td className="p-3"><Status s={b.status} /></td>
+                    <td className="p-3"><Status s={b.status} />{b.approval_basis === 'owner_instruction' && <span className="block text-[11px] font-semibold text-ochre">owner published, not reviewed</span>}</td>
                     <td className="p-3 text-xs">{b.authoring_source.replace(/_/g, ' ')}</td>
                     <td className="p-3 text-xs">{b.batch_id}</td>
                   </tr>
@@ -182,6 +182,17 @@ const ItemReview: React.FC<{ kind: 'bank' | 'activity'; id: string; version: num
                 </>
               )}
               {kind === 'bank' && it.review_status === 'approved' && <Button busy={busy === 'Publish'} onClick={() => act('Publish', () => staffApi.publish(id, version))}>Publish</Button>}
+              {kind === 'bank' && it.approval_basis === 'owner_instruction' && (
+                <>
+                  <Notice tone="warn">Published on owner instruction ({it.approved_by_label}). Not individually reviewed. Check it and confirm, or retire it.</Notice>
+                  {[...CHECKS, ...(needsSemantic ? [{ key: 'semantic_review_done', label: 'I checked the meaning: the word relation is clear and no second answer works.' }] : [])].map((c) => (
+                    <label key={c.key} className="flex gap-2 text-sm items-start">
+                      <input type="checkbox" className="mt-1" checked={Boolean(checks[c.key])} onChange={(e) => setChecks({ ...checks, [c.key]: e.target.checked })} /> {c.label}
+                    </label>
+                  ))}
+                  <Button size="sm" disabled={!checklistDone} busy={busy === 'Confirm review'} onClick={() => act('Confirm review', () => staffApi.confirmOwnerPublished(id, version, notes, allChecks))}>Confirm review</Button>
+                </>
+              )}
               {kind === 'bank' && it.review_status === 'published' && (
                 <>
                   <textarea className={inputCls} rows={2} placeholder="Why retire it? (required)" value={notes} onChange={(e) => setNotes(e.target.value)} />

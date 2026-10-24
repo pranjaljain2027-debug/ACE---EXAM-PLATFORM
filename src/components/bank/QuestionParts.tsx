@@ -33,9 +33,9 @@ export const QuestionStem: React.FC<{ payload: AnyPayload; explore?: boolean; re
   if (p.family === 'number_series') {
     const s = (p as NumberSeriesPayload).sequence;
     return (
-      <ol className="flex flex-wrap justify-center gap-2 sm:gap-3" aria-label="Number pattern">
+      <ol className="flex flex-nowrap justify-center gap-1.5 sm:gap-3 overflow-x-auto" aria-label="Number pattern">
         {s.map((n, i) => (
-          <li key={i} className={`min-w-14 h-14 px-3 rounded-2xl flex items-center justify-center text-2xl font-bold ${n === null ? 'border-2 border-dashed border-ochre text-ochre' : 'bg-paper border border-line text-navy'}`}>
+          <li key={i} className={`shrink-0 min-w-10 h-12 px-2 sm:min-w-14 sm:h-14 sm:px-3 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl font-bold ${n === null ? 'border-2 border-dashed border-ochre text-ochre' : 'bg-paper border border-line text-navy'}`}>
             {n === null ? '?' : n}<span className="sr-only">{n === null ? 'missing number' : ''}</span>
           </li>
         ))}
