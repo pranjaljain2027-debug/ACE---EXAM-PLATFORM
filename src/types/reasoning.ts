@@ -6,7 +6,9 @@ export type ShapeType =
   | 'diamond'
   | 'hexagon'
   | 'star'
-  | 'crescent';
+  | 'crescent'
+  | 'flag'
+  | 'ell';
 
 export type RuleType =
   | 'rotation'

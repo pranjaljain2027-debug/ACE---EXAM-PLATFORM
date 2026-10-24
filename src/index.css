@@ -1,47 +1,97 @@
 @import "tailwindcss";
 
+/* Heir of Wisdom design tokens (PRD section 17) */
+@theme {
+  --color-ivory: #F8F5EE;
+  --color-paper: #FFFDF8;
+  --color-navy: #233D5B;
+  --color-navy-deep: #182B41;
+  --color-ochre: #B98E4C;
+  --color-ochre-soft: #F1E6D3;
+  --color-forest: #547B62;
+  --color-forest-soft: #E3ECE5;
+  --color-mist: #DCE5EB;
+  --color-line: #E6E0D4;
+  --color-ink: #2A2F36;
+  --color-muted: #5E6772;
+  --color-brick: #A4493D;
+  --color-brick-soft: #F5E4E0;
+
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
 @layer base {
-  :root {
-    --color-navy: #0E2235;
-    --color-sand: #E6DCCE;
-    --color-ivory: #FAF7F0;
-    --color-sage: #718C7B;
-    --color-ochre: #C99543;
-    --color-softgray: #E8E6E1;
-  }
-
   body {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background-color: #FAF7F0;
-    color: #0E2235;
+    font-family: var(--font-sans);
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* Global pointer cursor on all clickable elements */
   button,
   a,
-  [role="button"],
-  [onclick],
+  [role='button'],
   label,
-  summary,
-  input[type="button"],
-  input[type="submit"],
-  input[type="reset"] {
+  summary {
     cursor: pointer;
   }
 
-  h1, h2, h3, .font-editorial {
-    font-family: 'Fraunces', Georgia, serif;
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-editorial {
+    font-family: var(--font-serif);
+    color: var(--color-navy);
+  }
+
+  /* Visible focus for keyboard users everywhere */
+  :focus-visible {
+    outline: 3px solid var(--color-ochre);
+    outline-offset: 2px;
+    border-radius: 6px;
   }
 }
 
-.font-serif {
-  font-family: 'Fraunces', Georgia, serif;
+/* Child studio uses a highly legible sans for instructions */
+.studio,
+.studio h1,
+.studio h2,
+.studio h3 {
+  font-family: var(--font-sans);
 }
 
-.font-sans {
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+.geo-motif {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(35, 61, 91, 0.08) 1px, transparent 0);
+  background-size: 22px 22px;
 }
 
-.font-mono {
-  font-family: 'JetBrains Mono', monospace;
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-fade-in { animation: fade-in 220ms ease-out both; }
+
+@keyframes slow-spin { to { transform: rotate(360deg); } }
+.animate-spin-slow { animation: slow-spin 8s linear infinite; transform-box: fill-box; transform-origin: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* App-level reduced motion (child preference set by parent) */
+.reduce-motion *, .reduce-motion *::before, .reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  transition-duration: 0.01ms !important;
 }

@@ -1,8 +1,6 @@
 User-agent: *
 Allow: /
-Allow: /how-it-works
-Allow: /curriculum
-Allow: /pricing
-Allow: /blog
-Disallow: /parent/
-Disallow: /studio/
+Disallow: /parent
+Disallow: /studio
+Disallow: /demo
+Sitemap: https://www.hierofwisdom.me/sitemap.xml
