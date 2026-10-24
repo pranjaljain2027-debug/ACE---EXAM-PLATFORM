@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Compass, Home, Map as MapIcon, Swords, BookOpen, Lock, CheckCircle2, Circle, Star, PlayCircle, RotateCcw, LogOut } from 'lucide-react';
+import { Compass, Home, Map as MapIcon, Swords, BookOpen, Lock, CheckCircle2, Circle, Star, PlayCircle, RotateCcw, LogOut, Route } from 'lucide-react';
 import { match, navigate, usePath, Link } from '../../app/router';
 import { useApp } from '../../app/AppContext';
 import type { LearningBackend, StudioState } from '../../services/types';
@@ -11,6 +11,8 @@ import { Avatar, Button, Card, ErrorState, Notice, Spinner, useAsync } from '../
 import { Modal, PinPad } from '../../components/ParentGate';
 import { LessonRunner } from './LessonRunner';
 import { ItemSession } from './ItemSession';
+import { QuestionRunner } from './QuestionRunner';
+import { PathsHome, PathView, TopicView } from './PathViews';
 import { friendlyError } from '../../lib/supabase';
 
 /** The child Studio. Mounted at /studio (signed in, child mode) or /demo (no account, nothing saved). */
@@ -56,6 +58,21 @@ export const StudioApp: React.FC<{ demo?: boolean }> = ({ demo = false }) => {
     }
   }
 
+  const qMatch = match('/q/:id', sub);
+  if (qMatch && childId && !demo) {
+    const transfer = search.get('transfer');
+    return (
+      <StudioFrame demo={demo} base={base} onGrownUps={onGrownUps} focus>
+        <QuestionRunner key={`${qMatch.id}:${transfer ?? ''}`} childId={childId} questionId={qMatch.id} transferOf={transfer} reducedMotion={reduced}
+          onExit={() => window.history.length > 1 ? window.history.back() : navigate(`${base}/paths`)}
+          onTransfer={(id, from) => navigate(`${base}/q/${id}?transfer=${from}`)} />
+        <GrownUpGate open={gateOpen} onClose={() => setGateOpen(false)} demo={demo} />
+      </StudioFrame>
+    );
+  }
+  const pathMatch = match('/paths/:id', sub);
+  const topicMatch = match('/topic/:id', sub);
+
   if (sub === '/quest' && childId) {
     return (
       <StudioFrame demo={demo} base={base} onGrownUps={onGrownUps} focus>
@@ -79,6 +96,9 @@ export const StudioApp: React.FC<{ demo?: boolean }> = ({ demo = false }) => {
     <StudioFrame demo={demo} base={base} onGrownUps={onGrownUps} child={data.data?.state.child}>
       {data.error ? <ErrorState message={friendlyError(new Error(data.error))} onRetry={data.reload} />
         : !data.data ? <Spinner label="Opening the Studio" />
+        : !demo && sub === '/paths' ? <PathsHome base={base} />
+        : !demo && pathMatch ? <PathView base={base} pathId={pathMatch.id} />
+        : !demo && topicMatch && childId ? <TopicView base={base} topicId={topicMatch.id} childId={childId} />
         : sub === '/map' ? <LearningMapView base={base} state={data.data.state} catalog={data.data.catalog} />
         : sub === '/practice' ? <PracticeSetup base={base} state={data.data.state} catalog={data.data.catalog} demo={demo} />
         : sub === '/discoveries' ? <Discoveries state={data.data.state} catalog={data.data.catalog} />
@@ -95,6 +115,7 @@ const StudioFrame: React.FC<{ demo: boolean; base: string; onGrownUps: () => voi
   const tabs = [
     { to: base, label: 'Home', icon: Home },
     { to: `${base}/map`, label: 'Map', icon: MapIcon },
+    ...(demo ? [] : [{ to: `${base}/paths`, label: 'Paths', icon: Route }]),
     { to: `${base}/practice`, label: 'Practice', icon: Swords },
     { to: `${base}/discoveries`, label: 'Discoveries', icon: BookOpen },
   ];
@@ -128,7 +149,7 @@ const StudioFrame: React.FC<{ demo: boolean; base: string; onGrownUps: () => voi
       </header>
       <main className="pb-24 sm:pb-8">{children}</main>
       {!focus && (
-        <nav aria-label="Studio" className="sm:hidden fixed bottom-0 inset-x-0 z-40 bg-paper border-t border-line grid grid-cols-4">
+        <nav aria-label="Studio" className={`sm:hidden fixed bottom-0 inset-x-0 z-40 bg-paper border-t border-line grid ${tabs.length === 5 ? 'grid-cols-5' : 'grid-cols-4'}`}>
           {tabs.map((t) => {
             const on = path === t.to;
             const Icon = t.icon;
@@ -192,7 +213,8 @@ const StudioHome: React.FC<{ base: string; state: StudioState; catalog: Catalog;
           <PlayCircle className="w-6 h-6" aria-hidden /> {mission.kind === 'resume' ? 'Continue' : 'Start'}
         </span>
       </button>
-      <div className="grid sm:grid-cols-3 gap-3">
+      <div className={`grid gap-3 ${demo ? 'sm:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-4'}`}>
+        {!demo && <Link to={`${base}/paths`} className="rounded-2xl border border-line bg-paper p-5 hover:border-navy/40"><Route className="w-6 h-6 text-navy" aria-hidden /><span className="block mt-2 font-bold text-navy">Paths</span><span className="text-sm text-muted">3D shapes, numbers, words</span></Link>}
         <Link to={`${base}/map`} className="rounded-2xl border border-line bg-paper p-5 hover:border-navy/40"><MapIcon className="w-6 h-6 text-forest" aria-hidden /><span className="block mt-2 font-bold text-navy">Learning Map</span><span className="text-sm text-muted">See every rule to explore</span></Link>
         <Link to={`${base}/practice`} className="rounded-2xl border border-line bg-paper p-5 hover:border-navy/40"><Swords className="w-6 h-6 text-ochre" aria-hidden /><span className="block mt-2 font-bold text-navy">Practice Arena</span><span className="text-sm text-muted">Test-style puzzles</span></Link>
         <Link to={`${base}/discoveries`} className="rounded-2xl border border-line bg-paper p-5 hover:border-navy/40"><BookOpen className="w-6 h-6 text-navy" aria-hidden /><span className="block mt-2 font-bold text-navy">My Discoveries</span><span className="text-sm text-muted">{state.discoveries.length} rule{state.discoveries.length === 1 ? '' : 's'} so far</span></Link>

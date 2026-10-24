@@ -10,6 +10,8 @@ import { Landing, HowItWorks, Curriculum, Pricing, Faq, Privacy, Terms, NotFound
 import { SignIn, SignUp, ForgotPassword, ResetPassword } from './views/parent/Auth';
 import { Onboarding } from './views/parent/Onboarding';
 import { ParentDashboard, SkillReport, Billing, ParentSettingsView } from './views/parent/ParentViews';
+import { StaffArea } from './views/staff/StaffViews';
+import { staffApi } from './services/bank';
 import { AFFILIATION_NOTE } from './content/coverage';
 import { friendlyError } from './lib/supabase';
 import { maybeLoadMarketingAnalytics, isProtectedPath, analyticsLoaded } from './lib/analytics';
@@ -79,6 +81,11 @@ function Routes() {
     return <Layout><ParentArea path={path} /></Layout>;
   }
 
+  if (path === '/staff' || path.startsWith('/staff/')) {
+    if (!signedIn) return <Redirect to="/signin" />;
+    return <Layout><GatedArea><StaffArea path={path} /></GatedArea></Layout>;
+  }
+
   if (path.startsWith('/blog')) return <Redirect to="/faq" />;
   if ((path === '/signin' || path === '/signup') && signedIn) return <Redirect to="/parent" />;
 
@@ -86,7 +93,8 @@ function Routes() {
   return <Layout><Page /></Layout>;
 }
 
-function ParentArea({ path }: { path: string }) {
+/** Parent PIN gate shared by the parent area and the staff area. */
+function GatedArea({ children }: { children: React.ReactNode }) {
   const app = useApp();
   const [, tick] = useState(0);
   useEffect(() => {
@@ -108,7 +116,14 @@ function ParentArea({ path }: { path: string }) {
       </div>
     );
   }
+  return <>{children}</>;
+}
 
+function ParentArea({ path }: { path: string }) {
+  return <GatedArea><ParentRoutes path={path} /></GatedArea>;
+}
+
+function ParentRoutes({ path }: { path: string }) {
   if (path === '/parent/onboarding') return <Onboarding />;
   if (path === '/parent/billing') return <Billing />;
   if (path === '/parent/settings') return <ParentSettingsView />;
@@ -158,6 +173,14 @@ function Layout({ children }: { children: React.ReactNode }) {
     { to: '/faq', label: 'FAQ' },
   ];
   const signedIn = Boolean(app.session);
+  const [isStaff, setIsStaff] = useState(false);
+  useEffect(() => {
+    if (!signedIn) { setIsStaff(false); return; }
+    let alive = true;
+    staffApi.roles().then((r) => alive && setIsStaff(r.length > 0), () => undefined);
+    return () => { alive = false; };
+  }, [signedIn]);
+  const staffLink = isStaff ? [{ to: '/staff', label: 'Review' }] : [];
   return (
     <div className="min-h-screen flex flex-col">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[200] bg-paper px-4 py-2 rounded-lg">Skip to content</a>
@@ -165,7 +188,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           <Link to={signedIn ? '/parent' : '/'} className="font-serif text-xl font-semibold text-navy whitespace-nowrap">Heir of Wisdom</Link>
           <nav aria-label="Main" className="hidden md:flex items-center gap-1">
-            {(signedIn ? [{ to: '/parent', label: 'Dashboard' }, { to: '/parent/settings', label: 'Settings' }, { to: '/faq', label: 'Help' }] : links).map((l) => (
+            {(signedIn ? [{ to: '/parent', label: 'Dashboard' }, { to: '/parent/settings', label: 'Settings' }, ...staffLink, { to: '/faq', label: 'Help' }] : links).map((l) => (
               <Link key={l.to} to={l.to} aria-current={path === l.to ? 'page' : undefined} className={`px-3 py-2 rounded-lg text-sm font-semibold ${path === l.to ? 'text-navy bg-navy/5' : 'text-ink hover:text-navy'}`}>{l.label}</Link>
             ))}
           </nav>
@@ -188,7 +211,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         </div>
         {open && (
           <nav aria-label="Mobile" className="md:hidden border-t border-line bg-paper px-4 py-3 space-y-1">
-            {(signedIn ? [{ to: '/parent', label: 'Dashboard' }, { to: '/parent/settings', label: 'Settings' }, { to: '/studio', label: 'Open Studio' }] : [...links, { to: '/signin', label: 'Sign in' }, { to: '/signup', label: 'Start free' }]).map((l) => (
+            {(signedIn ? [{ to: '/parent', label: 'Dashboard' }, { to: '/parent/settings', label: 'Settings' }, ...staffLink, { to: '/studio', label: 'Open Studio' }] : [...links, { to: '/signin', label: 'Sign in' }, { to: '/signup', label: 'Start free' }]).map((l) => (
               <Link key={l.to} to={l.to} className="block px-3 py-3 rounded-lg text-base font-semibold text-navy hover:bg-navy/5">{l.label}</Link>
             ))}
             {signedIn && <button type="button" onClick={app.signOut} className="block w-full text-left px-3 py-3 rounded-lg text-base font-semibold text-navy hover:bg-navy/5">Sign out</button>}

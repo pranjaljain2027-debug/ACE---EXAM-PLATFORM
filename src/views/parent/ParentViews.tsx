@@ -3,6 +3,7 @@ import { ArrowRight, BarChart3, CreditCard, Settings, UserPlus, PlayCircle, Ligh
 import { useApp } from '../../app/AppContext';
 import { Link, navigate } from '../../app/router';
 import { parentApi, remoteBackend, type ParentReport } from '../../services/remote';
+import { bankApi } from '../../services/bank';
 import { friendlyError } from '../../lib/supabase';
 import { PRICING, SUPPORT_EMAIL } from '../../config';
 import { STATUS_LABEL, type SkillStatus } from '../../engine/learning';
@@ -203,6 +204,8 @@ export const SkillReport: React.FC<{ childId: string }> = ({ childId }) => {
         How to read this: an <strong>independent transfer</strong> is a brand-new problem solved on the first try with no hints. <strong>Assisted</strong> means solved after a hint or a retry.
         A skill needs at least 3 pieces of evidence before we describe it. This report never shows IQ, percentiles, admission chances or official test scores.
       </Notice>
+
+      <BankEvidence childId={childId} />
 
       <Card className="p-0 overflow-x-auto">
         <table className="w-full text-sm min-w-[760px]">
@@ -480,5 +483,39 @@ export const ParentSettingsView: React.FC = () => {
         )}
       </Modal>
     </div>
+  );
+};
+
+/** Evidence from Paths questions: first guess (before moving anything) vs final answer. */
+const BankEvidence: React.FC<{ childId: string }> = ({ childId }) => {
+  const d = useAsync(() => bankApi.evidence(childId), [childId]);
+  if (d.error || !d.data || !d.data.length) return null;
+  return (
+    <Card className="p-0 overflow-x-auto">
+      <div className="px-4 pt-4">
+        <h2 className="text-lg font-serif font-semibold">Paths puzzles</h2>
+        <p className="text-xs text-muted mt-1">"First guess" is the answer given before turning the shape or seeing a hint. It is the best sign of what your child can picture alone.</p>
+      </div>
+      <table className="w-full text-sm min-w-[640px] mt-3">
+        <caption className="sr-only">Paths puzzle evidence</caption>
+        <thead className="bg-ivory text-left text-xs uppercase tracking-wide text-muted">
+          <tr><th className="px-4 py-3">Puzzle type</th><th className="px-4 py-3">Answered</th><th className="px-4 py-3">First guess right</th><th className="px-4 py-3">Final answer right</th><th className="px-4 py-3">Used exploring</th><th className="px-4 py-3">Used a hint</th><th className="px-4 py-3">New puzzle, same idea</th></tr>
+        </thead>
+        <tbody className="divide-y divide-line">
+          {d.data.map((r) => (
+            <tr key={r.question_type}>
+              <td className="px-4 py-3 font-semibold text-navy">{r.title}</td>
+              <td className="px-4 py-3">{r.answered}</td>
+              <td className="px-4 py-3">{r.first_prediction_correct}</td>
+              <td className="px-4 py-3">{r.correct}</td>
+              <td className="px-4 py-3">{r.used_exploration}</td>
+              <td className="px-4 py-3">{r.used_hint}</td>
+              <td className="px-4 py-3">{r.transfer_attempts ? `${r.transfer_independent} of ${r.transfer_attempts} on their own` : '–'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {d.data.reduce((s, r) => s + r.answered, 0) < 3 && <p className="px-4 pb-4 text-xs text-muted">Fewer than 3 answers so far. Too early to read anything into this.</p>}
+    </Card>
   );
 };

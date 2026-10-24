@@ -24,6 +24,13 @@ Visual reasoning studio for US children aged 8–10. Children observe, manipulat
 | Admin content authoring UI | **Not built.** Content is authored in TypeScript, validated, and published through the seed pipeline; the database refuses unreviewed or invalid content |
 | Reminder emails | **Not built.** Preference is stored only |
 
+## Question bank and 3D spatial reasoning
+
+- Paths in the Studio (`/studio/paths`): CogAT, OLSAT, NNAT and General Reasoning, down to topics and questions. Topics with nothing published say "Not yet available".
+- 3D cube questions (rotation, views, mirrors) use a predict-first loop: the first guess is saved before the shape can be turned, then the child explores, answers, sees why, and gets a new question on the same idea.
+- Staff review at `/staff`: queue, item review with the learner view and answer key, approve / request changes / reject, publish / retire / roll back, coverage against 200 per type, import with dry run, export.
+- Format, rules, roles and commands: [docs/question-bank.md](docs/question-bank.md).
+
 ## Architecture
 
 - **Front end:** Vite + React 19 + TypeScript + Tailwind 4, deployed on Vercel. Kept Vite rather than moving to Next.js to avoid re-platforming the live site; all server logic lives in the database and edge functions instead.

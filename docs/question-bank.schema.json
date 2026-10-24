@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://www.hierofwisdom.me/schemas/question-bank-batch.json",
+  "title": "Heir of Wisdom question batch",
+  "description": "Structure only. Correctness (one right answer, geometry, arithmetic) is checked by src/content/bank/validate.ts.",
+  "type": "object",
+  "required": ["batch_id", "questions"],
+  "properties": {
+    "batch_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,80}$" },
+    "questions": { "type": "array", "minItems": 1, "maxItems": 500, "items": { "$ref": "#/$defs/question" } },
+    "reports": { "type": "array", "description": "Optional. Written by the seed tool; ignored by bank-import, which validates again." }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{2,60}$" },
+    "cell": { "type": "array", "items": { "type": "integer" }, "minItems": 3, "maxItems": 3 },
+    "cells": { "type": "array", "items": { "$ref": "#/$defs/cell" }, "minItems": 1, "maxItems": 12 },
+    "grid": { "type": "array", "items": { "type": "string", "pattern": "^[#.]+$" }, "minItems": 1 },
+    "axis": { "enum": ["x", "y", "z"] },
+    "textOption": { "type": "object", "required": ["id", "text"], "properties": { "id": { "type": "string", "minLength": 1 }, "text": { "type": "string", "minLength": 1 } }, "additionalProperties": false },
+    "voxelOption": { "type": "object", "required": ["id", "kind", "cells"], "properties": { "id": { "type": "string" }, "kind": { "const": "voxel" }, "cells": { "$ref": "#/$defs/cells" } }, "additionalProperties": false },
+    "gridOption": { "type": "object", "required": ["id", "kind", "grid"], "properties": { "id": { "type": "string" }, "kind": { "const": "grid" }, "grid": { "$ref": "#/$defs/grid" } }, "additionalProperties": false },
+    "base": {
+      "type": "object",
+      "required": ["schema_version", "family", "prompt", "hint", "options", "interaction"],
+      "properties": {
+        "schema_version": { "const": 1 },
+        "prompt": { "type": "string", "minLength": 1 },
+        "read_aloud": { "type": "string" },
+        "hint": { "type": "string", "minLength": 1 },
+        "options": { "type": "array", "minItems": 4, "maxItems": 4 }
+      },
+      "not": { "anyOf": [{ "required": ["correct"] }, { "required": ["rationales"] }, { "required": ["distractor_kinds"] }, { "required": ["solution"] }] }
+    },
+    "spatialPayload": {
+      "allOf": [{ "$ref": "#/$defs/base" }],
+      "required": ["source", "task"],
+      "properties": {
+        "family": { "enum": ["spatial_cube_rotation", "spatial_viewpoint", "spatial_plane_reflection"] },
+        "source": {
+          "type": "object", "required": ["geometry_type", "coordinate_system", "occupied_cells"],
+          "properties": { "geometry_type": { "const": "voxel_shape" }, "coordinate_system": { "const": "right_handed_y_up" }, "occupied_cells": { "$ref": "#/$defs/cells" } }
+        },
+        "task": {
+          "oneOf": [
+            { "type": "object", "required": ["type", "axis", "quarter_turns", "described_as"], "properties": { "type": { "const": "rotation" }, "axis": { "$ref": "#/$defs/axis" }, "quarter_turns": { "enum": [-3, -2, -1, 1, 2, 3] }, "described_as": { "type": "string", "minLength": 1 } } },
+            { "type": "object", "required": ["type", "plane_normal", "described_as"], "properties": { "type": { "const": "reflection" }, "plane_normal": { "$ref": "#/$defs/axis" }, "described_as": { "type": "string", "minLength": 1 } } },
+            { "type": "object", "required": ["type", "side", "described_as"], "properties": { "type": { "const": "viewpoint" }, "side": { "enum": ["front", "back", "left", "right", "top", "bottom"] }, "described_as": { "type": "string", "minLength": 1 } } }
+          ]
+        },
+        "options": { "items": { "oneOf": [{ "$ref": "#/$defs/voxelOption" }, { "$ref": "#/$defs/gridOption" }] } },
+        "interaction": { "type": "object", "required": ["predict_first", "exploration"], "properties": { "predict_first": { "const": true }, "exploration": { "const": "after_prediction" } } }
+      }
+    },
+    "numberSeriesPayload": {
+      "allOf": [{ "$ref": "#/$defs/base" }],
+      "required": ["sequence"],
+      "properties": {
+        "family": { "const": "number_series" },
+        "sequence": { "type": "array", "items": { "type": ["integer", "null"] }, "minItems": 4 },
+        "options": { "items": { "$ref": "#/$defs/textOption" } }
+      }
+    },
+    "numberPuzzlePayload": {
+      "allOf": [{ "$ref": "#/$defs/base" }],
+      "required": ["scales", "ask"],
+      "properties": {
+        "family": { "const": "number_puzzle" },
+        "scales": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["left", "right"], "properties": { "left": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } }, "right": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } } } } },
+        "ask": { "type": "object", "required": ["shape", "in_terms_of"], "properties": { "shape": { "type": "string" }, "in_terms_of": { "type": "string" } } },
+        "options": { "items": { "$ref": "#/$defs/textOption" } }
+      }
+    },
+    "verbalPayload": {
+      "allOf": [{ "$ref": "#/$defs/base" }],
+      "properties": {
+        "family": { "enum": ["verbal_analogy", "verbal_classification"] },
+        "stem": { "type": "object", "required": ["a", "b", "c"], "properties": { "a": { "type": "string" }, "b": { "type": "string" }, "c": { "type": "string" } } },
+        "options": { "items": { "$ref": "#/$defs/textOption" } }
+      }
+    },
+    "figurePayload": {
+      "allOf": [{ "$ref": "#/$defs/base" }],
+      "required": ["stem"],
+      "properties": {
+        "family": { "enum": ["figure_matrix", "figural_analogy", "figural_series", "figure_classification"] },
+        "stem": { "type": "object", "required": ["kind"], "properties": { "kind": { "enum": ["matrix", "analogy", "sequence", "classification"] } } },
+        "options": { "items": { "type": "object", "required": ["id", "objects"], "properties": { "id": { "type": "string" }, "objects": { "type": "array" } } } }
+      }
+    },
+    "question": {
+      "type": "object",
+      "required": ["id", "version", "question_type", "title", "primary_topic", "secondary_topics", "exam_alignment", "age_band", "reading_load", "difficulty", "language", "learning_objective", "accessibility", "payload", "answer_key", "authoring"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "version": { "type": "integer", "minimum": 1 },
+        "question_type": { "type": "string" },
+        "title": { "type": "string", "minLength": 1 },
+        "primary_topic": { "type": "string" },
+        "secondary_topics": { "type": "array", "items": { "type": "string" } },
+        "exam_alignment": { "type": "array", "items": { "type": "object", "required": ["exam", "topic", "rationale"], "properties": { "exam": { "enum": ["cogat", "olsat", "nnat"] }, "topic": { "type": "string" }, "rationale": { "type": "string", "minLength": 1 } } } },
+        "age_band": { "enum": ["6-8", "8-10", "10-12"] },
+        "reading_load": { "enum": ["low", "medium", "high"] },
+        "difficulty": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "language": { "const": "en-US" },
+        "learning_objective": { "type": "string", "minLength": 1 },
+        "accessibility": { "type": "object", "required": ["alt", "relies_on_color"], "properties": { "alt": { "type": "string", "minLength": 1 }, "relies_on_color": { "type": "boolean" }, "notes": { "type": "string" } } },
+        "transfer_target": { "$ref": "#/$defs/id" },
+        "payload": { "anyOf": [{ "$ref": "#/$defs/spatialPayload" }, { "$ref": "#/$defs/numberSeriesPayload" }, { "$ref": "#/$defs/numberPuzzlePayload" }, { "$ref": "#/$defs/verbalPayload" }, { "$ref": "#/$defs/figurePayload" }] },
+        "answer_key": {
+          "type": "object",
+          "required": ["correct", "explanation", "rationales", "distractor_kinds"],
+          "properties": {
+            "correct": { "type": "string" },
+            "explanation": { "type": "object", "required": ["summary", "steps"], "properties": { "summary": { "type": "string", "minLength": 1 }, "steps": { "type": "array", "minItems": 1, "items": { "type": "string" } } } },
+            "rationales": { "type": "object", "minProperties": 4, "additionalProperties": { "type": "string", "minLength": 1 } },
+            "distractor_kinds": { "type": "object", "minProperties": 3, "additionalProperties": { "type": "string", "minLength": 1 } },
+            "solution": { "type": "object", "properties": { "cells": { "$ref": "#/$defs/cells" }, "grid": { "$ref": "#/$defs/grid" } } },
+            "rule": { "type": "object", "required": ["kind"] },
+            "answer_value": { "type": "number" },
+            "semantic_relation": { "type": "string" },
+            "figure_rule": { "type": "string" }
+          }
+        },
+        "authoring": { "type": "object", "required": ["source", "author"], "properties": { "source": { "enum": ["hand_authored", "deterministic_generator", "ai_assisted_draft"] }, "author": { "type": "string", "minLength": 1 }, "notes": { "type": "string" } } }
+      }
+    }
+  }
+}

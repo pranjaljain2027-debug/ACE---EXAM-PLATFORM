@@ -139,3 +139,16 @@ describe('helpers', () => {
     expect(rotate([[0, 0, 0]], 'x', 1)).toEqual([[0, 0, 0]]);
   });
 });
+
+describe('JSON schema', () => {
+  it('the seed batch file conforms to docs/question-bank.schema.json, and a leaky payload does not', async () => {
+    const Ajv2020 = (await import('ajv/dist/2020')).default;
+    const schema = (await import('../../../docs/question-bank.schema.json')).default;
+    const file = (await import('../../../content/bank/seed-batch-001.json')).default;
+    const validate = new Ajv2020({ allErrors: true, strict: false }).compile(schema);
+    expect(validate(file), JSON.stringify(validate.errors?.slice(0, 3))).toBe(true);
+    const bad = clone(file);
+    (bad.questions[0].payload as Record<string, unknown>).correct = 'a';
+    expect(validate(bad)).toBe(false);
+  });
+});
