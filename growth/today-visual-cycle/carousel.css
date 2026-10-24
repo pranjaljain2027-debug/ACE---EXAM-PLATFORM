@@ -1,0 +1,280 @@
+/* Heir of Wisdom — Carousel Slide CSS */
+/* Each slide: 1080 × 1350 (4:5) */
+/* Palette: Sand #FAF7F0, Navy #0E2235, Forest #1F4A34, Ochre #B57424, Terracotta #B84E24 */
+/* Type: Cormorant Garamond (headings) + Inter (body) */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 1080px;
+  height: 1350px;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: #FAF7F0;
+  color: #0E2235;
+  overflow: hidden;
+}
+
+.slide {
+  width: 1080px;
+  height: 1350px;
+  position: relative;
+  background: #FAF7F0;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Logo lockup */
+.logo {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #0E2235;
+  letter-spacing: 0.02em;
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+/* Eyebrow */
+.eyebrow {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #718C7B;
+  margin-bottom: 12px;
+}
+
+/* Headings */
+.heading-h1 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 56px;
+  font-weight: 700;
+  color: #0E2235;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  max-width: 900px;
+}
+
+.heading-h2 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 40px;
+  font-weight: 600;
+  color: #0E2235;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  max-width: 900px;
+}
+
+/* Body */
+.body-text {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #0E2235;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  max-width: 850px;
+}
+
+.body-text.small {
+  font-size: 16px;
+  color: #718C7B;
+  max-width: 800px;
+}
+
+/* Stage cards */
+.stage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.stage-card {
+  background: #FFFFFF;
+  border: 1px solid #E8E6E1;
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stage-number {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #B57424;
+}
+
+.stage-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #0E2235;
+}
+
+.stage-desc {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #718C7B;
+  line-height: 1.5;
+}
+
+/* Quote card */
+.quote-card {
+  background: #FFFFFF;
+  border: 1px solid #E8E6E1;
+  border-radius: 24px;
+  padding: 32px 28px;
+  margin-bottom: 24px;
+  max-width: 900px;
+}
+
+.quote-text {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #0E2235;
+  line-height: 1.4;
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.quote-author {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0E2235;
+}
+
+.quote-role {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  color: #718C7B;
+  margin-top: 4px;
+}
+
+/* CTA button */
+.cta-button {
+  display: inline-block;
+  background: #0E2235;
+  color: #FFFFFF;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  padding: 18px 40px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  max-width: 450px;
+  margin-top: 20px;
+}
+
+.cta-button.outline {
+  background: transparent;
+  color: #0E2235;
+  border: 2px solid #0E2235;
+}
+
+.cta-button:hover {
+  opacity: 0.9;
+}
+
+/* Slide number */
+.slide-number {
+  position: absolute;
+  bottom: 40px;
+  right: 60px;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #718C7B;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Visual placeholder (for where an image/illustration goes) */
+.visual-placeholder {
+  background: #FFFFFF;
+  border: 1px dashed #E8E6E1;
+  border-radius: 24px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #718C7B;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Two-column layout */
+.two-col {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.col-left {
+  flex: 1;
+}
+
+.col-right {
+  flex: 1;
+  max-width: 420px;
+}
+
+/* Metric card */
+.metric-card {
+  background: #FFFFFF;
+  border: 1px solid #E8E6E1;
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.metric-value {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #0E2235;
+  margin-bottom: 4px;
+}
+
+.metric-label {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #718C7B;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.metric-sub {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  color: #718C7B;
+  margin-top: 6px;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: #E8E6E1;
+  margin: 24px 0;
+}

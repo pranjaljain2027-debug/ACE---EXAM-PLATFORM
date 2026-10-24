@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carousel Viewer — Heir of Wisdom Growth Today</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100vw; height: 100vh; font-family: "Inter", system-ui, -apple-system, sans-serif; background: #0E2235; color: #FAF7F0; overflow: hidden; }
+  .viewer { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; gap: 16px; overflow-y: auto; }
+  .viewer-title { font-family: "Cormorant Garamond", Georgia, serif; font-size: 32px; font-weight: 700; color: #FAF7F0; margin-bottom: 20px; text-align: center; }
+  .slide-frame { width: 540px; height: 675px; border: 2px solid #FAF7F0; border-radius: 16px; overflow: hidden; background: #FFFFFF; }
+  .slide-frame iframe { width: 1080px; height: 1350px; border: none; transform: scale(0.5); transform-origin: top left; }
+  .slide-label { font-family: "Inter", system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 600; color: #B57424; margin-top: 8px; text-align: center; }
+  .note { font-family: "Inter", system-ui, -apple-system, sans-serif; font-size: 14px; color: #718C7B; text-align: center; margin-top: 16px; max-width: 700px; line-height: 1.5; }
+  .slide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(560px, 1fr)); gap: 24px; width: 100%; max-width: 1200px; }
+</style>
+</head>
+<body>
+  <div class="viewer">
+    <div class="viewer-title">Heir of Wisdom — Growth Today Carousel (Draft)</div>
+    <div class="slide-grid">
+      <div>
+        <div class="slide-frame">
+          <iframe src="slide-1-cover.html"></iframe>
+        </div>
+        <div class="slide-label">Slide 1 — Cover</div>
+      </div>
+      <div>
+        <div class="slide-frame">
+          <iframe src="slide-2-problem.html"></iframe>
+        </div>
+        <div class="slide-label">Slide 2 — Problem</div>
+      </div>
+      <div>
+        <div class="slide-frame">
+          <iframe src="slide-3-solution.html"></iframe>
+        </div>
+        <div class="slide-label">Slide 3 — Solution</div>
+      </div>
+      <div>
+        <div class="slide-frame">
+          <iframe src="slide-4-proof.html"></iframe>
+        </div>
+        <div class="slide-label">Slide 4 — Proof</div>
+      </div>
+      <div>
+        <div class="slide-frame">
+          <iframe src="slide-5-cta.html"></iframe>
+        </div>
+        <div class="slide-label">Slide 5 — CTA</div>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Status:</strong> Draft only. Nothing published. Each slide is 1080×1350 (4:5) and can be opened individually and screenshot/rendered to PNG for social posting. All links carry UTM parameters for tracking. Copy and visuals require your explicit "publish" or "ship it" approval before any live deployment.
+    </div>
+  </div>
+</body>
+</html>

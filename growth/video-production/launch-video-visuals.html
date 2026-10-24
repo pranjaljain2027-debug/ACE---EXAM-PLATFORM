@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heir of Wisdom — Launch Video Visuals</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1350px; overflow: hidden; background: #FAF7F0; font-family: 'Inter', sans-serif; }
+  #canvas-container { width: 100%; height: 100%; position: relative; display: flex; justify-content: center; align-items: center; }
+  canvas { display: block; }
+
+  /* Text overlays */
+  .text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .text-main {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 700;
+    color: #0E2235;
+    line-height: 1.05;
+    margin-bottom: 16px;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    pointer-events: none;
+  }
+  .text-small {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #718C7B;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    pointer-events: none;
+    margin-top: 8px;
+  }
+  .text-overlay.visible .text-main,
+  .text-overlay.visible .text-small { opacity: 1; }
+
+  /* CTA button */
+  .cta-button {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0E2235;
+    color: #FAF7F0;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 18px 44px;
+    border-radius: 20px;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .cta-button.visible { opacity: 1; }
+
+  .url-text {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #718C7B;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .url-text.visible { opacity: 1; }
+
+  .scene-counter {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #718C7B;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 10;
+  }
+
+  /* Error state */
+  #error-msg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #FFEBEE;
+    border: 1px solid #EF9A9A;
+    color: #C62828;
+    padding: 24px 32px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    z-index: 50;
+    text-align: center;
+    display: none;
+  }
+  #error-msg.show { display: block; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="error-msg">
+    <strong>Three.js failed to load.</strong><br>
+    Please check your internet connection or refresh the page.<br>
+    <small>If offline, download three.js and reference it locally.</small>
+  </div>
+
+  <div id="canvas-container"></div>
+
+  <div class="scene-counter" id="scene-counter">Scene 1</div>
+
+  <div class="text-overlay" id="text-overlay">
+    <div class="text-small" id="text-small"></div>
+    <div class="text-main" id="text-main"></div>
+  </div>
+
+  <a href="https://hierofwisdom.me/parent/onboarding?utm_source=outreach&utm_medium=video&utm_campaign=10-day-plan&utm_content=launch-video" class="cta-button" id="cta-button">
+    Start Free Parent Onboarding →
+  </a>
+
+  <div class="url-text" id="url-text">hierofwisdom.me</div>
+
+  <script>
+    // ============================================================================
+    // GLOBAL STATE
+    // ============================================================================
+    let scene, camera, renderer, container;
+    let allObjects = [];
+    let currentSceneIndex = 0;
+    let sceneStartTime = performance.now();
+    let currentUpdateFn = null;
+    let isThreeReady = false;
+
+    const containerEl = document.getElementById('canvas-container');
+    const errorEl = document.getElementById('error-msg');
+    const sceneCounterEl = document.getElementById('scene-counter');
+    const textOverlay = document.getElementById('text-overlay');
+    const textSmall = document.getElementById('text-small');
+    const textMain = document.getElementById('text-main');
+    const ctaButton = document.getElementById('cta-button');
+    const urlText = document.getElementById('url-text');
+
+    // ============================================================================
+    // TEXT CONTROL
+    // ============================================================================
+    function showText(small, main) {
+      if (small) { textSmall.textContent = small; textSmall.style.display = 'block'; }
+      else { textSmall.style.display = 'none'; }
+      if (main) { textMain.textContent = main; textMain.style.display = 'block'; }
+      else { textMain.style.display = 'none'; }
+      textOverlay.classList.add('visible');
+    }
+    function hideText() { textOverlay.classList.remove('visible'); }
+    function showCTA() { ctaButton.classList.add('visible'); }
+    function hideCTAAndURL() { ctaButton.classList.remove('visible'); urlText.classList.remove('visible'); }
+    function showURL() { urlText.classList.add('visible'); }
+
+    // ============================================================================
+    // SCENE CLEANUP
+    // ============================================================================
+    function clearScene() {
+      allObjects.forEach(obj => {
+        try { scene.remove(obj); } catch(e) {}
+        if (obj.geometry) obj.geometry.dispose();
+        if (obj.material) obj.material.dispose();
+      });
+      allObjects.length = 0;
+    }
+
+    // ============================================================================
+    // SHAPE FACTORIES
+    // ============================================================================
+    function createCircle(radius, color, wireframe = false) {
+      const geo = new THREE.CircleGeometry(radius, 32);
+      const mat = new THREE.MeshStandardMaterial({ color, wireframe, transparent: true, opacity: wireframe ? 0.35 : 0.9, side: THREE.DoubleSide });
+      const mesh = new THREE.Mesh(geo, mat);
+      scene.add(mesh);
+      allObjects.push(mesh);
+      return mesh;
+    }
+    function createDecagon(radius, color, wireframe = false) {
+      const geo = new THREE.CircleGeometry(radius, 10);
+      const mat = new THREE.MeshStandardMaterial({ color, wireframe, transparent: true, opacity: wireframe ? 0.3 : 0.85, side: THREE.DoubleSide });
+      const mesh = new THREE.Mesh(geo, mat);
+      scene.add(mesh);
+      allObjects.push(mesh);
+      return mesh;
+    }
+    function createHexagon(radius, color, wireframe = false) {
+      const geo = new THREE.CircleGeometry(radius, 6);
+      const mat = new THREE.MeshStandardMaterial({ color, wireframe, transparent: true, opacity: wireframe ? 0.25 : 0.8, side: THREE.DoubleSide });
+      const mesh = new THREE.Mesh(geo, mat);
+      scene.add(mesh);
+      allObjects.push(mesh);
+      return mesh;
+    }
+    function createCubeObject(color = 0x0E2235, size = 0.6) {
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(size, size, size), new THREE.MeshStandardMaterial({ color, roughness: 0.4, metalness: 0.1 }));
+      scene.add(mesh);
+      allObjects.push(mesh);
+      return mesh;
+    }
+
+    // ============================================================================
+    // SCENE IMPLEMENTATIONS
+    // ============================================================================
+    function sceneFunnelReveal() {
+      clearScene();
+      const objs = [];
+      const count = 40;
+      const colors = [0x0E2235, 0xB57424, 0x1F4A34, 0xE8E6E1];
+
+      for (let i = 0; i < count; i++) {
+        const type = i % 3;
+        const radius = 0.4 + Math.random() * 1.6;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const wireframe = Math.random() > 0.6;
+        let mesh;
+        if (type === 0) mesh = createCircle(radius, color, wireframe);
+        else if (type === 1) mesh = createDecagon(radius, color, wireframe);
+        else mesh = createHexagon(radius, color, wireframe);
+
+        const angle = Math.random() * Math.PI * 2;
+        const radiusDist = 0.5 + Math.random() * 3;
+        mesh.position.set(Math.cos(angle) * radiusDist, Math.sin(angle) * radiusDist, (Math.random() - 0.5) * 2);
+        mesh.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+
+        obj.userData = {
+          angle, radius: radiusDist,
+          speed: 0.5 + Math.random() * 1.5,
+          bobSpeed: 0.5 + Math.random(),
+          bobOffset: Math.random() * Math.PI * 2,
+          spinSpeed: (Math.random() - 0.5) * 0.04
+        };
+        objs.push(obj);
+      }
+
+      const startTime = performance.now();
+      return (time) => {
+        const elapsed = (time - startTime) / 1000;
+        objs.forEach(obj => {
+          const d = obj.userData;
+          const t = Math.min(elapsed / 4, 1);
+          const currentRadius = d.radius * (1 - t * 0.85);
+          d.angle += d.speed * 0.015;
+          obj.position.x = Math.cos(d.angle) * currentRadius;
+          obj.position.y = Math.sin(d.angle) * currentRadius;
+          obj.position.z = Math.sin(elapsed * d.bobSpeed + d.bobOffset) * 0.6;
+          obj.rotation.x += d.spinSpeed;
+          obj.rotation.y += d.spinSpeed * 0.7;
+          obj.rotation.z += d.spinSpeed * 0.5;
+          if (t > 0.6) obj.material.opacity = Math.max(0, 1 - (t - 0.6) / 0.4);
+        });
+        camera.position.z = 5 + Math.sin(elapsed * 0.5) * 0.5;
+      };
+    }
+
+    function sceneOrbitText() {
+      const startTime = performance.now();
+      return (time) => {
+        const elapsed = (time - startTime) / 1000;
+        allObjects.forEach(obj => {
+          const d = obj.userData;
+          if (!d) return;
+          d.angle += d.speed * 0.012;
+          const r = d.radius * 0.6 + 0.4;
+          obj.position.x = Math.cos(d.angle) * r;
+          obj.position.y = Math.sin(d.angle) * r;
+          obj.position.z = Math.sin(elapsed * d.bobSpeed + d.bobOffset) * 0.4;
+          obj.rotation.x += d.spinSpeed;
+          obj.rotation.y += d.spinSpeed * 0.6;
+          obj.rotation.z += d.spinSpeed * 0.4;
+        });
+        camera.position.z = 5 + Math.sin(elapsed * 0.4) * 0.3;
+      };
+    }
+
+    function sceneTextOnly() {
+      const startTime = performance.now();
+      return (time) => {
+        const elapsed = (time - startTime) / 1000;
+        const fade = Math.min(elapsed / 2, 1);
+        allObjects.forEach(obj => { if (obj.material) obj.material.opacity = Math.max(0, 1 - fade); });
+        camera.position.z = 5;
+      };
+    }
+
+    function sceneCubePoint() {
+      clearScene();
+      const cube = createCubeObject(0x0E2235, 0.8);
+      cube.position.set(0, 1.8, 0);
+      cube.rotation.x = -Math.PI / 2;
+      const startTime = performance.now();
+      return (time) => {
+        const elapsed = (time - startTime) / 1000;
+        cube.rotation.z = Math.sin(elapsed) * 0.2;
+        cube.position.y = 1.8 + Math.sin(elapsed * 2) * 0.05;
+      };
+    }
+
+    function sceneReflection() {
+      clearScene();
+      const shapeA = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), new THREE.MeshStandardMaterial({ color: 0x0E2235 }));
+      shapeA.position.set(-1, 0, 0);
+      scene.add(shapeA); allObjects.push(shapeA);
+      const shapeB = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), new THREE.MeshStandardMaterial({ color: 0xB57424 }));
+      shape2.position.set(1, 0, 0);
+      shape2.rotation.z = Math.PI / 4;
+      scene.add(shape2);
+      allObjects.push(shape2);
+      const startTime = performance.now();
+      return (time) => {
+        const elapsed = (time - startTime) / 1000;
+        shapeA.rotation.y = elapsed;
+        shape2.rotation.y = -elapsed;
+        const pulse = Math.abs(Math.sin(elapsed * 2));
+        shapeA.scale.setScalar(1 + pulse * 0.1);
+        shape2.scale.setScalar(1 + pulse * 0.1);
+      };
+    }
+
+    function sceneLogo() {
+      clearScene();
+      const startTime = performance.now();
+      return (time) => {
+        const elapsed = (time - startTime) / 1000;
+        camera.position.z = 5 + Math.sin(elapsed * 0.5) * 0.3;
+      };
+    }
+
+    // ============================================================================
+    // SCENE CONFIGURATION
+    // ============================================================================
+    const SCENES = [
+      { id: 0, duration: 7, visual: 'funnelReveal', text: { small: null, main: 'Heir of Wisdom', sub: null } },
+      { id: 1, duration: 5, visual: 'orbitText', text: { small: null, main: 'Heir of Wisdom', sub: null } },
+      { id: 2, duration: 4, visual: 'textOnly', text: { small: null, main: null, sub: null } },
+      { id: 3, duration: 5, visual: 'arrowPoint', text: { small: 'Physically manipulate shapes', main: 'Rotate, reflect, scale, translate.', sub: 'Children test hypotheses without penalty.' } },
+      { id: 4, duration: 6, visual: 'reflection', text: { small: 'Evidence, not guesswork', main: 'Hint dependency drops. Accuracy rises.', sub: 'Parent dashboard' } },
+      { id: 5, duration: 5, visual: 'logoReveal', text: { small: 'Far-transfer: real conceptual mastery', main: 'Same rule, new shapes.', sub: 'Heir of Wisdom' } },
+      { id: 6, duration: 5, visual: 'cleanCanvas', text: { small: 'No gamified noise', main: 'No badges. No streaks.', sub: 'Just thinking.' } },
+      { id: 7, duration: 6, visual: 'logoReveal', text: { small: null, main: 'Wisdom is inherited.', sub: 'Thinking is discovered.' } },
+      { id: 8, duration: 6, visual: 'ctaCard', text: { small: null, main: 'Start Free Parent Onboarding →', sub: null } },
+      { id: 9, duration: 8, visual: 'urlCard', text: { small: null, main: 'hierofwisdom.me', sub: null } }
+    ];
+
+    // Map visual names to functions
+    const sceneImplementations = {
+      funnelReveal: sceneFunnelReveal,
+      orbitText: sceneOrbitText,
+      textOnly: sceneTextOnly,
+      arrowPoint: sceneCubePoint,
+      reflection: sceneReflection,
+      logoReveal: sceneLogo,
+      cleanCanvas: sceneLogo,
+      ctaCard: sceneLogo,
+      urlCard: sceneLogo
+    };
+
+    // ============================================================================
+    // TEXT UPDATE HELPER
+    // ============================================================================
+    function updateText(sceneData) {
+      if (sceneData.text.small) { textSmall.textContent = sceneData.text.small; textSmall.style.display = 'block'; }
+      else { textSmall.style.display = 'none'; }
+      if (sceneData.text.main) { textMain.textContent = sceneData.text.main; textMain.style.display = 'block'; }
+      else { textMain.style.display = 'none'; }
+      if (sceneData.text.sub) { textSub.textContent = sceneData.text.sub; textSub.style.display = 'block'; }
+      else { textSub.style.display = 'none'; }
+      textOverlay.classList.add('visible');
+    }
+
+    // ============================================================================
+    // INITIALIZE THREE.JS
+    // ============================================================================
+    function initThree() {
+      container = document.getElementById('canvas-container');
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xFAF7F0);
+
+      camera = new THREE.PerspectiveCamera(50, 1080 / 1350, 0.1, 2000);
+      camera.position.set(0, 0, 5);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(1080, 1350);
+      renderer.setPixelRatio(window.devicePixelRatio || 1);
+      container.appendChild(renderer.domElement);
+
+      const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.7);
+      scene.add(ambientLight);
+      const keyLight = new THREE.DirectionalLight(0xFFFFFF, 0.9);
+      keyLight.position.set(5, 8, 6);
+      scene.add(keyLight);
+      const fillLight = new THREE.DirectionalLight(0xFFFFFF, 0.3);
+      fillLight.position.set(-5, -3, -7);
+      scene.add(fillLight);
+
+      isThreeReady = true;
+      startAnimation();
+    }
+
+    // ============================================================================
+    // ANIMATION LOOP
+    // ============================================================================
+    let currentUpdateFn = null;
+
+    function startAnimation() {
+      currentUpdateFn = sceneImplementations[SCENES[0].visual]();
+      updateText(SCENES[0]);
+      document.getElementById('scene-counter').textContent = 'Scene 1';
+      requestAnimationFrame(animate);
+    }
+
+    function animate(time) {
+      requestAnimationFrame(animate);
+
+      if (!isThreeReady) return;
+
+      const elapsed = time - sceneStartTime;
+      const currentScene = SCENES[currentSceneIndex];
+
+      if (elapsed > currentScene.duration * 1000) {
+        currentSceneIndex++;
+        if (currentSceneIndex >= SCENES.length) currentSceneIndex = SCENES.length - 1;
+        sceneStartTime = performance.now();
+        hideText();
+        hideCTAAndURL();
+        clearScene();
+        currentUpdateFn = sceneImplementations[SCENES[currentSceneIndex].visual]();
+        updateText(SCENES[currentSceneIndex]);
+        sceneCounterEl.textContent = `Scene ${currentSceneIndex + 1}`;
+      }
+
+      if (currentUpdateFn) currentUpdateFn(time);
+
+      if (currentSceneIndex === 8) showCTA();
+      if (currentSceneIndex === 9) showURL();
+
+      camera.lookAt(0, 0, 0);
+      renderer.render(scene, camera);
+    }
+
+    // ============================================================================
+    // THREE.JS LOADING
+    // ============================================================================
+    function loadThreeJS() {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+        script.onload = () => { isThreeReady = true; resolve(); };
+        script.onerror = () => reject(new Error('Three.js failed to load'));
+        document.head.appendChild(script);
+      });
+    }
+
+    // ============================================================================
+    // BOOT
+    // ============================================================================
+    loadThreeJS()
+      .then(() => {
+        initThree();
+      })
+      .catch(err => {
+        console.error(err);
+        errorEl.classList.add('show');
+      });
+  </script>
+</body>
+</html>

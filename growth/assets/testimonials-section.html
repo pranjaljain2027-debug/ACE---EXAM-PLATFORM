@@ -1,0 +1,149 @@
+<section class="testimonials" aria-labelledby="testimonials-heading">
+  <div class="testimonials-container">
+    <div class="testimonials-header">
+      <span class="eyebrow">Evidence & Trust</span>
+      <h2 id="testimonials-heading" class="heading">Built for Understanding, Not Memorization</h2>
+    </div>
+
+    <div class="testimonials-grid">
+      <!-- Testimonial 1 -->
+      <article class="testimonial-card" role="testimonial" aria-label="Testimonial from Elena Vasquez">
+        <div class="testimonial-quote">
+          <p>“Our 9-year-old was getting frustrated by rote CogAT practice workbooks. Heir of Wisdom gave him a way to actually play with the shapes and see why 180° inversion isn’t just a random trick.”</p>
+        </div>
+        <div class="testimonial-author">
+          <h3 class="author-name">Elena Vasquez</h3>
+          <p class="author-role">Parent of 4th Grader · Austin, TX</p>
+        </div>
+      </article>
+
+      <!-- Testimonial 2 -->
+      <article class="testimonial-card" role="testimonial" aria-label="Testimonial from Marcus Thorne">
+        <div class="testimonial-quote">
+          <p>“The distinction between practice accuracy and independent transfer is revolutionary. As a teacher, that is the single indicator of whether a child understands the concept.”</p>
+        </div>
+        <div class="testimonial-author">
+          <h3 class="author-name">Marcus Thorne, M.Ed.</h3>
+          <p class="author-role">Gifted Learning Specialist · Fairfax, VA</p>
+        </div>
+      </article>
+
+      <!-- Testimonial 3 -->
+      <article class="testimonial-card" role="testimonial" aria-label="Testimonial from Dr. Rachel Sterling">
+        <div class="testimonial-quote">
+          <p>“The calm, warm aesthetic makes my daughter look forward to her 15-minute studio session. It feels like an architectural drafting table rather than an overstimulating arcade.”</p>
+        </div>
+        <div class="testimonial-author">
+          <h3 class="author-name">Dr. Rachel Sterling</h3>
+          <p class="author-role">Parent of 5th Grader · Seattle, WA</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials {
+    background: #FAF7F0;
+    padding: 96px 24px;
+  }
+
+  .testimonials-container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .testimonials-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .eyebrow {
+    display: block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #718C7B;
+    margin-bottom: 16px;
+  }
+
+  .heading {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 3rem;
+    font-weight: 600;
+    color: #0E2235;
+    margin: 0;
+    line-height: 1.15;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+  }
+
+  .testimonial-card {
+    background: #FFFFFF;
+    border: 1px solid #E8E6E1;
+    border-radius: 24px;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .testimonial-quote p {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #0E2235;
+    line-height: 1.6;
+    margin: 0;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-top: 1px solid #E8E6E1;
+    padding-top: 16px;
+  }
+
+  .author-name {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0E2235;
+    margin: 0;
+  }
+
+  .author-role {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-size: 0.875rem;
+    color: #718C7B;
+    margin: 0;
+  }
+
+  /* Mobile optimization */
+  @media (max-width: 768px) {
+    .testimonials {
+      padding: 72px 20px;
+    }
+
+    .heading {
+      font-size: 2.25rem;
+    }
+
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .testimonial-card {
+      padding: 24px 20px;
+    }
+  }
+</style>
