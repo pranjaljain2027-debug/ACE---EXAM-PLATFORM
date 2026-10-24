@@ -27,7 +27,7 @@ Visual reasoning studio for US children aged 8–10. Children observe, manipulat
 ## Architecture
 
 - **Front end:** Vite + React 19 + TypeScript + Tailwind 4, deployed on Vercel. Kept Vite rather than moving to Next.js to avoid re-platforming the live site; all server logic lives in the database and edge functions instead.
-- **Backend:** Supabase project `heir-of-wisdom` (us-east-1).
+- **Backend:** Supabase project `ahokskmczlkhsppzqcuk` (ap-southeast-1), owned by the bhaavannimmagadda2027-commits org.
   - Postgres with row level security on every table. Parent ownership is checked on the server for every child record; knowing an ID is never permission.
   - Learning engine as SQL functions (`supabase/migrations/*`): `start_session`, `advance_session` (state machine), `record_hint`, `submit_attempt` (server-side scoring from answer keys the browser cannot read), `finish_session`, `get_studio_state`, `get_parent_report`, deletion and consent functions. Every write is idempotent on a client event id, so refresh or reconnect never duplicates attempts or awards.
   - Content is versioned. Published content is immutable; fixes ship as a new version and every attempt is bound to the version it used.
@@ -53,7 +53,7 @@ Point at another Supabase project with `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBL
 
 1. **Auth → URL Configuration:** Site URL `https://www.hierofwisdom.me`; add `https://www.hierofwisdom.me/**` and `http://localhost:3000/**` to redirect URLs. Without this, verification and reset links point to localhost.
 2. **Auth → SMTP:** set a custom SMTP sender (e.g. Resend, Postmark). Supabase's built-in mailer only delivers to project team members and is heavily rate-limited, so real parents will not receive verification emails until this is set.
-3. **Billing (when ready):** set edge function secrets `STRIPE_SECRET_KEY`, `STRIPE_PRICE_FAMILY_MONTHLY`, `STRIPE_WEBHOOK_SECRET`, and point a Stripe webhook at `https://rkeuluoykwvfgjpgxyio.supabase.co/functions/v1/billing-webhook` for `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`.
+3. **Billing (when ready):** set edge function secrets `STRIPE_SECRET_KEY`, `STRIPE_PRICE_FAMILY_MONTHLY`, `STRIPE_WEBHOOK_SECRET`, and point a Stripe webhook at `https://ahokskmczlkhsppzqcuk.supabase.co/functions/v1/billing-webhook` for `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`.
 
 ## Assumptions and known limitations
 

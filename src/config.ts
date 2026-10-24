@@ -6,8 +6,8 @@
  */
 const env = import.meta.env as Record<string, string | undefined>;
 
-export const SUPABASE_URL = env.VITE_SUPABASE_URL ?? 'https://rkeuluoykwvfgjpgxyio.supabase.co';
-export const SUPABASE_PUBLISHABLE_KEY = env.VITE_SUPABASE_PUBLISHABLE_KEY ?? 'sb_publishable_3RSwaAy_TJN4XkmU3jkPbw_a-Bs9lCb';
+export const SUPABASE_URL = env.VITE_SUPABASE_URL ?? 'https://ahokskmczlkhsppzqcuk.supabase.co';
+export const SUPABASE_PUBLISHABLE_KEY = env.VITE_SUPABASE_PUBLISHABLE_KEY ?? 'sb_publishable_dYPYOiF16QVPAvaUDVgWdQ_bZ75d5o-';
 
 /** Pricing is configurable; checkout stays disabled until the payment provider is configured server-side. */
 export const PRICING = {
