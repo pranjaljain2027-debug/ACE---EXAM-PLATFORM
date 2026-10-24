@@ -331,3 +331,6 @@ const PRACTICE_SPECS: Spec[] = [
 
 export const BASELINE_ITEMS: ItemActivity[] = BASELINE_SPECS.map(toItem);
 export const PRACTICE_ITEMS: ItemActivity[] = PRACTICE_SPECS.map(toItem);
+
+/** Builders reused by the question-bank seed generator (src/content/bank/seed.ts). */
+export const FIGURE_BUILDERS = { o, dots, matrix2, matrix3, analogy, sequence, pickOptions };

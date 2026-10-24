@@ -1,0 +1,4840 @@
+{
+  "batch_id": "seed-batch-001",
+  "questions": [
+    {
+      "id": "sp-rot-001",
+      "version": 1,
+      "question_type": "spatial_cube_rotation",
+      "title": "Cube turn 1",
+      "primary_topic": "gen-3d-rotation",
+      "secondary_topics": [
+        "nnat-spatial"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "nnat",
+          "topic": "nnat-spatial",
+          "rationale": "Original practice for the publicly described spatial visualization skill. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "medium",
+      "difficulty": 2,
+      "language": "en-US",
+      "learning_objective": "Predict how a connected-cube shape looks after a stated quarter turn, and tell a turn apart from a mirror image.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A shape made of 5 cubes. Which shape shows it after a quarter turn around the up-and-down pole, so the side facing you swings to your right?",
+        "notes": "Rotate buttons and keyboard controls are available after the first answer."
+      },
+      "transfer_target": "sp-rot-002",
+      "payload": {
+        "schema_version": 1,
+        "family": "spatial_cube_rotation",
+        "prompt": "Imagine giving this shape a quarter turn around the up-and-down pole, so the side facing you swings to your right. Which shape do you get?",
+        "read_aloud": "Imagine giving this shape a quarter turn around the up-and-down pole, so the side facing you swings to your right. Which of the four shapes do you get?",
+        "hint": "Pick one cube at the end of the shape and follow only that cube through the turn.",
+        "source": {
+          "geometry_type": "voxel_shape",
+          "coordinate_system": "right_handed_y_up",
+          "occupied_cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              2,
+              0,
+              1
+            ]
+          ]
+        },
+        "task": {
+          "type": "rotation",
+          "axis": "y",
+          "quarter_turns": 1,
+          "described_as": "a quarter turn around the up-and-down pole, so the side facing you swings to your right"
+        },
+        "options": [
+          {
+            "id": "a",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                2
+              ],
+              [
+                1,
+                1,
+                2
+              ]
+            ]
+          },
+          {
+            "id": "b",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                2
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                2
+              ],
+              [
+                1,
+                1,
+                0
+              ]
+            ]
+          },
+          {
+            "id": "c",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                0
+              ],
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                2,
+                1,
+                0
+              ]
+            ]
+          },
+          {
+            "id": "d",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                2
+              ],
+              [
+                0,
+                1,
+                2
+              ],
+              [
+                1,
+                0,
+                0
+              ]
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": true,
+          "exploration": "after_prediction"
+        }
+      },
+      "answer_key": {
+        "correct": "d",
+        "explanation": {
+          "summary": "The whole shape makes a quarter turn around the up-and-down pole, so the side facing you swings to your right. Every cube moves together, and the shape is never flipped.",
+          "steps": [
+            "Find the cube at one end of the shape.",
+            "Picture where that cube goes during the turn.",
+            "Check that the rest of the shape follows it without flipping."
+          ]
+        },
+        "rationales": {
+          "a": "This is a mirror image. Turning never makes a mirror image.",
+          "b": "This is the same turn, but the other way.",
+          "c": "This turned around a different pole.",
+          "d": "Yes. This is the shape after exactly that quarter turn."
+        },
+        "distractor_kinds": {
+          "a": "mirror_image",
+          "b": "wrong_direction",
+          "c": "wrong_axis"
+        },
+        "solution": {
+          "cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              2
+            ],
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              1,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "sp-rot-002",
+      "version": 1,
+      "question_type": "spatial_cube_rotation",
+      "title": "Cube turn 2",
+      "primary_topic": "gen-3d-rotation",
+      "secondary_topics": [
+        "nnat-spatial"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "nnat",
+          "topic": "nnat-spatial",
+          "rationale": "Original practice for the publicly described spatial visualization skill. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "medium",
+      "difficulty": 2,
+      "language": "en-US",
+      "learning_objective": "Predict how a connected-cube shape looks after a stated quarter turn, and tell a turn apart from a mirror image.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A shape made of 5 cubes. Which shape shows it after a quarter turn clockwise, as you look at it, like a steering wheel turning right?",
+        "notes": "Rotate buttons and keyboard controls are available after the first answer."
+      },
+      "transfer_target": "sp-rot-003",
+      "payload": {
+        "schema_version": 1,
+        "family": "spatial_cube_rotation",
+        "prompt": "Imagine giving this shape a quarter turn clockwise, as you look at it, like a steering wheel turning right. Which shape do you get?",
+        "read_aloud": "Imagine giving this shape a quarter turn clockwise, as you look at it, like a steering wheel turning right. Which of the four shapes do you get?",
+        "hint": "Pick one cube at the end of the shape and follow only that cube through the turn.",
+        "source": {
+          "geometry_type": "voxel_shape",
+          "coordinate_system": "right_handed_y_up",
+          "occupied_cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0
+            ],
+            [
+              2,
+              1,
+              1
+            ]
+          ]
+        },
+        "task": {
+          "type": "rotation",
+          "axis": "z",
+          "quarter_turns": -1,
+          "described_as": "a quarter turn clockwise, as you look at it, like a steering wheel turning right"
+        },
+        "options": [
+          {
+            "id": "a",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                2,
+                0,
+                1
+              ],
+              [
+                2,
+                1,
+                0
+              ]
+            ]
+          },
+          {
+            "id": "b",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                2,
+                0
+              ],
+              [
+                0,
+                2,
+                1
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                1,
+                0
+              ],
+              [
+                1,
+                2,
+                0
+              ]
+            ]
+          },
+          {
+            "id": "c",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                1,
+                0
+              ],
+              [
+                1,
+                2,
+                0
+              ]
+            ]
+          },
+          {
+            "id": "d",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                2,
+                0
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                1
+              ]
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": true,
+          "exploration": "after_prediction"
+        }
+      },
+      "answer_key": {
+        "correct": "d",
+        "explanation": {
+          "summary": "The whole shape makes a quarter turn clockwise, as you look at it, like a steering wheel turning right. Every cube moves together, and the shape is never flipped.",
+          "steps": [
+            "Find the cube at one end of the shape.",
+            "Picture where that cube goes during the turn.",
+            "Check that the rest of the shape follows it without flipping."
+          ]
+        },
+        "rationales": {
+          "a": "This turned around a different pole.",
+          "b": "This is the same turn, but the other way.",
+          "c": "This is a mirror image. Turning never makes a mirror image.",
+          "d": "Yes. This is the shape after exactly that quarter turn."
+        },
+        "distractor_kinds": {
+          "a": "wrong_axis",
+          "b": "wrong_direction",
+          "c": "mirror_image"
+        },
+        "solution": {
+          "cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ]
+          ]
+        }
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "sp-rot-003",
+      "version": 1,
+      "question_type": "spatial_cube_rotation",
+      "title": "Cube turn 3",
+      "primary_topic": "gen-3d-rotation",
+      "secondary_topics": [
+        "nnat-spatial"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "nnat",
+          "topic": "nnat-spatial",
+          "rationale": "Original practice for the publicly described spatial visualization skill. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "10-12",
+      "reading_load": "medium",
+      "difficulty": 3,
+      "language": "en-US",
+      "learning_objective": "Predict how a connected-cube shape looks after a stated quarter turn, and tell a turn apart from a mirror image.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A shape made of 5 cubes. Which shape shows it after a quarter turn around the left-to-right pole, so the top tips toward you?",
+        "notes": "Rotate buttons and keyboard controls are available after the first answer."
+      },
+      "transfer_target": "sp-rot-004",
+      "payload": {
+        "schema_version": 1,
+        "family": "spatial_cube_rotation",
+        "prompt": "Imagine giving this shape a quarter turn around the left-to-right pole, so the top tips toward you. Which shape do you get?",
+        "read_aloud": "Imagine giving this shape a quarter turn around the left-to-right pole, so the top tips toward you. Which of the four shapes do you get?",
+        "hint": "Pick one cube at the end of the shape and follow only that cube through the turn.",
+        "source": {
+          "geometry_type": "voxel_shape",
+          "coordinate_system": "right_handed_y_up",
+          "occupied_cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              2,
+              0,
+              1
+            ]
+          ]
+        },
+        "task": {
+          "type": "rotation",
+          "axis": "x",
+          "quarter_turns": 1,
+          "described_as": "a quarter turn around the left-to-right pole, so the top tips toward you"
+        },
+        "options": [
+          {
+            "id": "a",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                1,
+                0
+              ],
+              [
+                2,
+                1,
+                0
+              ]
+            ]
+          },
+          {
+            "id": "b",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                1,
+                0
+              ],
+              [
+                2,
+                0,
+                0
+              ]
+            ]
+          },
+          {
+            "id": "c",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                2
+              ],
+              [
+                0,
+                1,
+                2
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                1
+              ]
+            ]
+          },
+          {
+            "id": "d",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ],
+              [
+                2,
+                1,
+                1
+              ]
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": true,
+          "exploration": "after_prediction"
+        }
+      },
+      "answer_key": {
+        "correct": "b",
+        "explanation": {
+          "summary": "The whole shape makes a quarter turn around the left-to-right pole, so the top tips toward you. Every cube moves together, and the shape is never flipped.",
+          "steps": [
+            "Find the cube at one end of the shape.",
+            "Picture where that cube goes during the turn.",
+            "Check that the rest of the shape follows it without flipping."
+          ]
+        },
+        "rationales": {
+          "a": "This is a mirror image. Turning never makes a mirror image.",
+          "b": "Yes. This is the shape after exactly that quarter turn.",
+          "c": "This turned around a different pole.",
+          "d": "This is the same turn, but the other way."
+        },
+        "distractor_kinds": {
+          "a": "mirror_image",
+          "c": "wrong_axis",
+          "d": "wrong_direction"
+        },
+        "solution": {
+          "cells": [
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "sp-rot-004",
+      "version": 1,
+      "question_type": "spatial_cube_rotation",
+      "title": "Cube turn 4",
+      "primary_topic": "gen-3d-rotation",
+      "secondary_topics": [
+        "nnat-spatial"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "nnat",
+          "topic": "nnat-spatial",
+          "rationale": "Original practice for the publicly described spatial visualization skill. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "10-12",
+      "reading_load": "medium",
+      "difficulty": 4,
+      "language": "en-US",
+      "learning_objective": "Predict how a connected-cube shape looks after a stated quarter turn, and tell a turn apart from a mirror image.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A shape made of 4 cubes. Which shape shows it after a quarter turn around the up-and-down pole, so the side facing you swings to your left?",
+        "notes": "Rotate buttons and keyboard controls are available after the first answer."
+      },
+      "transfer_target": "sp-rot-001",
+      "payload": {
+        "schema_version": 1,
+        "family": "spatial_cube_rotation",
+        "prompt": "Imagine giving this shape a quarter turn around the up-and-down pole, so the side facing you swings to your left. Which shape do you get?",
+        "read_aloud": "Imagine giving this shape a quarter turn around the up-and-down pole, so the side facing you swings to your left. Which of the four shapes do you get?",
+        "hint": "Pick one cube at the end of the shape and follow only that cube through the turn.",
+        "source": {
+          "geometry_type": "voxel_shape",
+          "coordinate_system": "right_handed_y_up",
+          "occupied_cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "task": {
+          "type": "rotation",
+          "axis": "y",
+          "quarter_turns": -1,
+          "described_as": "a quarter turn around the up-and-down pole, so the side facing you swings to your left"
+        },
+        "options": [
+          {
+            "id": "a",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                1,
+                1,
+                0
+              ]
+            ]
+          },
+          {
+            "id": "b",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ]
+            ]
+          },
+          {
+            "id": "c",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ]
+            ]
+          },
+          {
+            "id": "d",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                0
+              ]
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": true,
+          "exploration": "after_prediction"
+        }
+      },
+      "answer_key": {
+        "correct": "c",
+        "explanation": {
+          "summary": "The whole shape makes a quarter turn around the up-and-down pole, so the side facing you swings to your left. Every cube moves together, and the shape is never flipped.",
+          "steps": [
+            "Find the cube at one end of the shape.",
+            "Picture where that cube goes during the turn.",
+            "Check that the rest of the shape follows it without flipping."
+          ]
+        },
+        "rationales": {
+          "a": "This is the same turn, but the other way.",
+          "b": "This is a mirror image. Turning never makes a mirror image.",
+          "c": "Yes. This is the shape after exactly that quarter turn.",
+          "d": "This turned around a different pole."
+        },
+        "distractor_kinds": {
+          "a": "wrong_direction",
+          "b": "mirror_image",
+          "d": "wrong_axis"
+        },
+        "solution": {
+          "cells": [
+            [
+              0,
+              1,
+              1
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "sp-view-001",
+      "version": 1,
+      "question_type": "spatial_viewpoint",
+      "title": "Cube view 1",
+      "primary_topic": "gen-viewpoints",
+      "secondary_topics": [
+        "nnat-spatial"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "nnat",
+          "topic": "nnat-spatial",
+          "rationale": "Original practice for the publicly described spatial visualization skill. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "medium",
+      "difficulty": 2,
+      "language": "en-US",
+      "learning_objective": "Picture a cube structure from a stated side and pick its flat view.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A shape made of 5 cubes. Which flat picture shows it from straight above, so the back of the shape is at the top of the picture?"
+      },
+      "transfer_target": "sp-view-002",
+      "payload": {
+        "schema_version": 1,
+        "family": "spatial_viewpoint",
+        "prompt": "Look at the shape from straight above, so the back of the shape is at the top of the picture. Which picture shows what you see?",
+        "read_aloud": "Look at the shape from straight above, so the back of the shape is at the top of the picture. Which flat picture shows what you see?",
+        "hint": "Imagine standing where the viewer stands. Which cubes are closest to you, and which are hidden behind them?",
+        "source": {
+          "geometry_type": "voxel_shape",
+          "coordinate_system": "right_handed_y_up",
+          "occupied_cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              2,
+              0,
+              1
+            ]
+          ]
+        },
+        "task": {
+          "type": "viewpoint",
+          "side": "top",
+          "described_as": "from straight above, so the back of the shape is at the top of the picture"
+        },
+        "options": [
+          {
+            "id": "a",
+            "kind": "grid",
+            "grid": [
+              "#..",
+              "###"
+            ]
+          },
+          {
+            "id": "b",
+            "kind": "grid",
+            "grid": [
+              ".#",
+              "##"
+            ]
+          },
+          {
+            "id": "c",
+            "kind": "grid",
+            "grid": [
+              "###",
+              "#.."
+            ]
+          },
+          {
+            "id": "d",
+            "kind": "grid",
+            "grid": [
+              "###",
+              "..#"
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": true,
+          "exploration": "after_prediction"
+        }
+      },
+      "answer_key": {
+        "correct": "d",
+        "explanation": {
+          "summary": "Seen from straight above, every column of cubes becomes one filled square. Cubes behind others are hidden.",
+          "steps": [
+            "Stand where the viewer stands.",
+            "For each spot, ask whether any cube is in that line of sight.",
+            "Keep left and right as the viewer sees them."
+          ]
+        },
+        "rationales": {
+          "a": "This is what you see from the front.",
+          "b": "This is what you see from its right side.",
+          "c": "This is the right view, but flipped left to right.",
+          "d": "Yes. This is exactly what you see from straight above."
+        },
+        "distractor_kinds": {
+          "a": "wrong_side",
+          "b": "wrong_side",
+          "c": "mirrored_view"
+        },
+        "solution": {
+          "grid": [
+            "###",
+            "..#"
+          ]
+        }
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "sp-view-002",
+      "version": 1,
+      "question_type": "spatial_viewpoint",
+      "title": "Cube view 2",
+      "primary_topic": "gen-viewpoints",
+      "secondary_topics": [
+        "nnat-spatial"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "nnat",
+          "topic": "nnat-spatial",
+          "rationale": "Original practice for the publicly described spatial visualization skill. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "medium",
+      "difficulty": 2,
+      "language": "en-US",
+      "learning_objective": "Picture a cube structure from a stated side and pick its flat view.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A shape made of 5 cubes. Which flat picture shows it from its right side, so the back of the shape is on your right?"
+      },
+      "transfer_target": "sp-view-003",
+      "payload": {
+        "schema_version": 1,
+        "family": "spatial_viewpoint",
+        "prompt": "Look at the shape from its right side, so the back of the shape is on your right. Which picture shows what you see?",
+        "read_aloud": "Look at the shape from its right side, so the back of the shape is on your right. Which flat picture shows what you see?",
+        "hint": "Imagine standing where the viewer stands. Which cubes are closest to you, and which are hidden behind them?",
+        "source": {
+          "geometry_type": "voxel_shape",
+          "coordinate_system": "right_handed_y_up",
+          "occupied_cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              2
+            ]
+          ]
+        },
+        "task": {
+          "type": "viewpoint",
+          "side": "right",
+          "described_as": "from its right side, so the back of the shape is on your right"
+        },
+        "options": [
+          {
+            "id": "a",
+            "kind": "grid",
+            "grid": [
+              "##",
+              "#.",
+              "#."
+            ]
+          },
+          {
+            "id": "b",
+            "kind": "grid",
+            "grid": [
+              "#..",
+              "###"
+            ]
+          },
+          {
+            "id": "c",
+            "kind": "grid",
+            "grid": [
+              ".#",
+              "##"
+            ]
+          },
+          {
+            "id": "d",
+            "kind": "grid",
+            "grid": [
+              "..#",
+              "###"
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": true,
+          "exploration": "after_prediction"
+        }
+      },
+      "answer_key": {
+        "correct": "d",
+        "explanation": {
+          "summary": "Seen from its right side, every column of cubes becomes one filled square. Cubes behind others are hidden.",
+          "steps": [
+            "Stand where the viewer stands.",
+            "For each spot, ask whether any cube is in that line of sight.",
+            "Keep left and right as the viewer sees them."
+          ]
+        },
+        "rationales": {
+          "a": "This is what you see from straight above.",
+          "b": "This is the right view, but flipped left to right.",
+          "c": "This is what you see from the front.",
+          "d": "Yes. This is exactly what you see from its right side."
+        },
+        "distractor_kinds": {
+          "a": "wrong_side",
+          "b": "mirrored_view",
+          "c": "wrong_side"
+        },
+        "solution": {
+          "grid": [
+            "..#",
+            "###"
+          ]
+        }
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "sp-view-003",
+      "version": 1,
+      "question_type": "spatial_viewpoint",
+      "title": "Cube view 3",
+      "primary_topic": "gen-viewpoints",
+      "secondary_topics": [
+        "nnat-spatial"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "nnat",
+          "topic": "nnat-spatial",
+          "rationale": "Original practice for the publicly described spatial visualization skill. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "10-12",
+      "reading_load": "medium",
+      "difficulty": 3,
+      "language": "en-US",
+      "learning_objective": "Picture a cube structure from a stated side and pick its flat view.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A shape made of 5 cubes. Which flat picture shows it from the front, the way it is drawn?"
+      },
+      "transfer_target": "sp-view-004",
+      "payload": {
+        "schema_version": 1,
+        "family": "spatial_viewpoint",
+        "prompt": "Look at the shape from the front, the way it is drawn. Which picture shows what you see?",
+        "read_aloud": "Look at the shape from the front, the way it is drawn. Which flat picture shows what you see?",
+        "hint": "Imagine standing where the viewer stands. Which cubes are closest to you, and which are hidden behind them?",
+        "source": {
+          "geometry_type": "voxel_shape",
+          "coordinate_system": "right_handed_y_up",
+          "occupied_cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              0,
+              -1
+            ]
+          ]
+        },
+        "task": {
+          "type": "viewpoint",
+          "side": "front",
+          "described_as": "from the front, the way it is drawn"
+        },
+        "options": [
+          {
+            "id": "a",
+            "kind": "grid",
+            "grid": [
+              "#.",
+              "#.",
+              "##"
+            ]
+          },
+          {
+            "id": "b",
+            "kind": "grid",
+            "grid": [
+              ".#",
+              ".#",
+              "##"
+            ]
+          },
+          {
+            "id": "c",
+            "kind": "grid",
+            "grid": [
+              "##",
+              ".#"
+            ]
+          },
+          {
+            "id": "d",
+            "kind": "grid",
+            "grid": [
+              ".#",
+              "##"
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": true,
+          "exploration": "after_prediction"
+        }
+      },
+      "answer_key": {
+        "correct": "a",
+        "explanation": {
+          "summary": "Seen from the front, every column of cubes becomes one filled square. Cubes behind others are hidden.",
+          "steps": [
+            "Stand where the viewer stands.",
+            "For each spot, ask whether any cube is in that line of sight.",
+            "Keep left and right as the viewer sees them."
+          ]
+        },
+        "rationales": {
+          "a": "Yes. This is exactly what you see from the front.",
+          "b": "This is the right view, but flipped left to right.",
+          "c": "This is what you see from straight below.",
+          "d": "This is what you see from straight above."
+        },
+        "distractor_kinds": {
+          "b": "mirrored_view",
+          "c": "wrong_side",
+          "d": "wrong_side"
+        },
+        "solution": {
+          "grid": [
+            "#.",
+            "#.",
+            "##"
+          ]
+        }
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "sp-view-004",
+      "version": 1,
+      "question_type": "spatial_viewpoint",
+      "title": "Cube view 4",
+      "primary_topic": "gen-viewpoints",
+      "secondary_topics": [
+        "nnat-spatial"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "nnat",
+          "topic": "nnat-spatial",
+          "rationale": "Original practice for the publicly described spatial visualization skill. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "10-12",
+      "reading_load": "medium",
+      "difficulty": 3,
+      "language": "en-US",
+      "learning_objective": "Picture a cube structure from a stated side and pick its flat view.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A shape made of 5 cubes. Which flat picture shows it from its left side, so the back of the shape is on your left?"
+      },
+      "transfer_target": "sp-view-001",
+      "payload": {
+        "schema_version": 1,
+        "family": "spatial_viewpoint",
+        "prompt": "Look at the shape from its left side, so the back of the shape is on your left. Which picture shows what you see?",
+        "read_aloud": "Look at the shape from its left side, so the back of the shape is on your left. Which flat picture shows what you see?",
+        "hint": "Imagine standing where the viewer stands. Which cubes are closest to you, and which are hidden behind them?",
+        "source": {
+          "geometry_type": "voxel_shape",
+          "coordinate_system": "right_handed_y_up",
+          "occupied_cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              2,
+              0,
+              1
+            ]
+          ]
+        },
+        "task": {
+          "type": "viewpoint",
+          "side": "left",
+          "described_as": "from its left side, so the back of the shape is on your left"
+        },
+        "options": [
+          {
+            "id": "a",
+            "kind": "grid",
+            "grid": [
+              "#.",
+              "##"
+            ]
+          },
+          {
+            "id": "b",
+            "kind": "grid",
+            "grid": [
+              "#..",
+              "###"
+            ]
+          },
+          {
+            "id": "c",
+            "kind": "grid",
+            "grid": [
+              ".#",
+              "##"
+            ]
+          },
+          {
+            "id": "d",
+            "kind": "grid",
+            "grid": [
+              "##.",
+              ".##"
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": true,
+          "exploration": "after_prediction"
+        }
+      },
+      "answer_key": {
+        "correct": "a",
+        "explanation": {
+          "summary": "Seen from its left side, every column of cubes becomes one filled square. Cubes behind others are hidden.",
+          "steps": [
+            "Stand where the viewer stands.",
+            "For each spot, ask whether any cube is in that line of sight.",
+            "Keep left and right as the viewer sees them."
+          ]
+        },
+        "rationales": {
+          "a": "Yes. This is exactly what you see from its left side.",
+          "b": "This is what you see from the front.",
+          "c": "This is the right view, but flipped left to right.",
+          "d": "This is what you see from straight above."
+        },
+        "distractor_kinds": {
+          "b": "wrong_side",
+          "c": "mirrored_view",
+          "d": "wrong_side"
+        },
+        "solution": {
+          "grid": [
+            "#.",
+            "##"
+          ]
+        }
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "sp-ref-001",
+      "version": 1,
+      "question_type": "spatial_plane_reflection",
+      "title": "Cube mirror 1",
+      "primary_topic": "gen-mirrors",
+      "secondary_topics": [
+        "nnat-spatial"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "nnat",
+          "topic": "nnat-spatial",
+          "rationale": "Original practice for the publicly described spatial visualization skill. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "medium",
+      "difficulty": 2,
+      "language": "en-US",
+      "learning_objective": "Predict the mirror image of a cube shape across a stated plane, and tell it apart from a turned copy.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A shape made of 5 cubes and a mirror standing just to its right, so left and right swap. Which shape is its reflection?"
+      },
+      "transfer_target": "sp-ref-002",
+      "payload": {
+        "schema_version": 1,
+        "family": "spatial_plane_reflection",
+        "prompt": "Picture a mirror standing just to its right, so left and right swap. Which shape is the reflection in the mirror?",
+        "read_aloud": "Picture a mirror standing just to its right, so left and right swap. Which of the four shapes is the reflection?",
+        "hint": "Cubes close to the mirror stay close to it. Cubes far from the mirror stay far away.",
+        "source": {
+          "geometry_type": "voxel_shape",
+          "coordinate_system": "right_handed_y_up",
+          "occupied_cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              2,
+              0,
+              1
+            ]
+          ]
+        },
+        "task": {
+          "type": "reflection",
+          "plane_normal": "x",
+          "described_as": "a mirror standing just to its right, so left and right swap"
+        },
+        "options": [
+          {
+            "id": "a",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                1,
+                1,
+                0
+              ],
+              [
+                2,
+                1,
+                0
+              ],
+              [
+                2,
+                1,
+                1
+              ]
+            ]
+          },
+          {
+            "id": "b",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                2,
+                0,
+                1
+              ]
+            ]
+          },
+          {
+            "id": "c",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                2,
+                1,
+                0
+              ]
+            ]
+          },
+          {
+            "id": "d",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                2,
+                0,
+                1
+              ],
+              [
+                2,
+                1,
+                1
+              ]
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": true,
+          "exploration": "after_prediction"
+        }
+      },
+      "answer_key": {
+        "correct": "c",
+        "explanation": {
+          "summary": "With a mirror standing just to its right, so left and right swap, each cube lands the same distance away on the other side of the mirror.",
+          "steps": [
+            "Find the cube nearest the mirror.",
+            "Keep its distance to the mirror but put it on the other side.",
+            "Do the same for the cubes further away."
+          ]
+        },
+        "rationales": {
+          "a": "This is what a mirror in a different place would show.",
+          "b": "This is the shape itself. A mirror shows it reversed.",
+          "c": "Yes. Each cube is the same distance from the mirror, on the other side.",
+          "d": "This one was turned around, not reflected."
+        },
+        "distractor_kinds": {
+          "a": "wrong_mirror_axis",
+          "b": "no_change_applied",
+          "d": "turned_instead_of_flipped"
+        },
+        "solution": {
+          "cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "sp-ref-002",
+      "version": 1,
+      "question_type": "spatial_plane_reflection",
+      "title": "Cube mirror 2",
+      "primary_topic": "gen-mirrors",
+      "secondary_topics": [
+        "nnat-spatial"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "nnat",
+          "topic": "nnat-spatial",
+          "rationale": "Original practice for the publicly described spatial visualization skill. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "10-12",
+      "reading_load": "medium",
+      "difficulty": 3,
+      "language": "en-US",
+      "learning_objective": "Predict the mirror image of a cube shape across a stated plane, and tell it apart from a turned copy.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A shape made of 4 cubes and a mirror standing just behind it, so front and back swap. Which shape is its reflection?"
+      },
+      "transfer_target": "sp-ref-003",
+      "payload": {
+        "schema_version": 1,
+        "family": "spatial_plane_reflection",
+        "prompt": "Picture a mirror standing just behind it, so front and back swap. Which shape is the reflection in the mirror?",
+        "read_aloud": "Picture a mirror standing just behind it, so front and back swap. Which of the four shapes is the reflection?",
+        "hint": "Cubes close to the mirror stay close to it. Cubes far from the mirror stay far away.",
+        "source": {
+          "geometry_type": "voxel_shape",
+          "coordinate_system": "right_handed_y_up",
+          "occupied_cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "task": {
+          "type": "reflection",
+          "plane_normal": "z",
+          "described_as": "a mirror standing just behind it, so front and back swap"
+        },
+        "options": [
+          {
+            "id": "a",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                0
+              ]
+            ]
+          },
+          {
+            "id": "b",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ]
+            ]
+          },
+          {
+            "id": "c",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                1,
+                0
+              ],
+              [
+                1,
+                1,
+                1
+              ]
+            ]
+          },
+          {
+            "id": "d",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                0
+              ],
+              [
+                1,
+                1,
+                1
+              ]
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": true,
+          "exploration": "after_prediction"
+        }
+      },
+      "answer_key": {
+        "correct": "d",
+        "explanation": {
+          "summary": "With a mirror standing just behind it, so front and back swap, each cube lands the same distance away on the other side of the mirror.",
+          "steps": [
+            "Find the cube nearest the mirror.",
+            "Keep its distance to the mirror but put it on the other side.",
+            "Do the same for the cubes further away."
+          ]
+        },
+        "rationales": {
+          "a": "This is what a mirror in a different place would show.",
+          "b": "This one was turned around, not reflected.",
+          "c": "This is the shape itself. A mirror shows it reversed.",
+          "d": "Yes. Each cube is the same distance from the mirror, on the other side."
+        },
+        "distractor_kinds": {
+          "a": "wrong_mirror_axis",
+          "b": "turned_instead_of_flipped",
+          "c": "no_change_applied"
+        },
+        "solution": {
+          "cells": [
+            [
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "sp-ref-003",
+      "version": 1,
+      "question_type": "spatial_plane_reflection",
+      "title": "Cube mirror 3",
+      "primary_topic": "gen-mirrors",
+      "secondary_topics": [
+        "nnat-spatial"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "nnat",
+          "topic": "nnat-spatial",
+          "rationale": "Original practice for the publicly described spatial visualization skill. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "10-12",
+      "reading_load": "medium",
+      "difficulty": 3,
+      "language": "en-US",
+      "learning_objective": "Predict the mirror image of a cube shape across a stated plane, and tell it apart from a turned copy.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A shape made of 5 cubes and a mirror lying flat on the table under it, so top and bottom swap. Which shape is its reflection?"
+      },
+      "transfer_target": "sp-ref-004",
+      "payload": {
+        "schema_version": 1,
+        "family": "spatial_plane_reflection",
+        "prompt": "Picture a mirror lying flat on the table under it, so top and bottom swap. Which shape is the reflection in the mirror?",
+        "read_aloud": "Picture a mirror lying flat on the table under it, so top and bottom swap. Which of the four shapes is the reflection?",
+        "hint": "Cubes close to the mirror stay close to it. Cubes far from the mirror stay far away.",
+        "source": {
+          "geometry_type": "voxel_shape",
+          "coordinate_system": "right_handed_y_up",
+          "occupied_cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0
+            ],
+            [
+              2,
+              1,
+              1
+            ]
+          ]
+        },
+        "task": {
+          "type": "reflection",
+          "plane_normal": "y",
+          "described_as": "a mirror lying flat on the table under it, so top and bottom swap"
+        },
+        "options": [
+          {
+            "id": "a",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                2,
+                1,
+                0
+              ],
+              [
+                2,
+                1,
+                1
+              ]
+            ]
+          },
+          {
+            "id": "b",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ],
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                2,
+                0,
+                1
+              ],
+              [
+                2,
+                1,
+                1
+              ]
+            ]
+          },
+          {
+            "id": "c",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                1,
+                1,
+                0
+              ],
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                2,
+                0,
+                1
+              ],
+              [
+                2,
+                1,
+                0
+              ]
+            ]
+          },
+          {
+            "id": "d",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                2,
+                0,
+                0
+              ]
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": true,
+          "exploration": "after_prediction"
+        }
+      },
+      "answer_key": {
+        "correct": "c",
+        "explanation": {
+          "summary": "With a mirror lying flat on the table under it, so top and bottom swap, each cube lands the same distance away on the other side of the mirror.",
+          "steps": [
+            "Find the cube nearest the mirror.",
+            "Keep its distance to the mirror but put it on the other side.",
+            "Do the same for the cubes further away."
+          ]
+        },
+        "rationales": {
+          "a": "This is the shape itself. A mirror shows it reversed.",
+          "b": "This one was turned around, not reflected.",
+          "c": "Yes. Each cube is the same distance from the mirror, on the other side.",
+          "d": "This is what a mirror in a different place would show."
+        },
+        "distractor_kinds": {
+          "a": "no_change_applied",
+          "b": "turned_instead_of_flipped",
+          "d": "wrong_mirror_axis"
+        },
+        "solution": {
+          "cells": [
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              2,
+              0,
+              1
+            ],
+            [
+              2,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "sp-ref-004",
+      "version": 1,
+      "question_type": "spatial_plane_reflection",
+      "title": "Cube mirror 4",
+      "primary_topic": "gen-mirrors",
+      "secondary_topics": [
+        "nnat-spatial"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "nnat",
+          "topic": "nnat-spatial",
+          "rationale": "Original practice for the publicly described spatial visualization skill. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "10-12",
+      "reading_load": "medium",
+      "difficulty": 4,
+      "language": "en-US",
+      "learning_objective": "Predict the mirror image of a cube shape across a stated plane, and tell it apart from a turned copy.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A shape made of 5 cubes and a mirror standing just to its right, so left and right swap. Which shape is its reflection?"
+      },
+      "transfer_target": "sp-ref-001",
+      "payload": {
+        "schema_version": 1,
+        "family": "spatial_plane_reflection",
+        "prompt": "Picture a mirror standing just to its right, so left and right swap. Which shape is the reflection in the mirror?",
+        "read_aloud": "Picture a mirror standing just to its right, so left and right swap. Which of the four shapes is the reflection?",
+        "hint": "Cubes close to the mirror stay close to it. Cubes far from the mirror stay far away.",
+        "source": {
+          "geometry_type": "voxel_shape",
+          "coordinate_system": "right_handed_y_up",
+          "occupied_cells": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              2,
+              0,
+              1
+            ]
+          ]
+        },
+        "task": {
+          "type": "reflection",
+          "plane_normal": "x",
+          "described_as": "a mirror standing just to its right, so left and right swap"
+        },
+        "options": [
+          {
+            "id": "a",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                2,
+                0,
+                1
+              ]
+            ]
+          },
+          {
+            "id": "b",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                2,
+                1,
+                0
+              ]
+            ]
+          },
+          {
+            "id": "c",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                0
+              ],
+              [
+                1,
+                1,
+                0
+              ],
+              [
+                1,
+                1,
+                1
+              ],
+              [
+                2,
+                1,
+                1
+              ]
+            ]
+          },
+          {
+            "id": "d",
+            "kind": "voxel",
+            "cells": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                2,
+                0,
+                1
+              ],
+              [
+                2,
+                1,
+                1
+              ]
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": true,
+          "exploration": "after_prediction"
+        }
+      },
+      "answer_key": {
+        "correct": "b",
+        "explanation": {
+          "summary": "With a mirror standing just to its right, so left and right swap, each cube lands the same distance away on the other side of the mirror.",
+          "steps": [
+            "Find the cube nearest the mirror.",
+            "Keep its distance to the mirror but put it on the other side.",
+            "Do the same for the cubes further away."
+          ]
+        },
+        "rationales": {
+          "a": "This is the shape itself. A mirror shows it reversed.",
+          "b": "Yes. Each cube is the same distance from the mirror, on the other side.",
+          "c": "This is what a mirror in a different place would show.",
+          "d": "This one was turned around, not reflected."
+        },
+        "distractor_kinds": {
+          "a": "no_change_applied",
+          "c": "wrong_mirror_axis",
+          "d": "turned_instead_of_flipped"
+        },
+        "solution": {
+          "cells": [
+            [
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              1
+            ],
+            [
+              2,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "fg-mtx-001",
+      "version": 1,
+      "question_type": "figure_matrix",
+      "title": "Picture grid 1",
+      "primary_topic": "gen-matrices",
+      "secondary_topics": [
+        "cogat-figure-matrices",
+        "olsat-matrices",
+        "nnat-analogy"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "cogat",
+          "topic": "cogat-figure-matrices",
+          "rationale": "Original figure matrix. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "olsat",
+          "topic": "olsat-matrices",
+          "rationale": "Original pattern matrix. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "nnat",
+          "topic": "nnat-analogy",
+          "rationale": "Original reasoning-by-analogy grid. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "low",
+      "difficulty": 1,
+      "language": "en-US",
+      "learning_objective": "Find the rule across each row and apply it: Each step turns a quarter turn clockwise (to the right).",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A grid of pictures with one missing. Each step turns a quarter turn clockwise (to the right)."
+      },
+      "payload": {
+        "schema_version": 1,
+        "family": "figure_matrix",
+        "prompt": "Which picture completes the grid?",
+        "read_aloud": "Look across each row. Which picture belongs in the empty square?",
+        "hint": "Look at the first row. What changed from the first picture to the next?",
+        "stem": {
+          "kind": "matrix",
+          "cols": 2,
+          "cells": [
+            [
+              {
+                "id": "g428",
+                "shape": "flag",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 1,
+                "color": "#233D5B",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g430",
+                "shape": "flag",
+                "x": 50,
+                "y": 50,
+                "rotation": 90,
+                "scale": 1,
+                "color": "#233D5B",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g429",
+                "shape": "ell",
+                "x": 50,
+                "y": 50,
+                "rotation": 90,
+                "scale": 1,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            null
+          ]
+        },
+        "options": [
+          {
+            "id": "a",
+            "objects": [
+              {
+                "id": "g433",
+                "shape": "ell",
+                "x": 50,
+                "y": 50,
+                "rotation": 270,
+                "scale": 1,
+                "color": "#B98E4C",
+                "reflectedX": true,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          },
+          {
+            "id": "b",
+            "objects": [
+              {
+                "id": "g431",
+                "shape": "ell",
+                "x": 50,
+                "y": 50,
+                "rotation": 180,
+                "scale": 1,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          },
+          {
+            "id": "c",
+            "objects": [
+              {
+                "id": "g434",
+                "shape": "ell",
+                "x": 50,
+                "y": 50,
+                "rotation": 90,
+                "scale": 1,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          },
+          {
+            "id": "d",
+            "objects": [
+              {
+                "id": "g432",
+                "shape": "ell",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 1,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": false
+        }
+      },
+      "answer_key": {
+        "correct": "b",
+        "explanation": {
+          "summary": "Each step turns a quarter turn clockwise (to the right).",
+          "steps": [
+            "Look at how the first row changes.",
+            "Check the same change happens in every row.",
+            "Apply it to the last picture in the bottom row."
+          ]
+        },
+        "rationales": {
+          "a": "This is a mirror image. The rule turns the shape. It does not flip it.",
+          "b": "Yes. Each step turns a quarter turn clockwise (to the right).",
+          "c": "Nothing changed here, but the rule always changes something.",
+          "d": "This went the opposite way."
+        },
+        "distractor_kinds": {
+          "a": "flipped_instead_of_turned",
+          "c": "no_change_applied",
+          "d": "wrong_direction"
+        },
+        "figure_rule": "rot_cw"
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "fg-mtx-002",
+      "version": 1,
+      "question_type": "figure_matrix",
+      "title": "Picture grid 2",
+      "primary_topic": "gen-matrices",
+      "secondary_topics": [
+        "cogat-figure-matrices",
+        "olsat-matrices",
+        "nnat-analogy"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "cogat",
+          "topic": "cogat-figure-matrices",
+          "rationale": "Original figure matrix. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "olsat",
+          "topic": "olsat-matrices",
+          "rationale": "Original pattern matrix. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "nnat",
+          "topic": "nnat-analogy",
+          "rationale": "Original reasoning-by-analogy grid. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "low",
+      "difficulty": 2,
+      "language": "en-US",
+      "learning_objective": "Find the rule across each row and apply it: The shape flips left to right, like looking in a mirror.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A grid of pictures with one missing. The shape flips left to right, like looking in a mirror."
+      },
+      "payload": {
+        "schema_version": 1,
+        "family": "figure_matrix",
+        "prompt": "Which picture completes the grid?",
+        "read_aloud": "Look across each row. Which picture belongs in the empty square?",
+        "hint": "Look at the first row. What changed from the first picture to the next?",
+        "stem": {
+          "kind": "matrix",
+          "cols": 2,
+          "cells": [
+            [
+              {
+                "id": "g437",
+                "shape": "ell",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 1,
+                "color": "#547B62",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g439",
+                "shape": "ell",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 1,
+                "color": "#547B62",
+                "reflectedX": true,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g438",
+                "shape": "flag",
+                "x": 50,
+                "y": 50,
+                "rotation": 180,
+                "scale": 1,
+                "color": "#A4493D",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            null
+          ]
+        },
+        "options": [
+          {
+            "id": "a",
+            "objects": [
+              {
+                "id": "g441",
+                "shape": "flag",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 1,
+                "color": "#A4493D",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          },
+          {
+            "id": "b",
+            "objects": [
+              {
+                "id": "g442",
+                "shape": "flag",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 1,
+                "color": "#A4493D",
+                "reflectedX": true,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          },
+          {
+            "id": "c",
+            "objects": [
+              {
+                "id": "g440",
+                "shape": "flag",
+                "x": 50,
+                "y": 50,
+                "rotation": 180,
+                "scale": 1,
+                "color": "#A4493D",
+                "reflectedX": true,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          },
+          {
+            "id": "d",
+            "objects": [
+              {
+                "id": "g443",
+                "shape": "flag",
+                "x": 50,
+                "y": 50,
+                "rotation": 180,
+                "scale": 1,
+                "color": "#A4493D",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": false
+        }
+      },
+      "answer_key": {
+        "correct": "c",
+        "explanation": {
+          "summary": "The shape flips left to right, like looking in a mirror.",
+          "steps": [
+            "Look at how the first row changes.",
+            "Check the same change happens in every row.",
+            "Apply it to the last picture in the bottom row."
+          ]
+        },
+        "rationales": {
+          "a": "This one was turned, not flipped. Check the mirror line.",
+          "b": "This flipped across the other mirror line.",
+          "c": "Yes. The shape flips left to right, like looking in a mirror.",
+          "d": "Nothing changed here, but the rule always changes something."
+        },
+        "distractor_kinds": {
+          "a": "turned_instead_of_flipped",
+          "b": "wrong_mirror_axis",
+          "d": "no_change_applied"
+        },
+        "figure_rule": "flip_lr"
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "fg-mtx-003",
+      "version": 1,
+      "question_type": "figure_matrix",
+      "title": "Picture grid 3",
+      "primary_topic": "gen-matrices",
+      "secondary_topics": [
+        "cogat-figure-matrices",
+        "olsat-matrices",
+        "nnat-analogy"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "cogat",
+          "topic": "cogat-figure-matrices",
+          "rationale": "Original figure matrix. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "olsat",
+          "topic": "olsat-matrices",
+          "rationale": "Original pattern matrix. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "nnat",
+          "topic": "nnat-analogy",
+          "rationale": "Original reasoning-by-analogy grid. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "low",
+      "difficulty": 1,
+      "language": "en-US",
+      "learning_objective": "Find the rule across each row and apply it: Each step adds exactly one more.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A grid of pictures with one missing. Each step adds exactly one more."
+      },
+      "payload": {
+        "schema_version": 1,
+        "family": "figure_matrix",
+        "prompt": "Which picture completes the grid?",
+        "read_aloud": "Look across each row. Which picture belongs in the empty square?",
+        "hint": "Look at the first row. What changed from the first picture to the next?",
+        "stem": {
+          "kind": "matrix",
+          "cols": 2,
+          "cells": [
+            [
+              {
+                "id": "g446",
+                "shape": "triangle",
+                "x": 42,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#233D5B",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g447",
+                "shape": "triangle",
+                "x": 58,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#233D5B",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g451",
+                "shape": "triangle",
+                "x": 34,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#233D5B",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g452",
+                "shape": "triangle",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#233D5B",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g453",
+                "shape": "triangle",
+                "x": 66,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#233D5B",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g448",
+                "shape": "square",
+                "x": 34,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g449",
+                "shape": "square",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g450",
+                "shape": "square",
+                "x": 66,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            null
+          ]
+        },
+        "options": [
+          {
+            "id": "a",
+            "objects": [
+              {
+                "id": "g466",
+                "shape": "square",
+                "x": 42,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g467",
+                "shape": "square",
+                "x": 58,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          },
+          {
+            "id": "b",
+            "objects": [
+              {
+                "id": "g454",
+                "shape": "square",
+                "x": 26,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g455",
+                "shape": "square",
+                "x": 42,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g456",
+                "shape": "square",
+                "x": 58,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g457",
+                "shape": "square",
+                "x": 74,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          },
+          {
+            "id": "c",
+            "objects": [
+              {
+                "id": "g463",
+                "shape": "square",
+                "x": 34,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g464",
+                "shape": "square",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g465",
+                "shape": "square",
+                "x": 66,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          },
+          {
+            "id": "d",
+            "objects": [
+              {
+                "id": "g458",
+                "shape": "square",
+                "x": 18,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g459",
+                "shape": "square",
+                "x": 34,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g460",
+                "shape": "square",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g461",
+                "shape": "square",
+                "x": 66,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              },
+              {
+                "id": "g462",
+                "shape": "square",
+                "x": 82,
+                "y": 50,
+                "rotation": 0,
+                "scale": 0.42,
+                "color": "#B98E4C",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": false
+        }
+      },
+      "answer_key": {
+        "correct": "b",
+        "explanation": {
+          "summary": "Each step adds exactly one more.",
+          "steps": [
+            "Look at how the first row changes.",
+            "Check the same change happens in every row.",
+            "Apply it to the last picture in the bottom row."
+          ]
+        },
+        "rationales": {
+          "a": "This went the opposite way.",
+          "b": "Yes. Each step adds exactly one more.",
+          "c": "Nothing changed here, but the rule always changes something.",
+          "d": "Close, but this changed by too much."
+        },
+        "distractor_kinds": {
+          "a": "wrong_direction",
+          "c": "no_change_applied",
+          "d": "wrong_step_size"
+        },
+        "figure_rule": "count_up"
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "fg-mtx-004",
+      "version": 1,
+      "question_type": "figure_matrix",
+      "title": "Picture grid 4",
+      "primary_topic": "gen-matrices",
+      "secondary_topics": [
+        "cogat-figure-matrices",
+        "olsat-matrices",
+        "nnat-analogy"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "cogat",
+          "topic": "cogat-figure-matrices",
+          "rationale": "Original figure matrix. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "olsat",
+          "topic": "olsat-matrices",
+          "rationale": "Original pattern matrix. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "nnat",
+          "topic": "nnat-analogy",
+          "rationale": "Original reasoning-by-analogy grid. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "10-12",
+      "reading_load": "low",
+      "difficulty": 3,
+      "language": "en-US",
+      "learning_objective": "Find the rule across each row and apply it: Each step turns a quarter turn counterclockwise (to the left).",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "A grid of pictures with one missing. Each step turns a quarter turn counterclockwise (to the left)."
+      },
+      "payload": {
+        "schema_version": 1,
+        "family": "figure_matrix",
+        "prompt": "Which picture completes the grid?",
+        "read_aloud": "Look across each row. Which picture belongs in the empty square?",
+        "hint": "Look at the first row. What changed from the first picture to the next?",
+        "stem": {
+          "kind": "matrix",
+          "cols": 3,
+          "cells": [
+            [
+              {
+                "id": "g471",
+                "shape": "flag",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 1,
+                "color": "#A4493D",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g474",
+                "shape": "flag",
+                "x": 50,
+                "y": 50,
+                "rotation": 270,
+                "scale": 1,
+                "color": "#A4493D",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g476",
+                "shape": "flag",
+                "x": 50,
+                "y": 50,
+                "rotation": 180,
+                "scale": 1,
+                "color": "#A4493D",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g472",
+                "shape": "ell",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 1,
+                "color": "#233D5B",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g477",
+                "shape": "ell",
+                "x": 50,
+                "y": 50,
+                "rotation": 270,
+                "scale": 1,
+                "color": "#233D5B",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g479",
+                "shape": "ell",
+                "x": 50,
+                "y": 50,
+                "rotation": 180,
+                "scale": 1,
+                "color": "#233D5B",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g473",
+                "shape": "arrow",
+                "x": 50,
+                "y": 50,
+                "rotation": 90,
+                "scale": 1,
+                "color": "#547B62",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            [
+              {
+                "id": "g480",
+                "shape": "arrow",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 1,
+                "color": "#547B62",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ],
+            null
+          ]
+        },
+        "options": [
+          {
+            "id": "a",
+            "objects": [
+              {
+                "id": "g485",
+                "shape": "arrow",
+                "x": 50,
+                "y": 50,
+                "rotation": 0,
+                "scale": 1,
+                "color": "#547B62",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          },
+          {
+            "id": "b",
+            "objects": [
+              {
+                "id": "g484",
+                "shape": "arrow",
+                "x": 50,
+                "y": 50,
+                "rotation": 180,
+                "scale": 1,
+                "color": "#547B62",
+                "reflectedX": true,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          },
+          {
+            "id": "c",
+            "objects": [
+              {
+                "id": "g482",
+                "shape": "arrow",
+                "x": 50,
+                "y": 50,
+                "rotation": 270,
+                "scale": 1,
+                "color": "#547B62",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          },
+          {
+            "id": "d",
+            "objects": [
+              {
+                "id": "g483",
+                "shape": "arrow",
+                "x": 50,
+                "y": 50,
+                "rotation": 90,
+                "scale": 1,
+                "color": "#547B62",
+                "reflectedX": false,
+                "reflectedY": false,
+                "zIndex": 1
+              }
+            ]
+          }
+        ],
+        "interaction": {
+          "predict_first": false
+        }
+      },
+      "answer_key": {
+        "correct": "c",
+        "explanation": {
+          "summary": "Each step turns a quarter turn counterclockwise (to the left).",
+          "steps": [
+            "Look at how the first row changes.",
+            "Check the same change happens in every row.",
+            "Apply it to the last picture in the bottom row."
+          ]
+        },
+        "rationales": {
+          "a": "Nothing changed here, but the rule always changes something.",
+          "b": "This is a mirror image. The rule turns the shape. It does not flip it.",
+          "c": "Yes. Each step turns a quarter turn counterclockwise (to the left).",
+          "d": "This went the opposite way."
+        },
+        "distractor_kinds": {
+          "a": "no_change_applied",
+          "b": "flipped_instead_of_turned",
+          "d": "wrong_direction"
+        },
+        "figure_rule": "rot_ccw"
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "qn-ser-001",
+      "version": 1,
+      "question_type": "number_series",
+      "title": "Number pattern 1",
+      "primary_topic": "gen-number-series",
+      "secondary_topics": [
+        "cogat-number-series",
+        "olsat-number"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "cogat",
+          "topic": "cogat-number-series",
+          "rationale": "Original number series. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "olsat",
+          "topic": "olsat-number",
+          "rationale": "Original number relationship item. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "low",
+      "difficulty": 1,
+      "language": "en-US",
+      "learning_objective": "Find the rule that links each number to the next, then use it.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "The numbers 3, 7, 11, 15, then a blank. Which number comes next?"
+      },
+      "payload": {
+        "schema_version": 1,
+        "family": "number_series",
+        "prompt": "Which number comes next?",
+        "read_aloud": "Here are some numbers: 3, 7, 11, 15. Which number comes next?",
+        "hint": "Work out how much each number changes to get to the next one.",
+        "sequence": [
+          3,
+          7,
+          11,
+          15,
+          null
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "19"
+          },
+          {
+            "id": "b",
+            "text": "23"
+          },
+          {
+            "id": "c",
+            "text": "18"
+          },
+          {
+            "id": "d",
+            "text": "20"
+          }
+        ],
+        "interaction": {
+          "predict_first": false
+        }
+      },
+      "answer_key": {
+        "correct": "a",
+        "explanation": {
+          "summary": "Each number is 4 more than the one before, so 15 + 4 = 19.",
+          "steps": [
+            "Write down the change between each pair of numbers.",
+            "Find the pattern in those changes.",
+            "Use it once more on the last number."
+          ]
+        },
+        "rationales": {
+          "a": "Yes. Each number is 4 more than the one before, so 15 + 4 = 19.",
+          "b": "This skips a number. It is two steps after 15.",
+          "c": "Close, but each number goes up by 4, not 3, at the last step.",
+          "d": "Close, but this goes up by 5 at the last step."
+        },
+        "distractor_kinds": {
+          "b": "skipped_term",
+          "c": "off_by_one",
+          "d": "off_by_one"
+        },
+        "rule": {
+          "kind": "arithmetic",
+          "step": 4
+        },
+        "answer_value": 19
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "qn-ser-002",
+      "version": 1,
+      "question_type": "number_series",
+      "title": "Number pattern 2",
+      "primary_topic": "gen-number-series",
+      "secondary_topics": [
+        "cogat-number-series",
+        "olsat-number"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "cogat",
+          "topic": "cogat-number-series",
+          "rationale": "Original number series. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "olsat",
+          "topic": "olsat-number",
+          "rationale": "Original number relationship item. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "10-12",
+      "reading_load": "low",
+      "difficulty": 3,
+      "language": "en-US",
+      "learning_objective": "Find the rule that links each number to the next, then use it.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "The numbers 1, 2, 4, 7, 11, then a blank. Which number comes next?"
+      },
+      "payload": {
+        "schema_version": 1,
+        "family": "number_series",
+        "prompt": "Which number comes next?",
+        "read_aloud": "Here are some numbers: 1, 2, 4, 7, 11. Which number comes next?",
+        "hint": "Work out how much each number changes to get to the next one.",
+        "sequence": [
+          1,
+          2,
+          4,
+          7,
+          11,
+          null
+        ],
+        "options": [
+          {
+            "id": "a",
+            "text": "17"
+          },
+          {
+            "id": "b",
+            "text": "22"
+          },
+          {
+            "id": "c",
+            "text": "16"
+          },
+          {
+            "id": "d",
+            "text": "15"
+          }
+        ],
+        "interaction": {
+          "predict_first": false
+        }
+      },
+      "answer_key": {
+        "correct": "c",
+        "explanation": {
+          "summary": "The amount added grows by one each time: +1, +2, +3, +4, so next is +5. 11 + 5 = 16.",
+          "steps": [
+            "Write down the change between each pair of numbers.",
+            "Find the pattern in those changes.",
+            "Use it once more on the last number."
+          ]
+        },
+        "rationales": {
+          "a": "This adds 6. The next amount to add is one more than 4.",
+          "b": "This doubles 11. The numbers do not double; the amount added grows by one.",
+          "c": "Yes. The amount added grows by one each time: +1, +2, +3, +4, so next is +5. 11 + 5 = 16.",
+          "d": "This adds 4 again. The amount added grows by one each time."
+        },
+        "distractor_kinds": {
+          "a": "wrong_step_size",
+          "b": "assumed_doubling",
+          "d": "repeated_last_step"
+        },
+        "rule": {
+          "kind": "growing_add",
+          "first_step": 1,
+          "step_increase": 1
+        },
+        "answer_value": 16
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "qn-bal-001",
+      "version": 1,
+      "question_type": "number_puzzle",
+      "title": "Balance puzzle 1",
+      "primary_topic": "gen-balance",
+      "secondary_topics": [
+        "cogat-number-puzzles",
+        "olsat-number"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "cogat",
+          "topic": "cogat-number-puzzles",
+          "rationale": "Original balance puzzle. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "olsat",
+          "topic": "olsat-number",
+          "rationale": "Original number puzzle. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "medium",
+      "difficulty": 2,
+      "language": "en-US",
+      "learning_objective": "Use balanced scales to swap equal amounts and find an unknown.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "1 square balance 2 circles. 1 triangle balance 1 square and 1 circle. How many circles balance 1 triangle?"
+      },
+      "payload": {
+        "schema_version": 1,
+        "family": "number_puzzle",
+        "prompt": "How many circles balance 1 triangle?",
+        "read_aloud": "1 square balance 2 circles. 1 triangle balance 1 square and 1 circle. How many circles balance 1 triangle?",
+        "hint": "If two things balance, you can swap one for the other on any scale.",
+        "scales": [
+          {
+            "left": {
+              "square": 1
+            },
+            "right": {
+              "circle": 2
+            }
+          },
+          {
+            "left": {
+              "triangle": 1
+            },
+            "right": {
+              "square": 1,
+              "circle": 1
+            }
+          }
+        ],
+        "ask": {
+          "shape": "triangle",
+          "in_terms_of": "circle"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "3"
+          },
+          {
+            "id": "b",
+            "text": "2"
+          },
+          {
+            "id": "c",
+            "text": "4"
+          },
+          {
+            "id": "d",
+            "text": "1"
+          }
+        ],
+        "interaction": {
+          "predict_first": false
+        }
+      },
+      "answer_key": {
+        "correct": "a",
+        "explanation": {
+          "summary": "A square weighs the same as 2 circles. A triangle is a square plus 1 circle, so it is 2 + 1 = 3 circles.",
+          "steps": [
+            "The first scale says 1 square = 2 circles.",
+            "The second scale says 1 triangle = 1 square + 1 circle.",
+            "Swap the square for 2 circles: 1 triangle = 3 circles."
+          ]
+        },
+        "rationales": {
+          "a": "Yes. A square weighs the same as 2 circles. A triangle is a square plus 1 circle, so it is 2 + 1 = 3 circles.",
+          "b": "This counts only the square. The triangle also needs one more circle.",
+          "c": "This counts the square as more than 2 circles.",
+          "d": "This counts the extra circle only. The square is worth circles too."
+        },
+        "distractor_kinds": {
+          "b": "ignored_second_scale",
+          "c": "counted_square_twice",
+          "d": "counted_shapes_not_weight"
+        },
+        "answer_value": 3
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "qn-bal-002",
+      "version": 1,
+      "question_type": "number_puzzle",
+      "title": "Balance puzzle 2",
+      "primary_topic": "gen-balance",
+      "secondary_topics": [
+        "cogat-number-puzzles",
+        "olsat-number"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "cogat",
+          "topic": "cogat-number-puzzles",
+          "rationale": "Original balance puzzle. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "olsat",
+          "topic": "olsat-number",
+          "rationale": "Original number puzzle. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "10-12",
+      "reading_load": "medium",
+      "difficulty": 3,
+      "language": "en-US",
+      "learning_objective": "Use balanced scales to swap equal amounts and find an unknown.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "1 star balance 2 squares. 1 square balance 3 circles. How many circles balance 1 star?"
+      },
+      "payload": {
+        "schema_version": 1,
+        "family": "number_puzzle",
+        "prompt": "How many circles balance 1 star?",
+        "read_aloud": "1 star balance 2 squares. 1 square balance 3 circles. How many circles balance 1 star?",
+        "hint": "If two things balance, you can swap one for the other on any scale.",
+        "scales": [
+          {
+            "left": {
+              "star": 1
+            },
+            "right": {
+              "square": 2
+            }
+          },
+          {
+            "left": {
+              "square": 1
+            },
+            "right": {
+              "circle": 3
+            }
+          }
+        ],
+        "ask": {
+          "shape": "star",
+          "in_terms_of": "circle"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "5"
+          },
+          {
+            "id": "b",
+            "text": "3"
+          },
+          {
+            "id": "c",
+            "text": "8"
+          },
+          {
+            "id": "d",
+            "text": "6"
+          }
+        ],
+        "interaction": {
+          "predict_first": false
+        }
+      },
+      "answer_key": {
+        "correct": "d",
+        "explanation": {
+          "summary": "A star balances 2 squares. Each square balances 3 circles. So a star balances 3 + 3 = 6 circles.",
+          "steps": [
+            "The first scale says 1 star = 2 squares.",
+            "The second scale says 1 square = 3 circles.",
+            "Swap each square for 3 circles: 1 star = 6 circles."
+          ]
+        },
+        "rationales": {
+          "a": "This adds 2 and 3. Each of the 2 squares is worth 3 circles.",
+          "b": "This swaps only one square. The star balances two squares.",
+          "c": "Check again: 2 squares, each worth 3 circles.",
+          "d": "Yes. A star balances 2 squares. Each square balances 3 circles. So a star balances 3 + 3 = 6 circles."
+        },
+        "distractor_kinds": {
+          "a": "added_instead_of_multiplied",
+          "b": "used_one_square",
+          "c": "wrong_combination"
+        },
+        "answer_value": 6
+      },
+      "authoring": {
+        "source": "deterministic_generator",
+        "author": "heir-bank-generator/1",
+        "notes": "Parameters chosen in an AI-assisted authoring session. Answer computed by the generator. Needs human review before publishing."
+      }
+    },
+    {
+      "id": "vb-ana-001",
+      "version": 1,
+      "question_type": "verbal_analogy",
+      "title": "Word pair 1",
+      "primary_topic": "gen-word-analogies",
+      "secondary_topics": [
+        "cogat-verbal-analogies",
+        "olsat-verbal-analogies"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "cogat",
+          "topic": "cogat-verbal-analogies",
+          "rationale": "Original word analogy. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "olsat",
+          "topic": "olsat-verbal-analogies",
+          "rationale": "Original verbal analogy. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "medium",
+      "difficulty": 1,
+      "language": "en-US",
+      "learning_objective": "Name how the first two words are linked, then find a word linked to the third in the same way.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "Bird is to nest as Bee is to what?"
+      },
+      "payload": {
+        "schema_version": 1,
+        "family": "verbal_analogy",
+        "prompt": "Bird is to nest as Bee is to ...?",
+        "read_aloud": "Bird goes with nest. Bee goes with which word, in the same way?",
+        "hint": "Say a sentence that links bird and nest. Then use the same sentence for bee.",
+        "stem": {
+          "a": "Bird",
+          "b": "nest",
+          "c": "Bee"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "flower"
+          },
+          {
+            "id": "b",
+            "text": "hive"
+          },
+          {
+            "id": "c",
+            "text": "honey"
+          },
+          {
+            "id": "d",
+            "text": "wing"
+          }
+        ],
+        "interaction": {
+          "predict_first": false
+        }
+      },
+      "answer_key": {
+        "correct": "b",
+        "explanation": {
+          "summary": "A bird lives in a nest. A bee lives in a hive.",
+          "steps": [
+            "Make a sentence about bird and nest.",
+            "Try the same sentence with bee and each choice.",
+            "Keep the choice where the sentence still works."
+          ]
+        },
+        "rationales": {
+          "a": "Bees visit flowers, but they do not live in them.",
+          "b": "Yes. A bird lives in a nest. A bee lives in a hive.",
+          "c": "Bees make honey, but a nest is a home, not something a bird makes to eat.",
+          "d": "A wing is part of a bee, not where it lives."
+        },
+        "distractor_kinds": {
+          "a": "related_not_parallel",
+          "c": "related_not_parallel",
+          "d": "part_not_home"
+        },
+        "semantic_relation": "A bird lives in a nest. A bee lives in a hive."
+      },
+      "authoring": {
+        "source": "ai_assisted_draft",
+        "author": "heir-bank-drafts/1",
+        "notes": "AI-assisted draft. Wording, vocabulary level and the single-answer claim need human semantic review."
+      }
+    },
+    {
+      "id": "vb-ana-002",
+      "version": 1,
+      "question_type": "verbal_analogy",
+      "title": "Word pair 2",
+      "primary_topic": "gen-word-analogies",
+      "secondary_topics": [
+        "cogat-verbal-analogies",
+        "olsat-verbal-analogies"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "cogat",
+          "topic": "cogat-verbal-analogies",
+          "rationale": "Original word analogy. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "olsat",
+          "topic": "olsat-verbal-analogies",
+          "rationale": "Original verbal analogy. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "medium",
+      "difficulty": 1,
+      "language": "en-US",
+      "learning_objective": "Name how the first two words are linked, then find a word linked to the third in the same way.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "Glove is to hand as Sock is to what?"
+      },
+      "payload": {
+        "schema_version": 1,
+        "family": "verbal_analogy",
+        "prompt": "Glove is to hand as Sock is to ...?",
+        "read_aloud": "Glove goes with hand. Sock goes with which word, in the same way?",
+        "hint": "Say a sentence that links glove and hand. Then use the same sentence for sock.",
+        "stem": {
+          "a": "Glove",
+          "b": "hand",
+          "c": "Sock"
+        },
+        "options": [
+          {
+            "id": "a",
+            "text": "warm"
+          },
+          {
+            "id": "b",
+            "text": "shoe"
+          },
+          {
+            "id": "c",
+            "text": "leg"
+          },
+          {
+            "id": "d",
+            "text": "foot"
+          }
+        ],
+        "interaction": {
+          "predict_first": false
+        }
+      },
+      "answer_key": {
+        "correct": "d",
+        "explanation": {
+          "summary": "A glove is worn on a hand. A sock is worn on a foot.",
+          "steps": [
+            "Make a sentence about glove and hand.",
+            "Try the same sentence with sock and each choice.",
+            "Keep the choice where the sentence still works."
+          ]
+        },
+        "rationales": {
+          "a": "Socks can be warm, but that does not match \"worn on\".",
+          "b": "A shoe goes over a sock, but the sock is worn on the foot.",
+          "c": "Close, but a sock is worn on the foot, not the leg.",
+          "d": "Yes. A glove is worn on a hand. A sock is worn on a foot."
+        },
+        "distractor_kinds": {
+          "a": "property_not_relation",
+          "b": "related_not_parallel",
+          "c": "near_miss"
+        },
+        "semantic_relation": "A glove is worn on a hand. A sock is worn on a foot."
+      },
+      "authoring": {
+        "source": "ai_assisted_draft",
+        "author": "heir-bank-drafts/1",
+        "notes": "AI-assisted draft. Wording, vocabulary level and the single-answer claim need human semantic review."
+      }
+    },
+    {
+      "id": "vb-cls-001",
+      "version": 1,
+      "question_type": "verbal_classification",
+      "title": "Odd word out 1",
+      "primary_topic": "gen-word-groups",
+      "secondary_topics": [
+        "cogat-verbal-classification",
+        "olsat-verbal-analogies"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "cogat",
+          "topic": "cogat-verbal-classification",
+          "rationale": "Original word classification. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "olsat",
+          "topic": "olsat-verbal-analogies",
+          "rationale": "Original verbal classification. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "medium",
+      "difficulty": 1,
+      "language": "en-US",
+      "learning_objective": "Find what most of the words share, and spot the one that does not share it.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "Four words: apple, banana, carrot, pear. Which one does not belong?"
+      },
+      "payload": {
+        "schema_version": 1,
+        "family": "verbal_classification",
+        "prompt": "Which word does not belong with the others?",
+        "read_aloud": "Listen to these words: apple, banana, carrot, pear. Which one does not belong?",
+        "hint": "Find something that three of the words have in common.",
+        "options": [
+          {
+            "id": "a",
+            "text": "apple"
+          },
+          {
+            "id": "b",
+            "text": "banana"
+          },
+          {
+            "id": "c",
+            "text": "carrot"
+          },
+          {
+            "id": "d",
+            "text": "pear"
+          }
+        ],
+        "interaction": {
+          "predict_first": false
+        }
+      },
+      "answer_key": {
+        "correct": "c",
+        "explanation": {
+          "summary": "Apple, banana and pear are fruits. A carrot is a vegetable.",
+          "steps": [
+            "Say what each word is.",
+            "Find what three of them share.",
+            "The one left over does not belong."
+          ]
+        },
+        "rationales": {
+          "a": "An apple is a fruit, like banana and pear.",
+          "b": "A banana is a fruit, like apple and pear.",
+          "c": "Yes. A carrot is a vegetable. The others are fruits.",
+          "d": "A pear is a fruit, like apple and banana."
+        },
+        "distractor_kinds": {
+          "a": "member_of_group",
+          "b": "member_of_group",
+          "d": "member_of_group"
+        },
+        "semantic_relation": "Apple, banana and pear are fruits. A carrot is a vegetable."
+      },
+      "authoring": {
+        "source": "ai_assisted_draft",
+        "author": "heir-bank-drafts/1",
+        "notes": "AI-assisted draft. Wording, vocabulary level and the single-answer claim need human semantic review."
+      }
+    },
+    {
+      "id": "vb-cls-002",
+      "version": 1,
+      "question_type": "verbal_classification",
+      "title": "Odd word out 2",
+      "primary_topic": "gen-word-groups",
+      "secondary_topics": [
+        "cogat-verbal-classification",
+        "olsat-verbal-analogies"
+      ],
+      "exam_alignment": [
+        {
+          "exam": "cogat",
+          "topic": "cogat-verbal-classification",
+          "rationale": "Original word classification. Not affiliated with the test publisher."
+        },
+        {
+          "exam": "olsat",
+          "topic": "olsat-verbal-analogies",
+          "rationale": "Original verbal classification. Not affiliated with the test publisher."
+        }
+      ],
+      "age_band": "8-10",
+      "reading_load": "medium",
+      "difficulty": 2,
+      "language": "en-US",
+      "learning_objective": "Find what most of the words share, and spot the one that does not share it.",
+      "accessibility": {
+        "relies_on_color": false,
+        "alt": "Four words: lake, mountain, river, ocean. Which one does not belong?"
+      },
+      "payload": {
+        "schema_version": 1,
+        "family": "verbal_classification",
+        "prompt": "Which word does not belong with the others?",
+        "read_aloud": "Listen to these words: lake, mountain, river, ocean. Which one does not belong?",
+        "hint": "Find something that three of the words have in common.",
+        "options": [
+          {
+            "id": "a",
+            "text": "lake"
+          },
+          {
+            "id": "b",
+            "text": "mountain"
+          },
+          {
+            "id": "c",
+            "text": "river"
+          },
+          {
+            "id": "d",
+            "text": "ocean"
+          }
+        ],
+        "interaction": {
+          "predict_first": false
+        }
+      },
+      "answer_key": {
+        "correct": "b",
+        "explanation": {
+          "summary": "A river, a lake and an ocean are bodies of water. A mountain is land.",
+          "steps": [
+            "Say what each word is.",
+            "Find what three of them share.",
+            "The one left over does not belong."
+          ]
+        },
+        "rationales": {
+          "a": "A lake is water, like a river and an ocean.",
+          "b": "Yes. A mountain is land. The others are water.",
+          "c": "A river is water, like a lake and an ocean.",
+          "d": "An ocean is water, like a river and a lake."
+        },
+        "distractor_kinds": {
+          "a": "member_of_group",
+          "c": "member_of_group",
+          "d": "member_of_group"
+        },
+        "semantic_relation": "A river, a lake and an ocean are bodies of water. A mountain is land."
+      },
+      "authoring": {
+        "source": "ai_assisted_draft",
+        "author": "heir-bank-drafts/1",
+        "notes": "AI-assisted draft. Wording, vocabulary level and the single-answer claim need human semantic review."
+      }
+    }
+  ],
+  "reports": [
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "sp-rot-001",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "geometry_recomputed",
+        "options_not_equivalent",
+        "options_visually_distinct"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "sp-rot-002",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "geometry_recomputed",
+        "options_not_equivalent",
+        "options_visually_distinct"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "sp-rot-003",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "geometry_recomputed",
+        "options_not_equivalent",
+        "options_visually_distinct"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "sp-rot-004",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "geometry_recomputed",
+        "options_not_equivalent",
+        "options_visually_distinct"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "sp-view-001",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "view_recomputed",
+        "options_not_equivalent"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "sp-view-002",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "view_recomputed",
+        "options_not_equivalent"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "sp-view-003",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "view_recomputed",
+        "options_not_equivalent"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "sp-view-004",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "view_recomputed",
+        "options_not_equivalent"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "sp-ref-001",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "geometry_recomputed",
+        "options_not_equivalent",
+        "options_visually_distinct"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "sp-ref-002",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "geometry_recomputed",
+        "options_not_equivalent",
+        "options_visually_distinct"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "sp-ref-003",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "geometry_recomputed",
+        "options_not_equivalent",
+        "options_visually_distinct"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "sp-ref-004",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "geometry_recomputed",
+        "options_not_equivalent",
+        "options_visually_distinct"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "fg-mtx-001",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "figure_rule_recomputed"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "fg-mtx-002",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "figure_rule_recomputed"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "fg-mtx-003",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "figure_rule_recomputed"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "fg-mtx-004",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "figure_rule_recomputed"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "qn-ser-001",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "series_recomputed"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "qn-ser-002",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "series_recomputed"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "qn-bal-001",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "unique_answer_by_search"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "qn-bal-002",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "unique_answer_by_search"
+      ],
+      "issues": [],
+      "needs_semantic_review": false
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "vb-ana-001",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "verbal_structure",
+        "needs_human_semantic_review"
+      ],
+      "issues": [],
+      "needs_semantic_review": true
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "vb-ana-002",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "verbal_structure",
+        "needs_human_semantic_review"
+      ],
+      "issues": [],
+      "needs_semantic_review": true
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "vb-cls-001",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "verbal_structure",
+        "needs_human_semantic_review"
+      ],
+      "issues": [],
+      "needs_semantic_review": true
+    },
+    {
+      "validator_version": "bank-validator/1.0.0",
+      "question": "vb-cls-002",
+      "version": 1,
+      "passed": true,
+      "checks": [
+        "metadata",
+        "taxonomy_references",
+        "four_options",
+        "key_references_option",
+        "rationales",
+        "explanation",
+        "hint_no_leak",
+        "verbal_structure",
+        "needs_human_semantic_review"
+      ],
+      "issues": [],
+      "needs_semantic_review": true
+    }
+  ]
+}
