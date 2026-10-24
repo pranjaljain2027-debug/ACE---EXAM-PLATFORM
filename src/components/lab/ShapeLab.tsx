@@ -212,7 +212,7 @@ export const ShapeLab: React.FC<ShapeLabProps> = ({
     <div className={`bg-paper border border-line rounded-2xl overflow-hidden ${reducedMotion ? 'reduce-motion' : ''}`}>
       <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 border-b border-line bg-ivory">
         <span className="font-semibold text-navy text-sm">{title}</span>
-        <div className="flex items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5">
           <button type="button" onClick={doUndo} disabled={!canUndo(history) || disabled} className="p-2.5 rounded-lg border border-line bg-paper text-navy disabled:opacity-40" aria-label="Undo (Ctrl Z)">
             <Undo2 className="w-4 h-4" aria-hidden />
           </button>

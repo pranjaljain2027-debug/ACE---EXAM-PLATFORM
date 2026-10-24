@@ -26,8 +26,14 @@ export const Landing: React.FC = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-16 grid lg:grid-cols-12 gap-10 items-center">
         <div className="lg:col-span-7 space-y-6">
           <Eyebrow>Visual reasoning studio · ages 8–10</Eyebrow>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-semibold leading-[1.1] text-balance">Teach your child to see what others miss.</h1>
-          <p className="text-lg text-ink max-w-xl">See the pattern. Discover the rule. Children turn and flip real shapes until the rule clicks, then prove it on a puzzle they have never seen.</p>
+          <h1 className="font-serif font-semibold leading-[1.05]">
+            <span className="block text-5xl sm:text-6xl lg:text-7xl">Teach your child</span>
+            <span className="block text-3xl sm:text-4xl lg:text-5xl mt-2">to see what others miss.</span>
+          </h1>
+          <p className="text-ink">
+            <span className="sm:block text-base sm:text-[17px] lg:whitespace-nowrap">See the pattern. Discover the rule. Children turn and flip real shapes </span>
+            <span className="sm:block text-base sm:text-[15px] lg:whitespace-nowrap sm:mt-0.5">until the rule clicks, then prove it on a puzzle they have never seen.</span>
+          </p>
           <div className="flex flex-wrap gap-3">
             <Button size="lg" onClick={() => navigate('/signup')}>Create a free parent account <ArrowRight className="w-5 h-5" aria-hidden /></Button>
             <Button size="lg" variant="secondary" onClick={() => navigate('/demo')}>Try a lesson, no sign-up</Button>
