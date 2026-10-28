@@ -1,7 +1,7 @@
 # Day 1 Outreach Email — Draft Ready to Send
 
-**Angle:** Efficacy & Brain Muscle
-**Target:** ICP prospects (parents of 5–13 year olds spending on enrichment)
+**Angle:** Efficacy & Brain Muscle  
+**Target:** ICP prospects (parents of 5–13 year olds spending on enrichment)  
 **Source:** growth-today SKILL.md v1.1.0
 
 ---

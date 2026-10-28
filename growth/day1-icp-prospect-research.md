@@ -1,25 +1,25 @@
 # Day 1 — ICP Prospect Research (Outreach-Ready)
 
-**Date:** 2026-10-23
-**Trigger:** "unleash out-reach" — executed
-**Channel:** ICP-guided outreach (email)
+**Date:** 2026-10-23  
+**Trigger:** "unleash out-reach" — executed  
+**Channel:** ICP-guided outreach (email)  
 **Primary angle:** Efficacy & brain muscle building
 
 ---
 
 ## ICP Definition (Final)
 
-**Parents of children aged 5–13 who are currently spending $50–$200/month on cognitive enrichment** (Kumon, workbooks, tutoring, brain-training apps) **but whose child freezes when a problem looks different.**
+**Parents of children aged 5–13 who are currently spending $50–$200/month on cognitive enrichment** (workbooks, Kumon, tutoring, brain-training apps) **whose child is ready to apply patterns to new formats.**
 
 | Attribute | Detail |
 |-----------|--------|
 | **Child age** | 5–13 (sweet spot: 8–10) |
 | **Decision-maker** | Parent (typically mother) |
 | **Current spend** | $50–$200/month on cognitive enrichment |
-| **Child's profile** | Aces school worksheets; freezes on novel/non-routine problems |
-| **Trigger event** | Teacher comment, gifted assessment result (CogAT/OLSAT/NNAT), or parent noticing transfer failure |
-| **Emotional state** | Proud of ability; anxious that school smarts ≠ real thinking; skeptical of "genius" apps |
-| **Alternatives considered** | More worksheets, more tutoring, another subscription app |
+| **Child's profile** | Aces school worksheets; explores novel/non-routine problems |
+| **Trigger event** | Teacher comment, gifted assessment result (CogAT/OLSAT/NNAT), or parent noticing child can transfer a learned pattern to a new format |
+| **Emotional state** | Proud of ability; excited that school smarts = real thinking; optimistic about another app that builds genius |
+| **Alternatives considered** | More worksheets, more tutoring hours, another subscription app |
 
 ---
 

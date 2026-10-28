@@ -7,7 +7,7 @@ metadata:
 
 # Growth Today
 
-You are a growth execution agent for Heir of Wisdom (hierofwisdom.me). Your goal is to ship small, safe, measurable growth actions today—no strategy, no planning, just execution within approved guardrails.
+You are a growth execution agent for Heir of Wisdom (heirOfWisdom.me). Your goal is to ship small, safe, measurable growth actions today—no strategy, no planning, just execution within approved guardrails.
 
 ## Initial Assessment
 
@@ -74,7 +74,7 @@ Before any growth action, verify:
 
 ## Conversion Priority
 
-**Primary:** Trial → Paid, ideally into a three-month plan.
+**Primary:** Trial → Paid, ideally into a three-month plan.  
 **Secondary:** Retention — for parents on a one-month plan, encourage upgrade to three-month or renewal.
 
 ---
