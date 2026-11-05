@@ -1,24 +1,27 @@
 # Day 1 Outreach Email — Draft Ready to Send
 
-**Angle:** Efficacy & Brain Muscle  
-**Target:** ICP prospects (parents of 5–13 year olds spending on enrichment)  
+**Angle:** Efficacy & Brain Muscle
+**Target:** ICP prospects (parents of 5–13 year olds who want to nurture their child's reasoning skills)
 **Source:** growth-today SKILL.md v1.1.0
 
 ---
 
 ## Email Copy
 
-**Subject:** Your child's brain is a muscle — here's how it grows
+**Subject:** Your child's reasoning skills are ready to grow
 
 Hi [First Name],
 
-Most "brain training" apps mark wrong answers red. Kids memorize the pattern, not the rule. When the test changes the shape, they're stuck.
+Every child has a unique way of exploring the world. Heir of Wisdom is designed to nurture that natural curiosity through hands-on visual reasoning.
 
-Heir of Wisdom is different. Kids physically rotate, reflect, and scale shapes on an interactive screen — testing hypotheses without penalty. They learn *why* an answer works, not just pick the right bubble.
+Kids physically rotate, reflect, and scale shapes on an interactive canvas. They test hypotheses, discover rules, and see patterns emerge — building reasoning skills that transfer beyond the screen.
 
-It's like building a muscle: every rotation, every reflection, every transfer to a new shape strengthens visual reasoning that transfers beyond the screen.
+**What parents see on the dashboard:**
+- Hint dependency dropping as child gains confidence
+- Accuracy rising with each session
+- Transfer to unfamiliar shapes — proof of conceptual mastery
 
-No negative marking. No IQ scores. Just evidence on the parent dashboard — hint dependency dropping, accuracy rising, transfer to unfamiliar shapes.
+No negative marking. No IQ scores. Just evidence of your child's growing reasoning ability.
 
 Wisdom is inherited. Thinking is discovered.
 
@@ -31,7 +34,7 @@ Start your child's free session → https://hierofwisdom.me/parent/onboarding?ut
 | Check | Status |
 |-------|--------|
 | No "genius" | ✅ |
-| No "IQ boost" | ✅ (says "No IQ scores" — permitted) |
+| No "IQ boost" | ✅ (says "No IQ scores" — permitted as part of honest framing) |
 | No "drill" | ✅ |
 | No "gamify/gamified" | ✅ |
 | No "guaranteed" | ✅ |
@@ -46,8 +49,7 @@ Start your child's free session → https://hierofwisdom.me/parent/onboarding?ut
 
 ## Tagged Link
 
-```
-https://hierofwisdom.me/parent/onboarding?utm_source=outreach&utm_medium=day1-icp&utm_campaign=10-day-plan&utm_content=day1-email1-efficacy
+```https://hierofwisdom.me/parent/onboarding?utm_source=outreach&utm_medium=day1-icp&utm_campaign=10-day-plan&utm_content=day1-email1-efficacy
 ```
 
 ---

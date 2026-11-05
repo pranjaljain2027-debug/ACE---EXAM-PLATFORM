@@ -1,7 +1,7 @@
-# SEO Baseline — Heir of Wisdom (heirOfWisdom.me)
+# SEO Baseline — Heir of Wisdom (hierofwisdom.me)
 
-**Source:** ace-repo (Vite + React SPA), public/, index.html, vite.config.ts, src/views/  
-**Status:** Baseline audit — draft for review. Nothing published.  
+**Source:** ace-repo (Vite + React SPA), public/, index.html, vite.config.ts, src/views/
+**Status:** Baseline audit — draft for review. Nothing published.
 **Date:** 2026-10-22
 
 ---
@@ -27,9 +27,9 @@
 | Route | Component | Purpose | Crawlability Readiness |
 |-------|-----------|---------|-------------------|
 | `/` | LandingPage | Hero, value prop, CTA | ✅ Ready (entry point) |
-| `/how-it-works` | HowItWorksPage | Five stages: Observe → Experiment → Discover → Apply → Transfer | 🟡 Ready (SPA route) |
-| `/curriculum` | ChildLearnMap | Four core spatial skill families | 🟡 Ready (SPA route) |
-| `/pricing` | PricingPage | Plan selection (no prices published) | 🟡 Ready (SPA route) |
+| `/how-it-works` | HowItWorksPage | Five stages: Observe → Experiment → Discover → Apply → Transfer | ✅ Ready (SPA route) |
+| `/curriculum` | ChildLearnMap | Four core spatial skill families | ✅ Ready (SPA route) |
+| `/pricing` | PricingPage | Plan selection (no prices published) | ✅ Ready (SPA route) |
 | `/parent/onboarding` | ParentOnboarding | Account setup flow | 🔒 Auth-gated (authenticated) |
 | `/parent/dashboard` | ParentDashboard | Child's learning journey | 🔒 Auth-gated (authenticated) |
 | `/parent/settings` | ParentSettings | Account settings | 🔒 Auth-gated (authenticated) |
@@ -38,7 +38,8 @@
 | `/studio/labs` | ChildRuleLab | Rule laboratory | 🔒 Auth-gated (authenticated) |
 | `/studio/progress` | ChildProgressView | Progress tracking | 🔒 Auth-gated (authenticated) |
 
-**Pages ready for SEO indexing:** `/`, `/how-it-works`, `/curriculum`, `/pricing` (public, unauthenticated).  
+**Pages ready for SEO indexing:** `/`, `/how-it-works`, `/curriculum`, `/pricing` (public, unauthenticated).
+
 **Pages for authenticated users only:** All `/parent/*` and `/studio/*` routes (require login).
 
 ---
@@ -47,7 +48,7 @@
 
 **index.html (homepage shell):**
 - `<title>`: "Heir of Wisdom — Interactive Visual Reasoning Studio"
-- `<meta name="description">`: "A premium visual reasoning studio for children aged 8–12. Discover how patterns work, build cognitive thinking, and master visual reasoning."
+- `<meta name="description">`: "A premium visual reasoning studio for children aged 5–13. Discover how patterns work, build cognitive thinking, and master visual reasoning."
 - `<meta property="og:title">`: "Heir of Wisdom — Interactive Visual Reasoning Studio"
 - `<meta property="og:description">`: matches description
 - `<meta property="og:type">`: "website"
@@ -79,7 +80,7 @@
 
 | Priority | Action | Rationale |
 |----------|--------|-----------|
-| 1 | Add `robots.txt` to `/public/` | Guide crawling of public pages, suggest `robots.txt` for auth-gated routes |
+| 1 | Add `robots.txt` to `/public/` | Guide crawling of public pages |
 | 2 | Add `sitemap.xml` to `/public/` | List public pages for discovery |
 | 3 | Add `<link rel="canonical">` to index.html | Define canonical URL |
 | 4 | Add JSON-LD structured data (Organization, WebSite, FAQPage) | Enable rich results, help AI assistants understand content |
@@ -103,9 +104,9 @@
 
 ## 7. Next Steps (Draft Only — Do Not Publish)
 
-1. Create `public/robots.txt` allowing `/`, `/how-it-works`, `/curriculum`, `/pricing`; suggest `robots.txt` for auth-gated routes  
-2. Create `public/sitemap.xml` with public page URLs  
-3. Add canonical tag to index.html  
-4. Add JSON-LD Organization + WebSite schema to index.html  
-5. Draft blog post on timeline-to-improvement (see `growth/blog-outline.md`)  
+1. Create `public/robots.txt` allowing `/`, `/how-it-works`, `/curriculum`, `/pricing`; suggest `robots.txt` for auth-gated routes
+2. Create `public/sitemap.xml` with public page URLs
+3. Add canonical tag to index.html
+4. Add JSON-LD Organization + WebSite schema to index.html
+5. Draft blog post on timeline-to-improvement (see `growth/blog-outline.md`)
 6. User must approve before any files are committed or pushed

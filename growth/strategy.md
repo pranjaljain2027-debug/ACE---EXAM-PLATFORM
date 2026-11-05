@@ -1,25 +1,32 @@
 # Growth Strategy — Heir of Wisdom (First 1,000 Customers)
 
-**Source product & questions:** Provided by founder directly. Not from third-party research assets.  
-**Skills applied:** `customer-research` (evidence/guess labeling, confidence guardrails), `product-marketing` (ICP, differentiation, customer language), `marketing-plan` (AARRR structure).  
+**Source product & questions:** Provided by founder directly. Not from third-party research assets.
+
+**Skills applied:** `customer-research` (evidence/guess labeling, confidence guardrails), `product-marketing` (ICP, differentiation, customer language), `marketing-plan` (AARRR structure).
+
 **Status:** Draft for your decision. Nothing has been posted, emailed, or published yet.
 
 ---
 
 ## Product Context (from founder)
 
-**Product:** Heir of Wisdom (heirOfWisdom.me) — an interactive visual/spatial reasoning studio for kids.  
-**Customers:** Parents of kids aged 6–12.  
-**Consumers:** Kids described by founder as "special," with "extra-ordinary spatial/logical/reasoning cognitive skills," "on their path to genius."  
-**Business model:** Parents sign up, try, and pay to see kids "prepare, unlock and excel in cognitive prowess."  
-**Key feature:** Parent dashboard showing the kid's development over time.  
+**Product:** Heir of Wisdom (hierofwisdom.me) — an interactive visual/spatial reasoning studio for kids.
+
+**Customers:** Parents of kids aged 6–12.
+
+**Consumers:** Kids described by founder as "special," with "extra-ordinary spatial/logical/reasoning cognitive skills," "on their path to genius."
+
+**Business model:** Parents sign up, try, and pay to see kids "prepare, unlock and excel in cognitive prowess."
+
+**Key feature:** Parent dashboard showing the kid's development over time.
+
 **Existing pages (from repo):** Landing page, How It Works (5 stages), Curriculum, Pricing, Parent Dashboard, Child Studio.
 
 ---
 
 ## Two Customer Questions (Verbatim)
 
-1. "Will this help my child for real?"  
+1. "Will this help my child for real?"
 2. "How long will it be before I see some improvement in my kid?"
 
 **Implication:** The dominant opportunity is efficacy clarity (Q1) and time-to-value visibility (Q2). Parents want to see proof of results and speed-of-results first. Any channel we choose must answer proof-of-results and speed-of-results first.
@@ -30,13 +37,13 @@
 
 **[Hypothesis — not yet validated with 5+ data points]**
 
-**Parents of 8–10 year olds who are already paying for cognitive enrichment (workbooks, Kumon, tutoring, or brain-training apps) and whose child is ready to apply patterns to new formats.**
+**Parents of 8–10 year olds who are already experiencing the joy of watching their child engage deeply with new problems and are ready to apply patterns to new formats.**
 
-- **Age:** 8–10 (narrowed from your stated 6–12 band; this is the age where gifted-assessment prep and "bored but bright" discovery peaks)
-- **Current behavior:** Already spends $50–$200/month on cognitive enrichment; has tried at least one app or workbook series
-- **Trigger event:** A teacher comment, a test result, or the parent noticing their child can apply a learned pattern to a new format
-- **Emotional state:** Proud of the kid's raw ability, excited that "school smarts" equals "real thinking," optimistic about another app that builds genius
-- **Desired outcome (in their words):** "I want to see my kid actually figure something out on their own, not just memorize answers."
+- **Age:** 8–10 (narrowed from your stated 6–12 band; this is the age where gifted-assessment prep and "curious explorer" discovery peaks)
+- **Current behavior:** Already spending $50–$200/month on cognitive enrichment; has tried at least one app or workbook series
+- **Trigger event:** A teacher comment, a test result, or the parent noticing their child is ready to apply a learned pattern to a new format
+- **Emotional state:** Proud of the kid's raw ability, excited about "school smarts" equaling "real thinking," optimistic about enrichment that builds confidence
+- **Desired outcome (in their words):** "I want to see my kid actually figure something out on their own, with confidence and joy."
 - **Alternative they consider:** More worksheets, more tutoring hours, another subscription app
 
 ---
@@ -45,24 +52,25 @@
 
 **[Mix of Evidence and Guess]**
 
-1. **Reddit — r/giftedchildren and r/homeschool**  
-   Parents here actively discuss cognitive enrichment, testing (CogAT/OLSAT/NNAT), and growth with drill-based apps.  
-   **[Evidence]** `customer-research` skill identifies Reddit hobby/lifestyle subs as a primary source for B2C consumer research; raw language is available in comments.  
-   **[Guess]** Conversion rate from Reddit engagement to paid signup is unknown; we have zero data points from this source.
+1. **Reddit — r/giftedchildren and r/homeschool**
+   Parents here actively discuss cognitive enrichment, testing (CogAT/OLSAT/NNAT), and growth with enrichment activities.
+   - **[Evidence]** `customer-research` skill identifies Reddit hobby/lifestyle subs as a primary source for B2C consumer research; raw language is available in comments.
+   - **[Guess]** Conversion rate from Reddit engagement to paid signup is unknown; we have zero data points from this source.
 
-2. **Facebook groups for gifted/talented parent networks**  
-   Closed groups where parents swap workbook recommendations, testing dates, and tutor referrals.  
-   **[Guess]** We do not know which specific groups exist, their size, or whether self-promotion is allowed. Moderator rules could block us immediately.
+2. **Facebook groups for gifted/talented parent networks**
+   Closed groups where parents swap enrichment recommendations, testing dates, and tutor referrals.
+   - **[Guess]** We do not know which specific groups exist, their size, or whether self-promotion is allowed. Moderator rules could block us immediately.
 
-3. **GreatSchools.org parent forums / local Nextdoor education threads**  
-   Parents researching school readiness and gifted program placement.  
-   **[Guess]** Traffic and intent levels are unknown. These forums may be more school-selection focused than cognitive-enrichment focused.
+3. **GreatSchools.org parent forums / local Nextdoor education threads**
+   Parents researching school readiness and gifted program placement.
+   - **[Guess]** Traffic and intent levels are unknown. These forums may be more school-selection focused than cognitive-enrichment focused.
 
 ---
 
 ## Two Candidate Channels
 
 ### Channel A: Community Engagement (Reddit + Facebook)
+
 **Tactic:** Answer cognitive-development questions in r/giftedchildren and relevant Facebook groups with short, non-spammy responses that include a 15-second screen recording of a child solving a rotation puzzle on heirOfWisdom.me, then link to the free trial.
 
 - **Addresses Q1 ("Will this help for real?")** with visual proof of a kid manipulating shapes, not just claims.
@@ -71,7 +79,8 @@
 - **[Guess]** We don't know if Reddit/Facebook users will click through, or if mods will ban promotional links.
 
 ### Channel B: Email Re-engagement of Trial Users
-**Tactic:** Export the list of parents who signed up for heirOfWisdom.me but did not pay. Send a 3-email sequence: (1) acknowledge the skepticism ("Will this help for real?"), (2) show a specific timeline of what improvement looks like week 1 vs week 4 ("How long?"), (3) limited-time offer to return.
+
+**Tactic:** Export the list of parents who signed up for heirOfWisdom.me but did not pay. Send a 3-email sequence: (1) acknowledge the curiosity ("Will this help?"), (2) show a specific timeline of what improvement looks like week 1 vs week 4 ("How long?"), (3) limited-time offer to return.
 
 - **Addresses both questions directly** in the customer's own words.
 - **[Evidence]** You confirmed parents "sign-up try and pay us," which implies a signup funnel exists with trial users who didn't convert.
@@ -89,10 +98,11 @@ I cannot choose for you — **you decide.** Here is the decision frame:
 | **Proof of Q1/Q2** | Visual demo + community trust | Direct email answering both questions in writing |
 | **Scalability** | High (organic reach) | Limited to existing list size |
 | **Risk** | Mod ban / zero clicks | Zero (if list exists) or cannot execute (if no list) |
-| **Best if...** | You want to test messaging with new audiences fast | You already have a list of warm trial users who ghosted |
+| **Best if...** | You want to test messaging with new audiences fast | You already have a list of warm trial users who want to return |
 
-**Please reply with your choice: A or B.** Also let me know:  
-- Do you have an exportable list of trial users who didn't convert? (If no, Channel B is not possible.)  
+**Please reply with your choice: A or B.** Also let me know:
+
+- Do you have an exportable list of trial users who didn't convert? (If no, Channel B is not possible.)
 - Do you have a 15–30 second screen recording or GIF of a child using the Reasoning Canvas? (If no, Channel A needs asset creation first.)
 
 Once you pick, I will write the execution plan for the 10-day sprint — but I will **not** publish, post, or send anything until you confirm.
