@@ -139,6 +139,18 @@ export const ShapeSvgElement: React.FC<ShapeProps> = ({
           />
         );
       }
+      case 'flag': {
+        // Chiral pennant on a pole: distinguishes every rotation and its mirror image.
+        const pole = half * 0.16;
+        const d = `M ${-half * 0.6},${half} L ${-half * 0.6},${-half} L ${half},${-half * 0.45} L ${-half * 0.6 + pole},${half * 0.1} L ${-half * 0.6 + pole},${half} Z`;
+        return <path d={d} strokeLinejoin="round" className="transition-all duration-300" />;
+      }
+      case 'ell': {
+        // Chiral L-shape.
+        const t = half * 0.55;
+        const d = `M ${-half * 0.7},${-half} L ${-half * 0.7 + t},${-half} L ${-half * 0.7 + t},${half - t} L ${half * 0.8},${half - t} L ${half * 0.8},${half} L ${-half * 0.7},${half} Z`;
+        return <path d={d} strokeLinejoin="round" className="transition-all duration-300" />;
+      }
       default:
         return <circle cx={0} cy={0} r={half} />;
     }

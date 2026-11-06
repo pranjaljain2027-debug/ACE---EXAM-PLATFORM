@@ -24,9 +24,9 @@ export default defineConfig(() => {
           name: 'Heir of Wisdom — Visual Reasoning Studio',
           short_name: 'HeirWisdom',
           description:
-            'A premium visual reasoning studio for children aged 8–12 with offline caching for core learning activities.',
-          theme_color: '#0E2235',
-          background_color: '#FAF7F0',
+            'An interactive visual reasoning studio for children aged 8–10.',
+          theme_color: '#233D5B',
+          background_color: '#F8F5EE',
           display: 'standalone',
           start_url: '/',
           scope: '/',

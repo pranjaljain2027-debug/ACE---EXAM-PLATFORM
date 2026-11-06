@@ -495,7 +495,7 @@ export const ACTIVITIES: ReasoningActivity[] = [
   // ==========================================
   {
     id: 'ref-101',
-    title: 'The Chiral Crescent',
+    title: 'The Mirror Flag',
     moduleId: 'reflection',
     moduleTitle: 'Reflection & Axial Symmetry',
     subskillId: 'ref-horizontal',
@@ -503,8 +503,8 @@ export const ACTIVITIES: ReasoningActivity[] = [
     difficulty: 1,
     ageBand: '8-10',
     activityFormat: 'sequence',
-    promptText: 'Examine how the crescent moon mirrors across the central dividing axis.',
-    observationPrompt: 'What happens to the crescent between Step 1 and Step 2?',
+    promptText: 'Watch how the flag flips across a mirror line in the middle.',
+    observationPrompt: 'What happens to the flag between Step 1 and Step 2?',
     observationChoices: [
       { id: 'obs-flip-h', label: 'It mirrors horizontally (left becomes right)', category: 'direction', isKeyFactor: true },
       { id: 'obs-rot', label: 'It turns around like a wheel', category: 'direction', isKeyFactor: false },
@@ -514,17 +514,17 @@ export const ACTIVITIES: ReasoningActivity[] = [
       {
         stepIndex: 1,
         label: 'Step 1',
-        objects: [{ id: 'rf1', shape: 'crescent', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#718C7B', reflectedX: false, reflectedY: false, zIndex: 1 }],
+        objects: [{ id: 'rf1', shape: 'flag', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#718C7B', reflectedX: false, reflectedY: false, zIndex: 1 }],
       },
       {
         stepIndex: 2,
         label: 'Step 2',
-        objects: [{ id: 'rf2', shape: 'crescent', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#718C7B', reflectedX: true, reflectedY: false, zIndex: 1 }],
+        objects: [{ id: 'rf2', shape: 'flag', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#718C7B', reflectedX: true, reflectedY: false, zIndex: 1 }],
       },
       {
         stepIndex: 3,
         label: 'Step 3',
-        objects: [{ id: 'rf3', shape: 'crescent', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#718C7B', reflectedX: false, reflectedY: false, zIndex: 1 }],
+        objects: [{ id: 'rf3', shape: 'flag', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#718C7B', reflectedX: false, reflectedY: false, zIndex: 1 }],
       },
       {
         stepIndex: 4,
@@ -535,10 +535,10 @@ export const ACTIVITIES: ReasoningActivity[] = [
     ],
     missingFrameIndex: 3,
     initialState: [
-      { id: 'user-ref-1', shape: 'crescent', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#718C7B', reflectedX: false, reflectedY: false, zIndex: 1 },
+      { id: 'user-ref-1', shape: 'flag', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#718C7B', reflectedX: false, reflectedY: false, zIndex: 1 },
     ],
     targetState: [
-      { id: 'target-ref-1', shape: 'crescent', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#718C7B', reflectedX: true, reflectedY: false, zIndex: 1 },
+      { id: 'target-ref-1', shape: 'flag', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#718C7B', reflectedX: true, reflectedY: false, zIndex: 1 },
     ],
     allowedActions: ['reflect-x', 'reflect-y'],
     ruleOptions: [
@@ -546,20 +546,20 @@ export const ACTIVITIES: ReasoningActivity[] = [
         id: 'rule-flip-h',
         label: 'The shape reflects horizontally across a vertical mirror line each step.',
         isCorrect: true,
-        explanation: 'The curve alternates facing right, then left, like looking into a mirror.',
+        explanation: 'The flag points right, then left, then right again, like looking into a mirror.',
       },
       {
         id: 'rule-rot-180',
         label: 'The shape rotates 180 degrees.',
         isCorrect: false,
-        explanation: 'If rotated 180°, the top and bottom tips would trade places! Here, top stays top.',
+        explanation: 'If it turned 180°, the flag would hang at the bottom of its pole. Here the flag stays at the top.',
       },
     ],
     hints: [
       {
         tier: 1,
         name: 'Attention',
-        content: 'Check the tips of the crescent moon. Do the top and bottom tips swap, or does only the curve swap left-to-right?',
+        content: 'Look at the top of the pole. Does the flag stay at the top, or move to the bottom?',
       },
       {
         tier: 2,
@@ -576,7 +576,7 @@ export const ACTIVITIES: ReasoningActivity[] = [
     explanationSteps: [
       'Reflection flips an object across a mirror line without rotating.',
       'In a horizontal reflection across a vertical mirror, the Y coordinates remain fixed while X coordinates invert.',
-      'Step 1 faces left, Step 2 faces right, Step 3 faces left, so Step 4 must face right.',
+      'Step 1 points right, Step 2 points left, Step 3 points right, so Step 4 must point left.',
     ],
     transferChallenge: {
       id: 'trans-ref-101',
@@ -686,14 +686,14 @@ export const ACTIVITIES: ReasoningActivity[] = [
     ],
     transferChallenge: {
       id: 'trans-ref-102',
-      prompt: 'Which crescent moon represents the vertical reflection of the upper crescent?',
+      prompt: 'Which flag shows the reflection of the upper flag in the water?',
       ruleContext: 'The figure reflects across a horizontal horizon line.',
       missingIndex: 1,
       frames: [
         {
           stepIndex: 1,
           label: 'Upper',
-          objects: [{ id: 'tc-v1', shape: 'crescent', x: 50, y: 35, rotation: 90, scale: 1.0, color: '#718C7B', reflectedX: false, reflectedY: false, zIndex: 1 }],
+          objects: [{ id: 'tc-v1', shape: 'flag', x: 50, y: 35, rotation: 90, scale: 1.0, color: '#718C7B', reflectedX: false, reflectedY: false, zIndex: 1 }],
         },
         {
           stepIndex: 2,
@@ -705,13 +705,13 @@ export const ACTIVITIES: ReasoningActivity[] = [
       options: [
         {
           id: 'opt-rv-a',
-          objects: [{ id: 'orva', shape: 'crescent', x: 50, y: 65, rotation: 90, scale: 1.0, color: '#718C7B', reflectedX: false, reflectedY: true, zIndex: 1 }],
+          objects: [{ id: 'orva', shape: 'flag', x: 50, y: 65, rotation: 90, scale: 1.0, color: '#718C7B', reflectedX: false, reflectedY: true, zIndex: 1 }],
           isCorrect: true,
           explanation: 'Correct! The horns reflect vertically across the horizontal line.',
         },
         {
           id: 'opt-rv-b',
-          objects: [{ id: 'orvb', shape: 'crescent', x: 50, y: 65, rotation: 90, scale: 1.0, color: '#718C7B', reflectedX: true, reflectedY: false, zIndex: 1 }],
+          objects: [{ id: 'orvb', shape: 'flag', x: 50, y: 65, rotation: 90, scale: 1.0, color: '#718C7B', reflectedX: true, reflectedY: false, zIndex: 1 }],
           isCorrect: false,
           explanation: 'This reflected horizontally instead of vertically.',
         },
@@ -739,20 +739,20 @@ export const ACTIVITIES: ReasoningActivity[] = [
       {
         stepIndex: 1,
         label: 'Source',
-        objects: [{ id: 'cr1', shape: 'crescent', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#0E2235', reflectedX: false, reflectedY: false, zIndex: 1 }],
+        objects: [{ id: 'cr1', shape: 'flag', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#0E2235', reflectedX: false, reflectedY: false, zIndex: 1 }],
       },
       {
         stepIndex: 2,
         label: 'Target',
-        objects: [{ id: 'cr2', shape: 'crescent', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#0E2235', reflectedX: true, reflectedY: false, zIndex: 1 }],
+        objects: [{ id: 'cr2', shape: 'flag', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#0E2235', reflectedX: true, reflectedY: false, zIndex: 1 }],
       },
     ],
     missingFrameIndex: 1,
     initialState: [
-      { id: 'user-cr-1', shape: 'crescent', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#0E2235', reflectedX: false, reflectedY: false, zIndex: 1 },
+      { id: 'user-cr-1', shape: 'flag', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#0E2235', reflectedX: false, reflectedY: false, zIndex: 1 },
     ],
     targetState: [
-      { id: 'target-cr-1', shape: 'crescent', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#0E2235', reflectedX: true, reflectedY: false, zIndex: 1 },
+      { id: 'target-cr-1', shape: 'flag', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#0E2235', reflectedX: true, reflectedY: false, zIndex: 1 },
     ],
     allowedActions: ['rotate-90-cw', 'rotate-90-ccw', 'reflect-x', 'reflect-y'],
     ruleOptions: [
@@ -760,59 +760,59 @@ export const ACTIVITIES: ReasoningActivity[] = [
         id: 'rule-must-reflect',
         label: 'Horizontal reflection. No amount of 2D rotation can match this figure.',
         isCorrect: true,
-        explanation: 'Try rotating the crescent 90°, 180°, or 270°. You will notice the curve and tips never match the reflected target without flipping!',
+        explanation: 'Try turning the flag 90°, 180° or 270°. It never matches the target without a flip.',
       },
       {
         id: 'rule-can-turn',
         label: 'Rotation of 180 degrees.',
         isCorrect: false,
-        explanation: 'Rotate 180° and test it: the tips flip upside down, unlike the target!',
+        explanation: 'Turn it 180° and test it: the flag ends up hanging at the bottom of the pole, unlike the target.',
       },
     ],
     hints: [
-      { tier: 1, name: 'Attention', content: 'Try using the rotation buttons in the experiment canvas. Can you get the crescent to match the target?' },
-      { tier: 2, name: 'Relationship', content: 'Notice how rotating 180° inverts the tips. Only horizontal reflection keeps the tips in place while flipping the spine.' },
-      { tier: 3, name: 'Guided Demonstration', content: 'Use the "Reflect Horizontally" action button to solve it instantly.', actionPreview: { type: 'reflect', value: 'horizontal' } },
+      { tier: 1, name: 'Attention', content: 'Try using the rotation buttons in the experiment canvas. Can you get the flag to match the target?' },
+      { tier: 2, name: 'Relationship', content: 'Turning 180° puts the flag at the bottom of the pole. Only a left-right flip keeps it at the top while changing which way it points.' },
+      { tier: 3, name: 'Guided Demonstration', content: 'Use the Flip ↔ button to solve it.', actionPreview: { type: 'reflect', value: 'horizontal' } },
     ],
     explanationSteps: [
       'An asymmetric shape has "handedness" (chirality).',
       'Rotation preserves handedness.',
       'Reflection reverses handedness.',
-      'Therefore, a flipped crescent cannot be duplicated by rotation alone.',
+      'Therefore, a flipped flag cannot be made by turning alone.',
     ],
     transferChallenge: {
       id: 'trans-ref-103',
-      prompt: 'Which transformation produced Shape B from Shape A: Rotation or Reflection?',
-      ruleContext: 'Determine whether handedness changed (reflection) or remained intact (rotation).',
+      prompt: 'Shape A is flipped left to right, like in a mirror. Which picture shows the result?',
+      ruleContext: 'A flip changes which way the shape faces. A turn never can.',
       missingIndex: 1,
       frames: [
-        {
-          stepIndex: 1,
-          label: 'Shape A',
-          objects: [{ id: 'ta1', shape: 'triangle', x: 50, y: 50, rotation: 90, scale: 1.0, color: '#C99543', reflectedX: false, reflectedY: false, zIndex: 1 },
-                    { id: 'ta1-dot', shape: 'circle', x: 65, y: 35, rotation: 0, scale: 0.35, color: '#0E2235', reflectedX: false, reflectedY: false, zIndex: 2 }],
-        },
-        {
-          stepIndex: 2,
-          label: 'Shape B',
-          objects: [{ id: 'ta2', shape: 'triangle', x: 50, y: 50, rotation: 90, scale: 1.0, color: '#C99543', reflectedX: false, reflectedY: true, zIndex: 1 },
-                    { id: 'ta2-dot', shape: 'circle', x: 65, y: 65, rotation: 0, scale: 0.35, color: '#0E2235', reflectedX: false, reflectedY: true, zIndex: 2 }],
-        },
+        { stepIndex: 1, label: 'Shape A', objects: [{ id: 'ta1', shape: 'ell', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#B98E4C', reflectedX: false, reflectedY: false, zIndex: 1 }] },
+        { stepIndex: 2, label: 'Flipped (?)', isMissing: true, objects: [] },
       ],
       options: [
         {
           id: 'opt-chiral-ref',
-          objects: [{ id: 'o-ref', shape: 'triangle', x: 50, y: 50, rotation: 90, scale: 1.0, color: '#C99543', reflectedX: false, reflectedY: true, zIndex: 1 },
-                    { id: 'o-ref-d', shape: 'circle', x: 65, y: 65, rotation: 0, scale: 0.35, color: '#0E2235', reflectedX: false, reflectedY: true, zIndex: 2 }],
+          objects: [{ id: 'o-ref', shape: 'ell', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#B98E4C', reflectedX: true, reflectedY: false, zIndex: 1 }],
           isCorrect: true,
-          explanation: 'Correct! The indicator dot moved across the horizontal axis, proving vertical reflection.',
+          explanation: 'Yes. The foot of the L now points the other way and nothing else changed. Only a flip can do that.',
         },
         {
           id: 'opt-chiral-rot',
-          objects: [{ id: 'o-rot', shape: 'triangle', x: 50, y: 50, rotation: 270, scale: 1.0, color: '#C99543', reflectedX: false, reflectedY: false, zIndex: 1 },
-                    { id: 'o-rot-d', shape: 'circle', x: 35, y: 65, rotation: 0, scale: 0.35, color: '#0E2235', reflectedX: false, reflectedY: false, zIndex: 2 }],
+          objects: [{ id: 'o-rot', shape: 'ell', x: 50, y: 50, rotation: 180, scale: 1.0, color: '#B98E4C', reflectedX: false, reflectedY: false, zIndex: 1 }],
           isCorrect: false,
-          explanation: 'This is a 180° rotation, which turns the triangle to point left.',
+          explanation: 'This is a half turn, not a flip. Turn your hand over and compare: the L would be upside down.',
+        },
+        {
+          id: 'opt-chiral-quarter',
+          objects: [{ id: 'o-q', shape: 'ell', x: 50, y: 50, rotation: 90, scale: 1.0, color: '#B98E4C', reflectedX: false, reflectedY: false, zIndex: 1 }],
+          isCorrect: false,
+          explanation: 'This was turned a quarter turn. Turning keeps the same handedness, so it cannot be the mirror image.',
+        },
+        {
+          id: 'opt-chiral-same',
+          objects: [{ id: 'o-same', shape: 'ell', x: 50, y: 50, rotation: 0, scale: 1.0, color: '#B98E4C', reflectedX: false, reflectedY: false, zIndex: 1 }],
+          isCorrect: false,
+          explanation: 'This is the same as Shape A. Nothing was flipped.',
         },
       ],
     },
