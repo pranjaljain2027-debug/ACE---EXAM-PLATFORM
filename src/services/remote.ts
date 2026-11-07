@@ -1,3 +1,4 @@
+import { SUPABASE_URL } from '../config';
 import { supabase } from '../lib/supabase';
 import type { Skill } from '../content/types';
 import type { ActivityMeta, Catalog, LearningBackend, SessionStart, StudioState, SessionSummary, AttemptResult } from './types';
@@ -121,7 +122,7 @@ export const parentApi = {
       p_avatar_color: args.avatarColor, p_goals: args.goals, p_schedule: args.schedule,
     }, 1),
   report: (childId: string) => rpc<ParentReport>('get_parent_report', { p_child: childId }),
-  billing: () => rpc<{ plan: string; status: string; current_period_end: string | null; cancel_at_period_end: boolean; provider: string | null }>('get_billing', {}),
+  billing: () => rpc<{ plan: string; status: string; current_period_end: string | null; cancel_at_period_end: boolean; provider: string | null; provider_customer_id?: string | null }>('get_billing', {}),
   setReminderConsent: (granted: boolean) => rpc<void>('set_reminder_consent', { p_granted: granted }, 1),
   deleteChild: (childId: string) => rpc<{ request_id: string; status: string }>('delete_child_data', { p_child: childId }, 1),
   deleteAccount: () => rpc<{ request_id: string; status: string }>('delete_account', {}, 1),
@@ -135,8 +136,8 @@ export const parentApi = {
     if (error) throw error;
     return data ?? [];
   },
-  async checkout(): Promise<{ configured: boolean; url?: string; error?: string }> {
-    const { data, error } = await supabase.functions.invoke('billing-checkout', { body: {} });
+  async checkout(action: 'checkout' | 'portal' = 'checkout'): Promise<{ configured: boolean; url?: string; error?: string }> {
+    const { data, error } = await supabase.functions.invoke('billing-checkout', { body: { action } });
     if (error) {
       const ctx = (error as { context?: Response }).context;
       if (ctx && typeof ctx.json === 'function') {
@@ -164,4 +165,15 @@ export interface ParentReport {
   baseline: (SessionSummary & { items: (SessionSummary['items'] extends (infer U)[] | undefined ? U & { domain?: string } : never)[] }) | null;
   recent_sessions: { id: string; mode: string; activity_id: string | null; completed_at: string; outcome: string | null; correct: number | null; total: number | null; timed: boolean }[];
   recommendation: { kind: string; activity_id: string | null; reason: string; at: string } | null;
+}
+
+/** Whether the paid plan is open (Dodo keys configured). Public, no sign-in needed. */
+export async function billingOpen(): Promise<boolean> {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/billing-config`);
+    if (!res.ok) return false;
+    return Boolean((await res.json()).open);
+  } catch {
+    return false;
+  }
 }

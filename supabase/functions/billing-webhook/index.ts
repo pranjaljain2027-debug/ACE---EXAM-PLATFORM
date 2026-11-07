@@ -1,41 +1,102 @@
-// Verified payment webhook. Entitlements change only here, after the provider's signature checks out.
-import { createClient } from 'npm:@supabase/supabase-js@2';
+// Dodo Payments webhook. Plans change only here, after the signature checks out.
+// Configure in Dodo: Developer → Webhooks → endpoint
+//   https://ahokskmczlkhsppzqcuk.supabase.co/functions/v1/billing-webhook
+// and store its signing secret as DODO_PAYMENTS_WEBHOOK_KEY.
+import { createClient } from 'npm:@supabase/supabase-js@2.45.4';
 
-import { verifyStripeSignature } from './signature.ts';
+import { verifyStandardWebhook } from './signature.ts';
+
+const json = (status: number, body: unknown) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
+
+type Sub = {
+  subscription_id?: string;
+  status?: string;
+  next_billing_date?: string | null;
+  cancel_at_next_billing_date?: boolean;
+  metadata?: Record<string, unknown> | null;
+  customer?: { customer_id?: string; email?: string } | null;
+};
 
 Deno.serve(async (req) => {
-  if (req.method !== 'POST') return new Response('method_not_allowed', { status: 405 });
-  const secret = Deno.env.get('STRIPE_WEBHOOK_SECRET');
-  if (!secret) return new Response(JSON.stringify({ error: 'webhook_not_configured' }), { status: 501 });
+  if (req.method !== 'POST') return json(405, { error: 'method_not_allowed' });
+  const secret = Deno.env.get('DODO_PAYMENTS_WEBHOOK_KEY');
+  if (!secret) return json(501, { error: 'webhook_not_configured' });
 
   const raw = await req.text();
-  if (!(await verifyStripeSignature(raw, req.headers.get('Stripe-Signature'), secret))) {
-    return new Response(JSON.stringify({ error: 'invalid_signature' }), { status: 400 });
+  const ok = await verifyStandardWebhook(raw, {
+    id: req.headers.get('webhook-id'),
+    timestamp: req.headers.get('webhook-timestamp'),
+    signature: req.headers.get('webhook-signature'),
+  }, secret);
+  if (!ok) return json(400, { error: 'invalid_signature' });
+
+  const event = JSON.parse(raw) as { type?: string; data?: Sub };
+  const type = event.type ?? '';
+  const d = event.data ?? {};
+  const admin = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, { auth: { persistSession: false } });
+
+  // Idempotency: Dodo retries deliveries; process each webhook-id once.
+  const { error: dupErr } = await admin.from('billing_webhook_events').insert({ id: req.headers.get('webhook-id'), event_type: type, provider: 'dodo' });
+  if (dupErr) {
+    if (dupErr.code === '23505') return json(200, { received: true, duplicate: true });
+    return json(500, { error: 'store_failed' });
   }
 
-  const event = JSON.parse(raw);
-  const admin = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
-  const obj = event.data?.object ?? {};
+  if (!type.startsWith('subscription.') || !d.subscription_id) return json(200, { received: true, ignored: true });
 
-  if (event.type === 'checkout.session.completed' && obj.mode === 'subscription' && obj.client_reference_id) {
-    await admin.from('subscriptions').update({
-      plan: 'family_monthly',
-      status: 'active',
-      provider: 'stripe',
-      provider_customer_id: obj.customer,
-      provider_subscription_id: obj.subscription,
-      updated_at: new Date().toISOString(),
-    }).eq('parent_id', obj.client_reference_id);
-  } else if (event.type === 'customer.subscription.updated' || event.type === 'customer.subscription.deleted') {
-    const deleted = event.type === 'customer.subscription.deleted';
-    const status = deleted ? 'canceled' : (['active', 'trialing', 'past_due', 'canceled', 'incomplete'].includes(obj.status) ? obj.status : 'incomplete');
-    await admin.from('subscriptions').update({
-      plan: deleted || status === 'canceled' ? 'free' : 'family_monthly',
-      status,
-      current_period_end: obj.current_period_end ? new Date(obj.current_period_end * 1000).toISOString() : null,
-      cancel_at_period_end: Boolean(obj.cancel_at_period_end),
-      updated_at: new Date().toISOString(),
-    }).eq('provider_subscription_id', obj.id);
+  const periodEnd = d.next_billing_date ? new Date(d.next_billing_date) : null;
+  const paidUntilFuture = periodEnd !== null && periodEnd.getTime() > Date.now();
+  let plan: 'free' | 'family_monthly' = 'family_monthly';
+  let status: 'active' | 'past_due' | 'canceled' | 'incomplete' = 'active';
+  let cancelAtEnd = Boolean(d.cancel_at_next_billing_date);
+
+  const kind = type === 'subscription.updated' ? `subscription.${d.status ?? 'updated'}` : type;
+  switch (kind) {
+    case 'subscription.active':
+    case 'subscription.renewed':
+    case 'subscription.unpaused':
+    case 'subscription.plan_changed':
+      break;
+    case 'subscription.past_due':
+    case 'subscription.on_hold':
+    case 'subscription.paused':
+      status = 'past_due';
+      break;
+    case 'subscription.failed':
+      plan = 'free'; status = 'incomplete';
+      break;
+    case 'subscription.cancelled':
+      // Access continues to the end of the paid month.
+      status = 'canceled'; cancelAtEnd = true; plan = paidUntilFuture ? 'family_monthly' : 'free';
+      break;
+    case 'subscription.expired':
+      plan = 'free'; status = 'canceled';
+      break;
+    default:
+      return json(200, { received: true, ignored: true });
   }
-  return new Response(JSON.stringify({ received: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+
+  const row = {
+    plan,
+    status,
+    provider: 'dodo',
+    provider_subscription_id: d.subscription_id,
+    provider_customer_id: d.customer?.customer_id ?? null,
+    provider_status: d.status ?? type,
+    current_period_end: periodEnd ? periodEnd.toISOString() : null,
+    cancel_at_period_end: cancelAtEnd,
+    updated_at: new Date().toISOString(),
+  };
+
+  const parentId = typeof d.metadata?.parent_id === 'string' ? d.metadata.parent_id : null;
+  let res;
+  if (parentId) {
+    res = await admin.from('subscriptions').upsert({ parent_id: parentId, ...row }, { onConflict: 'parent_id' }).select('parent_id');
+  } else {
+    res = await admin.from('subscriptions').update(row).eq('provider_subscription_id', d.subscription_id).select('parent_id');
+  }
+  if (res.error) return json(500, { error: 'update_failed' });
+  if (!res.data?.length) return json(200, { received: true, unmatched: true });
+  await admin.from('audit_logs').insert({ actor_id: null, action: `billing.${type}`, target_type: 'parent', target_id: res.data[0].parent_id, detail: { subscription_id: d.subscription_id, plan, status } });
+  return json(200, { received: true });
 });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight, Eye, FlaskConical, Lightbulb, Target, Sparkles, Check, X as XIcon, ShieldCheck, LineChart, Hand } from 'lucide-react';
 import heroImage from '../../assets/images/studio_architectural_library_1792345109892.jpg';
 import { Link, navigate } from '../../app/router';
@@ -7,6 +7,8 @@ import type { VisualObject } from '../../types/reasoning';
 import { AFFILIATION_NOTE, GOALS } from '../../content/coverage';
 import { PRICING, SUPPORT_EMAIL } from '../../config';
 import { Button, Card, Eyebrow, Notice } from '../../ui/kit';
+import { billingOpen } from '../../services/remote';
+import { getSessionUserId } from '../../lib/supabase';
 
 const demoStart: VisualObject[] = [{ id: 'hero-flag', shape: 'flag', x: 50, y: 50, rotation: 0, scale: 1.1, color: '#233D5B', reflectedX: false, reflectedY: false, zIndex: 1 }];
 const demoGoal: VisualObject[] = [{ id: 'hero-goal', shape: 'flag', x: 50, y: 50, rotation: 90, scale: 1.1, color: '#233D5B', reflectedX: false, reflectedY: false, zIndex: 1 }];
@@ -104,7 +106,7 @@ export const Landing: React.FC = () => {
 
       <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16 text-center space-y-5">
         <h2 className="text-3xl sm:text-4xl font-serif font-semibold">Start with a 10-minute Discovery Quest</h2>
-        <p className="text-base text-ink max-w-xl mx-auto">Untimed shape puzzles that set a provisional starting point. Free during early access.</p>
+        <p className="text-base text-ink max-w-xl mx-auto">Untimed shape puzzles that set a provisional starting point. Free.</p>
         <Button size="lg" onClick={() => navigate('/signup')}>Create a free parent account</Button>
       </section>
     </div>
@@ -172,30 +174,37 @@ export const Curriculum: React.FC = () => (
   </div>
 );
 
-export const Pricing: React.FC = () => (
+export const Pricing: React.FC = () => {
+  const [open, setOpen] = useState<boolean | null>(null);
+  useEffect(() => { billingOpen().then(setOpen); }, []);
+  const chooseFamily = () => navigate(getSessionUserId() ? '/parent/billing' : '/signup?plan=family');
+  return (
   <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-8">
     <div className="space-y-3 text-center">
       <Eyebrow>Pricing</Eyebrow>
-      <h1 className="text-4xl font-serif font-semibold">Free during early access</h1>
-      <p className="text-base text-ink max-w-xl mx-auto">Every current lesson and practice set is free while we test with families. A monthly family plan will open later. You will never be charged without choosing it.</p>
+      <h1 className="text-4xl font-serif font-semibold">Start free. Upgrade when you are ready.</h1>
+      <p className="text-base text-ink max-w-xl mx-auto">The Discovery Quest and current lessons are free. The Family plan adds every new lesson and puzzle as it is published. You are never charged without choosing it.</p>
     </div>
     <div className="grid md:grid-cols-2 gap-4">
       <Card className="p-7 space-y-4">
         <h2 className="text-2xl font-serif font-semibold">Free</h2>
         <p className="text-4xl font-serif font-semibold text-navy">$0</p>
         <ul className="text-sm space-y-2">{['Discovery Quest', 'All current lessons and practice', 'Parent dashboard and skill report', 'Up to 6 children'].map((x) => <li key={x} className="flex gap-2"><Check className="w-4 h-4 text-forest mt-0.5" aria-hidden /> {x}</li>)}</ul>
-        <Button className="w-full" onClick={() => navigate('/signup')}>Start free</Button>
+        <Button className="w-full" variant="secondary" onClick={() => navigate('/signup')}>Start free</Button>
       </Card>
-      <Card className="p-7 space-y-4">
-        <h2 className="text-2xl font-serif font-semibold">Family <span className="text-xs align-middle font-sans font-semibold rounded-full bg-mist px-2 py-0.5 text-navy">Coming soon</span></h2>
+      <Card className="p-7 space-y-4 border-2 border-navy">
+        <h2 className="text-2xl font-serif font-semibold">Family</h2>
         <p className="text-4xl font-serif font-semibold text-navy">${PRICING.familyMonthly}<span className="text-base text-muted"> / month</span></p>
-        <ul className="text-sm space-y-2">{['New lessons as they are published', 'Billed monthly, cancel any time', 'Access to the end of the paid month after cancelling'].map((x) => <li key={x} className="flex gap-2"><Check className="w-4 h-4 text-forest mt-0.5" aria-hidden /> {x}</li>)}</ul>
-        <Button className="w-full" variant="secondary" disabled>Not open yet</Button>
+        <ul className="text-sm space-y-2">{['Everything in Free', 'New lessons and puzzles as they are published', 'Billed monthly, cancel any time', 'Access to the end of the paid month after cancelling'].map((x) => <li key={x} className="flex gap-2"><Check className="w-4 h-4 text-forest mt-0.5" aria-hidden /> {x}</li>)}</ul>
+        {open === false
+          ? <Button className="w-full" variant="secondary" disabled>Opening shortly</Button>
+          : <Button className="w-full" disabled={open === null} onClick={chooseFamily}>Choose Family</Button>}
       </Card>
     </div>
-    <p className="text-xs text-muted text-center">Prices in USD. Purchases happen only in the parent area, never in the child Studio.</p>
+    <p className="text-xs text-muted text-center">Prices in USD. Payments are handled by Dodo Payments; card details never reach our servers. Purchases happen only in the parent area, never in the child Studio.</p>
   </div>
-);
+  );
+};
 
 const FAQS: [string, string][] = [
   ['Is this test prep?', 'Partly. Lessons build the nonverbal reasoning that parts of CogAT, OLSAT and NNAT measure, and the Practice Arena uses original test-style puzzles. We do not cover verbal or quantitative sections, and we cannot promise scores or admission.'],
@@ -250,7 +259,7 @@ export const Terms: React.FC = () => (
     <DraftBanner />
     <p>Version 2026-10-24. Accounts are for parents and legal guardians aged 18 or over. You are responsible for your account, your parent PIN and how your child uses the Studio.</p>
     <p>Heir of Wisdom is an educational practice tool. It does not provide psychological assessment and does not predict test scores, percentiles, IQ or admission decisions. It is independent and not affiliated with any test publisher.</p>
-    <p>Paid plans, when available, renew monthly until cancelled. Cancelling stops future charges and access continues until the end of the paid period.</p>
+    <p>The Family plan renews monthly until cancelled. Cancelling stops future charges and access continues until the end of the paid period.</p>
     <p>All lessons, puzzles and images are original to Heir of Wisdom or properly licensed. Please do not copy or resell them.</p>
     <p>We may update these terms. We will tell you about material changes before they apply. Questions: {SUPPORT_EMAIL}.</p>
   </article>

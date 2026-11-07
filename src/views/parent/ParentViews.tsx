@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ArrowRight, BarChart3, CreditCard, Settings, UserPlus, PlayCircle, Lightbulb, Target, AlertCircle, ShieldCheck } from 'lucide-react';
 import { useApp } from '../../app/AppContext';
 import { Link, navigate } from '../../app/router';
-import { parentApi, remoteBackend, type ParentReport } from '../../services/remote';
+import { billingOpen, parentApi, remoteBackend, type ParentReport } from '../../services/remote';
 import { bankApi } from '../../services/bank';
 import { friendlyError } from '../../lib/supabase';
 import { PRICING, SUPPORT_EMAIL } from '../../config';
@@ -304,21 +304,41 @@ export const SkillReport: React.FC<{ childId: string }> = ({ childId }) => {
 // ---------------------------------------------------------------------------
 export const Billing: React.FC = () => {
   const data = useAsync(() => parentApi.billing(), []);
+  const open = useAsync(() => billingOpen(), []);
   const [msg, setMsg] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<'checkout' | 'portal' | null>(null);
   const status = new URLSearchParams(window.location.search).get('checkout');
+  const b = data.data;
+  const onFamily = b?.plan === 'family_monthly';
+  const go = async (action: 'checkout' | 'portal') => {
+    setBusy(action);
+    setMsg(null);
+    try {
+      const r = await parentApi.checkout(action);
+      if (r.url) { window.location.href = r.url; return; }
+      setMsg(r.error === 'parent_gate_required' ? 'Please re-enter your parent PIN and try again.'
+        : r.error === 'checkout_not_configured' ? 'Payments are being set up. Please try again shortly.'
+        : r.error === 'no_subscription' ? 'No paid plan found on this account.'
+        : `Could not reach the payment provider. Please try again, or write to ${SUPPORT_EMAIL}.`);
+    } catch (e) { setMsg(friendlyError(e)); } finally { setBusy(null); }
+  };
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
       <div className="space-y-2">
         <Eyebrow>Plan and billing</Eyebrow>
         <h1 className="text-3xl font-serif font-semibold">Your plan</h1>
       </div>
-      {status === 'success' && <Notice>Thank you. Your plan updates as soon as the payment provider confirms the payment.</Notice>}
-      {data.error ? <ErrorState message={friendlyError(new Error(data.error))} onRetry={data.reload} /> : !data.data ? <Spinner /> : (
-        <Card className="p-6 space-y-1">
+      {status === 'success' && <Notice>Thank you. Your plan updates as soon as Dodo Payments confirms the payment, usually within a minute. Refresh this page if it has not changed.</Notice>}
+      {status === 'cancelled' && <Notice tone="warn">Checkout was cancelled. You have not been charged.</Notice>}
+      {data.error ? <ErrorState message={friendlyError(new Error(data.error))} onRetry={data.reload} /> : !b ? <Spinner /> : (
+        <Card className="p-6 space-y-2">
           <p className="text-sm text-muted">Current plan</p>
-          <p className="text-2xl font-serif font-semibold text-navy">{data.data.plan === 'free' ? 'Free' : 'Family (monthly)'}</p>
-          <p className="text-sm text-muted">Status: {data.data.status}{data.data.current_period_end ? ` · renews ${new Date(data.data.current_period_end).toLocaleDateString()}` : ''}{data.data.cancel_at_period_end ? ' · cancels at period end' : ''}</p>
+          <p className="text-2xl font-serif font-semibold text-navy">{onFamily ? 'Family (monthly)' : 'Free'}</p>
+          <p className="text-sm text-muted">
+            {b.status === 'past_due' ? 'Payment problem: please update your card.' : b.status === 'canceled' && onFamily ? 'Cancelled' : 'Active'}
+            {b.current_period_end && onFamily ? ` · ${b.cancel_at_period_end ? 'access until' : 'renews'} ${new Date(b.current_period_end).toLocaleDateString()}` : ''}
+          </p>
+          {b.provider_customer_id && <Button variant="secondary" size="sm" busy={busy === 'portal'} onClick={() => go('portal')}>Manage or cancel subscription</Button>}
         </Card>
       )}
       <div className="grid md:grid-cols-2 gap-4">
@@ -326,28 +346,24 @@ export const Billing: React.FC = () => {
           <h2 className="text-xl font-serif font-semibold">Free</h2>
           <p className="text-3xl font-serif font-semibold text-navy">$0</p>
           <ul className="text-sm text-ink space-y-1.5 list-disc pl-5">
-            <li>Discovery Quest</li><li>All current lessons and practice during early access</li><li>Parent dashboard and skill report</li>
+            <li>Discovery Quest</li><li>All current lessons and practice</li><li>Parent dashboard and skill report</li>
           </ul>
         </Card>
-        <Card className="p-6 space-y-3 border-navy">
+        <Card className="p-6 space-y-3 border-2 border-navy">
           <h2 className="text-xl font-serif font-semibold">Family</h2>
           <p className="text-3xl font-serif font-semibold text-navy">${PRICING.familyMonthly}<span className="text-base text-muted"> / month</span></p>
           <ul className="text-sm text-ink space-y-1.5 list-disc pl-5">
-            <li>Up to 6 children</li><li>New lessons and practice as they are published</li><li>Cancel any time. Access continues to the end of the paid month.</li>
+            <li>Up to 6 children</li><li>New lessons and puzzles as they are published</li><li>Cancel any time. Access continues to the end of the paid month.</li>
           </ul>
-          <Button busy={busy} onClick={async () => {
-            setBusy(true);
-            setMsg(null);
-            try {
-              const r = await parentApi.checkout();
-              if (r.url) window.location.href = r.url;
-              else setMsg(r.error === 'parent_gate_required' ? 'Please re-enter your parent PIN and try again.' : 'Paid plans are not open yet. Everything is free during early access.');
-            } catch (e) { setMsg(friendlyError(e)); } finally { setBusy(false); }
-          }}>Choose Family</Button>
+          {onFamily && b?.status !== 'canceled'
+            ? <p className="text-sm font-semibold text-forest">This is your plan.</p>
+            : open.data === false
+              ? <Button variant="secondary" disabled>Opening shortly</Button>
+              : <Button busy={busy === 'checkout'} disabled={open.data == null} onClick={() => go('checkout')}>Choose Family</Button>}
           {msg && <Notice tone="warn">{msg}</Notice>}
         </Card>
       </div>
-      <p className="text-xs text-muted">Payments are handled by a PCI-compliant hosted checkout. Card details never touch our servers. Plan changes take effect only after the payment provider confirms them. Questions: {SUPPORT_EMAIL}</p>
+      <p className="text-xs text-muted">Payments are handled by Dodo Payments on a secure hosted checkout. Card details never reach our servers. Your plan changes only after Dodo confirms the payment. Questions: {SUPPORT_EMAIL}</p>
     </div>
   );
 };

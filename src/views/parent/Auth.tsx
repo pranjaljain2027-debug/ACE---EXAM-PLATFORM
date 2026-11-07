@@ -39,7 +39,7 @@ export const SignUp: React.FC = () => {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/parent/onboarding`,
+          emailRedirectTo: `${window.location.origin}/parent/onboarding${new URLSearchParams(window.location.search).get('plan') === 'family' ? '?plan=family' : ''}`,
           data: {
             display_name: name.trim(),
             consent_version: CONSENT_VERSION,
@@ -48,7 +48,7 @@ export const SignUp: React.FC = () => {
         },
       });
       if (err) throw err;
-      if (data.session) navigate('/parent/onboarding');
+      if (data.session) navigate(`/parent/onboarding${new URLSearchParams(window.location.search).get('plan') === 'family' ? '?plan=family' : ''}`);
       else setSent(true);
     } catch (e2) {
       setError(friendlyError(e2));

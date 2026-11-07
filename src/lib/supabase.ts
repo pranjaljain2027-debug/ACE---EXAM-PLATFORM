@@ -27,3 +27,15 @@ export function friendlyError(e: unknown): string {
   if (/fetch|network|Failed to fetch/i.test(msg)) return 'Could not reach the server. Check your connection and try again.';
   return 'Something went wrong. Please try again.';
 }
+
+/** Signed-in user id from the stored session, without a network call. Null if signed out. */
+export function getSessionUserId(): string | null {
+  try {
+    const key = Object.keys(localStorage).find((k) => k.startsWith('sb-') && k.endsWith('-auth-token'));
+    if (!key) return null;
+    const s = JSON.parse(localStorage.getItem(key) ?? 'null');
+    return s?.user?.id ?? null;
+  } catch {
+    return null;
+  }
+}

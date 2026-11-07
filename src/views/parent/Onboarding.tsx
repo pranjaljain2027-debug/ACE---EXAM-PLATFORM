@@ -129,7 +129,9 @@ export const Onboarding: React.FC = () => {
                 setBusy(true);
                 try { await app.enterChildMode(childId, '/studio'); } catch (e) { setError(friendlyError(e)); setBusy(false); }
               }}>Hand over to {d.nickname}</Button>
-              <Button size="lg" variant="secondary" onClick={() => navigate('/parent')}>Go to my dashboard</Button>
+              {new URLSearchParams(window.location.search).get('plan') === 'family'
+                ? <Button size="lg" variant="secondary" onClick={() => navigate('/parent/billing')}>Set up the Family plan</Button>
+                : <Button size="lg" variant="secondary" onClick={() => navigate('/parent')}>Go to my dashboard</Button>}
             </div>
           </div>
         )}
