@@ -48,7 +48,11 @@ export const SignUp: React.FC = () => {
         },
       });
       if (err) throw err;
-      if (data.session) navigate(`/parent/onboarding${new URLSearchParams(window.location.search).get('plan') === 'family' ? '?plan=family' : ''}`);
+      const next = `/parent/onboarding${new URLSearchParams(window.location.search).get('plan') === 'family' ? '?plan=family' : ''}`;
+      if (data.session) { navigate(next); return; }
+      // Accounts are confirmed on creation, so sign straight in. Falls back to the email screen if that fails.
+      const { data: signedIn } = await supabase.auth.signInWithPassword({ email, password });
+      if (signedIn.session) navigate(next);
       else setSent(true);
     } catch (e2) {
       setError(friendlyError(e2));
