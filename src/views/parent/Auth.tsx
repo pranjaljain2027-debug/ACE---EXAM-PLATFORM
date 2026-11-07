@@ -62,7 +62,8 @@ export const SignUp: React.FC = () => {
       <Shell title="Check your email">
         <div className="text-center space-y-4">
           <MailCheck className="w-10 h-10 mx-auto text-forest" aria-hidden />
-          <p className="text-sm text-ink">We sent a confirmation link to <strong>{email}</strong>. Open it to verify your email, then sign in to set up your child’s Studio.</p>
+          <p className="text-sm text-ink">We sent a confirmation link to <strong>{email}</strong>. Click it once to verify your email. Then come back here and sign in with the same email and password to set up your child’s Studio.</p>
+          <p className="text-xs text-muted">No email after a few minutes? Check your spam folder.</p>
           <Button variant="secondary" onClick={() => navigate('/signin')}>Go to sign in</Button>
         </div>
       </Shell>
