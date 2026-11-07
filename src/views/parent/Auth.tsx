@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MailCheck } from 'lucide-react';
 import { supabase, friendlyError } from '../../lib/supabase';
 import { CONSENT_VERSION } from '../../config';
@@ -50,10 +50,7 @@ export const SignUp: React.FC = () => {
       if (err) throw err;
       const next = `/parent/onboarding${new URLSearchParams(window.location.search).get('plan') === 'family' ? '?plan=family' : ''}`;
       if (data.session) { navigate(next); return; }
-      // Accounts are confirmed on creation, so sign straight in. Falls back to the email screen if that fails.
-      const { data: signedIn } = await supabase.auth.signInWithPassword({ email, password });
-      if (signedIn.session) navigate(next);
-      else setSent(true);
+      setSent(true);
     } catch (e2) {
       setError(friendlyError(e2));
     } finally {
@@ -62,16 +59,7 @@ export const SignUp: React.FC = () => {
   };
 
   if (sent) {
-    return (
-      <Shell title="Check your email">
-        <div className="text-center space-y-4">
-          <MailCheck className="w-10 h-10 mx-auto text-forest" aria-hidden />
-          <p className="text-sm text-ink">We sent a confirmation link to <strong>{email}</strong>. Click it once to verify your email. Then come back here and sign in with the same email and password to set up your child’s Studio.</p>
-          <p className="text-xs text-muted">No email after a few minutes? Check your spam folder.</p>
-          <Button variant="secondary" onClick={() => navigate('/signin')}>Go to sign in</Button>
-        </div>
-      </Shell>
-    );
+    return <ConfirmEmail email={email} password={password} next={`/parent/onboarding${new URLSearchParams(window.location.search).get('plan') === 'family' ? '?plan=family' : ''}`} />;
   }
 
   return (
@@ -204,6 +192,56 @@ export const ResetPassword: React.FC = () => {
         {error && <Notice tone="error">{error}</Notice>}
         <Button type="submit" className="w-full" busy={busy}>Save password</Button>
       </form>
+    </Shell>
+  );
+};
+
+/**
+ * Waits for the parent to click the confirmation link, then signs in and continues in this tab.
+ * Checks when the tab regains focus and every 15 seconds (inside Supabase's sign-in rate limit).
+ * The password stays in memory only.
+ */
+const ConfirmEmail: React.FC<{ email: string; password: string; next: string }> = ({ email, password, next }) => {
+  const [checking, setChecking] = useState(false);
+  const [note, setNote] = useState<string | null>(null);
+  const [resent, setResent] = useState(false);
+  const done = useRef(false);
+
+  const check = async (manual = false) => {
+    if (done.current) return;
+    setChecking(true);
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    setChecking(false);
+    if (data.session) { done.current = true; navigate(next); return; }
+    if (manual) setNote(error && /not confirmed/i.test(error.message) ? 'Not confirmed yet. Click the link in the email first.' : friendlyError(error));
+  };
+
+  useEffect(() => {
+    const onFocus = () => { if (document.visibilityState === 'visible') check(); };
+    const t = window.setInterval(onFocus, 15000);
+    window.addEventListener('focus', onFocus);
+    document.addEventListener('visibilitychange', onFocus);
+    return () => { window.clearInterval(t); window.removeEventListener('focus', onFocus); document.removeEventListener('visibilitychange', onFocus); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <Shell title="Confirm your email">
+      <div className="text-center space-y-4">
+        <MailCheck className="w-10 h-10 mx-auto text-forest" aria-hidden />
+        <p className="text-sm text-ink">We sent a confirmation link to <strong>{email}</strong>. Click it to prove the address is yours.</p>
+        <p className="text-sm text-ink">Then come back to this tab. It moves on to your child’s setup by itself. If the link opens a page that will not load, close that page; your email is still confirmed.</p>
+        <Button busy={checking} onClick={() => check(true)}>I’ve confirmed, continue</Button>
+        {note && <Notice tone="warn">{note}</Notice>}
+        <div className="text-xs text-muted space-y-1">
+          <p>No email after a few minutes? Check spam.</p>
+          <button type="button" className="underline" disabled={resent} onClick={async () => {
+            const { error } = await supabase.auth.resend({ type: 'signup', email });
+            setResent(true);
+            setNote(error ? friendlyError(error) : 'Sent again. Use the newest email.');
+          }}>{resent ? 'Email sent again' : 'Send the email again'}</button>
+        </div>
+      </div>
     </Shell>
   );
 };
